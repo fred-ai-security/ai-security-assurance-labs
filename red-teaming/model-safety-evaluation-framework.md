@@ -1,128 +1,91 @@
-A Governance-Aligned Framework for Evaluating AI Model Safety, Reliability & Risk
+# Governance-Aligned Framework for Evaluating AI Model Safety, Reliability, and Risk
 
-AI model safety evaluations assess whether a model behaves securely, responsibly, and predictably under normal and adversarial conditions. This framework defines how to evaluate safety, classify risks, and document findings for AI governance and assurance.
+This document presents a structured framework for evaluating whether an AI model behaves securely, responsibly, and predictably under normal and adversarial conditions. The framework defines evaluation categories, workflows, and reporting structures used in AI governance and assurance programs.
 
 This aligns with:
 
-NIST AI RMF — Govern / Map / Measure / Manage
+- NIST AI RMF — Govern / Map / Measure / Manage  
+- ISO/IEC 42001 — AI Management System  
+- MITRE ATLAS — Unsafe Outputs, Jailbreaks, Manipulation TTPs  
+- Industry safety evaluation practices published by major model developers  
 
-ISO/IEC 42001 — AI Management System
+---
 
-MITRE ATLAS — Unsafe Outputs, Jailbreaks, Manipulation TTPs
+## Importance of Safety Evaluation
 
-OpenAI, Anthropic, Google DeepMind Safety Evaluation Practices
+Safety evaluations support identification of:
 
-🔐 Why Safety Evaluation Matters
+- Unsafe, harmful, toxic, or biased outputs  
+- Jailbreak vulnerabilities  
+- Prompt injection susceptibility  
+- Sensitive data leakage  
+- Manipulation or persuasion risks  
+- High-risk domain hallucinations  
+- Repeated unsafe behavior patterns  
 
-Safety evaluations help identify:
+---
 
-Unsafe, harmful, toxic, or biased outputs
+## 1. Safety Evaluation Categories
 
-Jailbreak vulnerabilities
+### Functional Safety Evaluation
 
-Prompt injection susceptibility
+Assesses task suitability and correctness, including:
 
-Sensitive data leakage
+- Output correctness  
+- Task fitness  
+- Reasoning consistency  
+- Repeatability  
 
-Manipulation or persuasion risks
+### Behavioral Safety Evaluation
 
-High-risk domain hallucinations (medical, legal, financial, cybersecurity)
+Assesses ethical and responsible behavior, including:
 
-Repeated unsafe behavior patterns
+- Toxicity  
+- Harassment  
+- Dangerous recommendations  
+- Social bias  
+- Ethical reasoning concerns  
 
-This ensures a model is safe for testing, deployment, and downstream use.
+Supporting tools may include toxicity classifiers or moderation systems.
 
-🧩 1. Safety Evaluation Categories
+### Adversarial Safety Evaluation
 
-A complete evaluation includes five layers:
+Evaluates resilience to adversarial input, including:
 
-1️⃣ Functional Safety Evaluation
+- Jailbreak attempts  
+- System prompt bypass  
+- Prompt injection  
+- Encoded or obfuscated payloads  
+- Multi-turn manipulation  
+- Context poisoning  
 
-Ensures the model behaves correctly under intended use.
+Tools commonly used include Garak, Promptfoo, and PyRIT.
 
-Checks for:
+### Hallucination and Reliability Evaluation
 
-Output correctness
+Assesses factual grounding and reliability:
 
-Task fitness
+- Fabricated information  
+- Unsupported claims  
+- Contradictions  
+- Overconfidence  
 
-Reasoning consistency
+### Sensitive Domain and High-Risk Safety Evaluation
 
-Repeatability
+Assessments conducted for regulated or high-risk domains such as:
 
-2️⃣ Behavioral Safety Evaluation
+- Medical  
+- Legal  
+- Financial  
+- Cybersecurity  
+- Mental health  
+- Child safety  
 
-Evaluates responsible and ethical behavior.
+---
 
-Checks for:
+## 2. Evaluation Workflow
 
-Toxicity & hate
-
-Harassment
-
-Dangerous recommendations
-
-Social bias
-
-Ethical reasoning issues
-
-Tools: Detoxify, Perspective API, moderation classifiers.
-
-3️⃣ Adversarial Safety Evaluation
-
-Tests model behavior under attack conditions.
-
-Checks for:
-
-Jailbreak success rate
-
-System prompt bypassing
-
-Prompt injection
-
-Encoded/obfuscated attack payloads
-
-Multi-turn manipulation
-
-Context poisoning
-
-Tools: Garak, Promptfoo, PyRIT.
-
-4️⃣ Hallucination & Reliability Evaluation
-
-Measures factual grounding.
-
-Checks for:
-
-Fabricated facts
-
-Unsupported claims
-
-Contradictions
-
-Overconfidence
-
-Benchmarks: TruthfulQA, fact-check probes.
-
-5️⃣ Sensitive Domain & High-Risk Safety Evaluation
-
-Ensures safe behavior in regulated or sensitive domains:
-
-Medical
-
-Legal
-
-Financial
-
-Cybersecurity (dual-use)
-
-Mental health
-
-Child safety
-
-Checks for unsafe instructions, regulatory violations, and hallucinations.
-
-⚙️ 2. Evaluation Process Workflow
+```
           ┌────────────────────────┐
           │  Define Evaluation     │
           │        Scope           │
@@ -150,11 +113,13 @@ Checks for unsafe instructions, regulatory violations, and hallucinations.
      │ Generate Safety Evaluation     │
      │           Report               │
      └────────────────────────────────┘
+```
 
-📄 3. Safety Evaluation Summary Template
+---
 
-(Store only the template, no real model results)
+## 3. Safety Evaluation Summary Template
 
+```
 # AI Model Safety Evaluation Summary (Template)
 
 **Model Name:**  
@@ -210,7 +175,6 @@ Checks for unsafe instructions, regulatory violations, and hallucinations.
 - Financial  
 - Cybersecurity  
 - Mental Health  
-(Select applicable)
 
 **Critical Risks Identified:**  
 -  
@@ -218,7 +182,7 @@ Checks for unsafe instructions, regulatory violations, and hallucinations.
 ---
 
 ## Overall Risk Rating
-**Low / Medium / High / Critical**
+Low / Medium / High / Critical
 
 ## Final Recommendation
 - Safe for testing  
@@ -226,8 +190,15 @@ Checks for unsafe instructions, regulatory violations, and hallucinations.
 - Not safe for deployment  
 
 **Additional Notes:**  
+```
 
-🗂️ Where This File Goes
+---
+
+## File Location
+
+```
 ai-security-assurance-labs/
 └── red-teaming/
       └── model-safety-evaluation-framework.md
+```
+
