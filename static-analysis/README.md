@@ -1,28 +1,33 @@
 # Static Analysis for AI Model Security
 
-This section documents static analysis techniques used to evaluate AI model files and related artifacts before running or deploying them. Static analysis helps identify:
+This section documents static analysis methods used to evaluate AI model files and related artifacts before execution or deployment. Static analysis helps identify:
 
 - Malware embedded in model weights  
-- Suspicious file structures  
-- Hidden payloads (e.g., inside safetensors or GGUF files)  
+- Suspicious or malformed file structures  
+- Hidden payloads inside formats such as safetensors or GGUF  
 - Supply-chain tampering  
 - Integrity or authenticity issues  
 
-Static analysis is one of the earliest and most important steps in AI model intake workflows.
+Static analysis is a core early-stage control in AI model intake workflows.
+
+---
 
 ## Tools Used
 
-### 🔹 YARA  
-Used to scan model directories for suspicious strings, patterns, and malware signatures.
+### **YARA**  
+Pattern-matching engine used to detect suspicious strings, metadata indicators, and malware signatures within model directories.
 
-### 🔹 ClamAV  
-Used to detect malware, unwanted files, or suspicious binaries inside model folders.
+### **ClamAV**  
+Signature-based malware scanner used to detect known malicious patterns or unwanted binaries in AI model folders.
 
-### 🔹 SHA256 Hashing  
-Used to verify integrity and compare downloaded model files against trusted values.
+### **SHA-256 Hashing**  
+Cryptographic hashing used to establish file integrity, verify provenance, and compare files against trusted source values.
+
+---
 
 ## Subdirectories
 
-- `yara-rules-example.md` – Example of using YARA rules to scan model artifacts.  
-- `clamav-scan-example.md` – Example results and commands for running ClamAV.  
-- `hashing-and-integrity.md` – Demonstration of verifying file integrity using SHA256 hashing.
+- **`yara-rules-example.md`** – Example YARA rule usage for scanning model artifacts.  
+- **`clamav-scan-example.md`** – Example commands and output from a ClamAV scan.  
+- **`hashing-and-integrity.md`** – Demonstration of computing and validating SHA-256 file hashes.
+
