@@ -1,212 +1,196 @@
-# Model Licensing & Compliance Verification  
-### Ensuring Legal, Ethical, and Governance-Aligned Model Usage
+# Model Licensing and Compliance Verification  
+### Legal, Ethical, and Governance-Aligned Model Usage
 
-License and compliance verification is a mandatory component of AI supply-chain security.  
-It ensures that any AI model you download, test, or integrate is being used **legally, ethically, and within the terms defined by the provider**.
+This module outlines a structured approach for verifying licensing and compliance requirements during AI model intake. The objective is to ensure that models are used in accordance with legal, ethical, and governance-defined constraints established by the model provider and applicable regulatory standards.
 
-This module prevents legal, reputational, and operational risks arising from:
+The verification process helps prevent legal, operational, and reputational risks related to:
 
 - Unauthorized model usage  
-- License violations  
-- Misuse of restricted models  
-- Commercial use violations  
-- Redistribution violations  
-- Compliance failures under governance frameworks  
+- Violations of license terms  
+- Improper redistribution of model weights  
+- Use of restricted models in commercial environments  
+- Non-compliance with responsible AI governance frameworks  
 
-This work aligns with:
+This module aligns with:
 
-- **NIST AI RMF — Govern / Map**
-- **ISO/IEC 42001 — Responsible AI Requirements**
-- **AI Act (EU) Transparency & Licensing Requirements**
-- **MITRE ATLAS — Legal/Ethical Risks**
-- **Industry Responsible AI Best Practices**
+- NIST AI RMF — Govern / Map  
+- ISO/IEC 42001 — Responsible AI requirements  
+- EU AI Act transparency and licensing considerations  
+- MITRE ATLAS — Legal and ethical risk components  
+- Industry-aligned responsible AI practices  
 
 ---
 
-## 🔐 Why Licensing Verification Matters
+## Importance of Licensing Verification
 
-Model licenses define what you can and cannot do, including:
+Model licenses define permissible usage, including:
 
-- Commercial use  
+- Commercial deployment  
 - Redistribution  
-- Modification  
-- Fine-tuning  
-- Hosting or API use  
-- Benchmark publishing  
-- Safety testing permissions  
+- Modification and fine-tuning  
+- API hosting and service integration  
+- Benchmark publication  
+- Security or safety testing  
 
-Violating a license can result in:
+Improper or unauthorized use can create exposure to:
 
-❌ Legal exposure  
-❌ DMCA violations  
-❌ Financial penalties  
-❌ GitHub repo takedowns  
-❌ Loss of enterprise trust  
+- Copyright or DMCA violations  
+- Contractual breaches  
+- Financial penalties  
+- Takedown notices  
+- Enterprise compliance failures  
 
-A professional AI Security Engineer **must validate licensing before model intake**.
+Licensing verification forms a foundational step in AI model supply-chain assessment.
 
 ---
 
-# ✔️ 1. Identify the Model License Type
+## 1. Identify the Model License Type
 
-Models typically fall into these categories:
+Model licenses commonly fall into these categories:
 
-### **Permissive Licenses (safer for business use)**
+### Permissive Licenses
+Examples include:
 - Apache 2.0  
 - MIT  
 - BSD  
 - CC-BY  
 
-**Allowed:** commercial use, modification, redistribution (with notices)
+These licenses typically permit modification, redistribution, and commercial usage when attribution requirements are met.
 
-### **Restrictive / Research-Only Licenses**
-- LLAMA 2 License (research/commercial restrictions)
-- LLAMA 3 License
-- Mistral Research License
-- Falcon TII License
+### Restrictive or Research-Only Licenses
+Examples include:
+- Llama 2 License  
+- Llama 3 License  
+- Mistral Research License  
+- Falcon TII License  
 
-**May restrict:**
-- Commercial use  
-- API deployment  
-- Redistribution  
-- Benchmarks  
+These licenses often include restrictions related to:
 
-### **Highly Restrictive Licenses**
-- NC (Non-commercial)  
-- No-weights / no-distribution licenses  
-- Copyright-protected training data  
+- Commercial deployment  
+- API hosting  
+- Re-use of weights  
+- Fine-tuning disclosures  
+- Redistribution limitations  
 
-**Often prohibits:**
-- Business use  
-- Hosting  
-- Derivative models  
+### Highly Restrictive Licenses
+Examples include:
+- Non-commercial (NC) licenses  
+- No-weights redistribution terms  
+- Licenses tied to specific usage jurisdictions  
 
----
-
-# ✔️ 2. Validate License Alignment With Intended Use
-
-Confirm that the license permits the usage category:
-
-| Intended Use | Common Restrictions |
-|--------------|---------------------|
-| **Commercial Deployment** | Many research licenses forbid this |
-| **Fine-tuning** | Some licenses restrict modifications |
-| **Redistribution** | Many forbid reposting weights |
-| **Benchmark Publishing** | Some prohibit public eval results |
-| **Enterprise Integration** | Must pass compliance + legal review |
-| **Model Red Teaming** | Some licenses *require disclosure* |
-
-If your use case is **not allowed**, the model must be rejected at intake.
+These licenses may prohibit commercial usage, derivative works, or redistribution entirely.
 
 ---
 
-# ✔️ 3. Validate License Location & Authenticity
+## 2. Validate License Alignment With Intended Use
 
-Check all license locations:
+License terms define whether a model can be used for purposes such as:
 
-- HuggingFace model card “License” field  
-- LICENSE file in repo  
-- GitHub release license  
+- Commercial deployment  
+- Enterprise integration  
+- Fine-tuning or derivative work creation  
+- Redistribution within internal or external environments  
+- Publication of benchmarks or safety evaluation results  
+- Security testing or red-teaming  
+
+When license terms and intended usage conflict, the model cannot be approved for intake.
+
+---
+
+## 3. Validate License Location and Authenticity
+
+License information should be confirmed across all available sources:
+
+- Model card “License” field  
+- LICENSE file in the repository  
+- GitHub release materials  
 - Provider documentation  
-- Provider website  
-- Terms of Use / Acceptable Use Pages  
+- Provider website or Terms of Use  
 
-**Red Flags:**
-- No license provided  
-- License contradicts model card  
-- Forked model with a *different* license  
-- Missing terms for weights redistribution  
+Indicators requiring further review include:
 
-If the license is ambiguous → classify as **“High Risk / Reject”**.
+- Missing license information  
+- Contradictions between the model card and LICENSE file  
+- Forked repositories presenting altered licensing terms  
+- Lack of clarity on redistribution permissions  
 
----
-
-# ✔️ 4. Validate License Obligations
-
-For each model, capture required obligations:
-
-### Examples:
-
-**Apache 2.0**
-- Must include copyright notice  
-- Must include LICENSE file  
-
-**LLAMA licenses**
-- You must disclose fine-tuning  
-- No re-hosting weights  
-- Restriction on >700M user companies  
-
-**NC Licenses**
-- No commercial use  
-
-**Custom Licenses**
-- May include red teaming disclosure clauses  
-- May restrict certain benchmark reporting  
-- May prohibit security testing  
-
-Your intake workflow must enforce these terms.
+Ambiguous licensing constitutes a compliance risk.
 
 ---
 
-# ✔️ 5. Validate Export Controls & Geo Restrictions
+## 4. Validate License Obligations
 
-Some models are restricted by:
+Each license type can include specific obligations related to attribution, redistribution, or operational constraints.
 
-- U.S. EAR export controls  
-- EU AI Act  
-- Country-specific embargoes  
-- Provider geo-blocking  
+Examples:
 
-If a license forbids use in certain jurisdictions, document it.
+### Apache 2.0  
+- Preservation of copyright notices  
+- Inclusion of the Apache 2.0 LICENSE file  
+
+### Llama Family Licenses  
+- Disclosure requirements for fine-tuned model variants  
+- Redistribution restrictions for model weights  
+- Constraints associated with large-scale deployment  
+
+### Non-Commercial Licenses  
+- Prohibition of commercial use  
+
+### Custom or Provider-Specific Licenses  
+- Conditions related to red-teaming disclosures  
+- Restrictions on benchmark publication  
+- Prohibitions against specific forms of deployment  
+
+Obligations must be documented for audit and governance.
 
 ---
 
-# ✔️ 6. Validate License Against Model Card & SBOM
+## 5. Validate Export Controls and Geographic Restrictions
 
-Cross-check:
+Some models fall under:
 
-| Check | Meaning |
-|-------|---------|
-| **License in model card matches LICENSE file?** | avoids mismatches |
-| **SBOM contains only components allowed by license?** | prevents linking prohibited code |
-| **Dependencies under permissible open-source licenses?** | no GPL contamination |
-| **Model card disclaimers match license obligations?** | documentation alignment |
+- U.S. Export Administration Regulations (EAR)  
+- Jurisdiction-specific restrictions  
+- Provider geo-blocking or access limitations  
 
-If ANY mismatch occurs, treat as a **license compliance failure**.
+Any regional constraints must be recorded as part of intake documentation.
 
 ---
 
-# ✔️ 7. Create a License & Compliance Record (Template Only)
+## 6. Validate Licensing Against Documentation and SBOM
 
-A license evaluation record is required for audit and governance.
+Cross-checking licensing information with model documentation enhances supply-chain integrity.
 
-(Stored separately — you will **not** upload real model details.)
+Key checks include:
 
-See the template in:  
+- Alignment between LICENSE file and model card license field  
+- Validation that SBOM components comply with permissible licensing  
+- Verification that dependencies avoid restrictive or incompatible licenses  
+- Consistency between documentation and licensing obligations  
+
+Any mismatch between these elements constitutes a potential compliance failure.
+
+---
+
+## 7. License and Compliance Record Template
+
+A record template is maintained to support internal audit and governance documentation. Only the template is stored in the repository.
+
+See:  
 `model-license-evaluation-template.md`
 
 ---
 
-# 🗂️ Where This File Goes
+## Repository Location
 
 ```
 ai-security-assurance-labs/
 └── model-supply-chain/
-      └── model-license-and-compliance-verification.md
+    └── model-license-and-compliance-verification.md
 ```
 
 ---
 
-# ✅ Conclusion
+## Summary
 
-This module demonstrates your ability to:
-
-- Perform responsible AI license verification  
-- Detect legal and compliance risks  
-- Validate alignment with intended use  
-- Identify unsafe or prohibited redistribution  
-- Ensure enterprise-grade governance  
-- Build audit-ready documentation  
-
-This is a core competency for AI Security, Governance, and Assurance roles.
-
+This module establishes a governance-aligned approach for validating AI model licensing during supply-chain intake. It supports assessment of license terms, evaluation of restrictions, verification of documentation consistency, and identification of compliance-related risks. The resulting documentation enables organizations to maintain legally compliant, ethically aligned, and auditable AI model usage.
