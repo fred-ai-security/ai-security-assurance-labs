@@ -1,62 +1,54 @@
 # Scanning AI Model Artifacts with ClamAV
 
-This document explains how **ClamAV** can be used to detect malware, suspicious byte patterns, or embedded payloads inside AI model files such as `.gguf`, `.safetensors`, tokenizer data, and supporting configuration files.
-
-ClamAV is traditionally an antivirus engine, but it is increasingly used in AI supply-chain workflows as part of a layered static analysis process.
+This document describes how ClamAV is used to detect malware, suspicious byte patterns, or embedded payloads inside AI model artifacts such as `.gguf`, `.safetensors`, tokenizer files, and related configuration assets.  
+Although traditionally an antivirus engine, ClamAV is increasingly applied in AI supply-chain workflows as part of a layered static analysis strategy.
 
 ---
 
-## Why ClamAV Matters for AI Model Security
+## Importance of ClamAV in AI Model Security
 
-Even though model files are not executables, they can still contain:
+Model files are not executable binaries, yet they may still contain:
 
 - Embedded malicious payloads  
-- Encrypted or obfuscated data blobs  
+- Encrypted or obfuscated data sections  
 - Indicators of compromise  
-- Signs of tampering  
-- Known malware signatures  
-- Suspicious binary sections  
+- Tampering signatures  
+- Known malware patterns  
+- Suspicious binary structures  
 
-ClamAV adds a defensive layer by leveraging a large signature database to identify potentially harmful content.
-
-This helps ensure malicious data does not enter your AI evaluation or deployment pipeline.
+ClamAV adds a signature-based detection layer to identify potentially harmful components before model artifacts enter evaluation or deployment workflows.
 
 ---
 
-## Updating ClamAV Virus Definitions
+## Updating Virus Definitions
 
-Before scanning, update the virus database using:
+Prior to scanning, virus definitions are refreshed using:
 
 ```
 freshclam
 ```
 
-This ensures the engine uses the most current malware signatures.
+This ensures that ClamAV operates with the most recent malware signatures.
 
 ---
 
-## Example ClamAV Scan Command
+## Example ClamAV Scan Commands
 
-To scan a model file or directory:
+To recursively scan a directory containing AI model artifacts:
 
 ```
 clamscan -r "C:\AI_SECURITY_LABS\stage1_intake"
 ```
 
-Where:
-
-- `clamscan` = ClamAV scanner  
-- `-r` = recursive scan  
-- Path = directory containing AI model files  
-
-You can also scan a single file:
+To scan a single file:
 
 ```
 clamscan "C:\AI_SECURITY_LABS\stage1_intake\model.gguf"
 ```
+
 ---
 
-## Example Output (Realistic)
+## Example Output (Synthetic but Realistic)
 
 ```
 C:\AI_SECURITY_LABS\stage1_intake\model.gguf: OK
@@ -73,61 +65,61 @@ Data scanned: 144.23 MB
 
 ---
 
-## Interpreting Results
+## Result Interpretation
 
-### ✔ No Infected Files  
-The model files show no known malware signatures and can move to the next stage of intake.
+### Clean Results  
+Indicate that no known malware signatures were detected and the artifacts may proceed to the next stage of intake.
 
-### ⚠ Infected Files Found  
-If ClamAV reports any file as infected:
+### Detection Events  
+If ClamAV flags any artifact as infected:
 
-- **Quarantine the file immediately**  
-- Do NOT load it into a model runtime  
-- Compare file hashes with the source repository  
-- Re-download from an official model provider  
-- Consider notifying the team or platform  
+- The file should be quarantined  
+- Hashes should be compared with source-of-truth repositories  
+- Re-acquisition from an official, trusted provider is recommended  
+- Findings should be documented for audit and governance  
 
-ClamAV alerts indicate known malware patterns — even inside non-executable formats.
+A detection suggests overlap with known malware signatures, even in non-executable files.
 
 ---
 
-## Limitations of ClamAV for AI Models
+## Limitations of ClamAV for AI Artifacts
 
-ClamAV provides useful detection, but it cannot find everything:
+ClamAV does not detect:
 
-- Unknown malware or zero-day payloads  
-- Novel AI-specific tampering  
-- Embedded logical backdoors  
+- Novel or zero-day malware  
+- AI-specific malicious model manipulations  
+- Logical or training-data backdoors  
 - Adversarial triggers  
-- Hidden model manipulations  
+- Poisoned parameters or hidden behaviors  
 
-This is why ClamAV should be combined with:
+For this reason, ClamAV is used alongside:
 
-- YARA scanning  
-- File hash verification  
-- Sigcheck validation  
+- YARA pattern-matching  
+- SHA-256 integrity verification  
+- Sigcheck signing and publisher validation  
 - Manual inspection  
-- Behavioral red teaming (Garak, Promptfoo, PyRIT)  
+- Behavioral red teaming (Garak, Promptfoo, PyRIT)
 
 ---
 
-## Where ClamAV Fits in Your AI Assurance Pipeline
+## Position in the AI Assurance Pipeline
 
-ClamAV is most effective in:
+ClamAV is most relevant during:
 
-1. **Stage 1 – Model Intake**  
-   Identify known malware inside newly downloaded files.
+1. **Stage 1 — Model Intake**  
+   Detects known malware at initial acquisition.
 
-2. **Stage 2 – Pre-Execution Validation**  
-   Confirm the model files are clean before being run.
+2. **Stage 2 — Pre-Execution Validation**  
+   Verifies that no infected artifacts are introduced into runtimes.
 
 3. **Ongoing Monitoring**  
-   Re-scan anytime files are modified, updated, or moved.
+   Provides periodic reassessment as artifacts are updated or moved.
 
 ---
 
 ## Conclusion
 
-ClamAV adds an important layer of static malware detection to your AI model supply-chain security. When combined with YARA, Sigcheck, and proper hash verification, it forms a robust early-warning system that reduces the risk of malicious model artifacts entering your environment.
+ClamAV contributes a critical signature-based malware detection capability within AI supply-chain security workflows.  
+When combined with YARA scanning, cryptographic hash verification, and broader model assurance techniques, it forms a robust early-warning layer against malicious or tampered model artifacts.  
+Its inclusion within this repository reflects a mature, defense-in-depth approach to AI Security Assurance.
 
-Its integration into your repository demonstrates a practical and mature approach to AI Security Assurance.
