@@ -1,199 +1,187 @@
-# AI Model Risk Classification & Criticality Assessment
-### A Governance-Grade Module for AI Supply-Chain Security
+# AI Model Risk Classification and Criticality Assessment  
+### Governance-Aligned Framework for AI Supply-Chain Security
 
-Model Risk Classification determines how risky an AI model is based on:
+Model risk classification evaluates the safety, reliability, and potential impact of an AI model.  
+It determines how the model behaves under various conditions, the likelihood and severity of harm, and the governance controls required before use.
 
-- What it will be used for  
-- How it behaves  
-- How exposed it is to adversarial misuse  
-- The harm it could cause  
-- How consequential failures might be  
-
-This module is aligned with:
+This module aligns with:
 
 - NIST AI RMF  
 - ISO/IEC 42001  
 - MITRE ATLAS  
-- Enterprise AI Governance standards  
-
-It demonstrates your ability to perform professional AI risk triage.
+- Enterprise AI Governance Standards  
 
 ---
 
-# 🔐 Why Model Risk Classification Matters
+## 1. Purpose of Model Risk Classification
 
-AI models can introduce significant risks, including:
+Risk classification provides a structured assessment of possible harms arising from AI model behavior, including:
 
 - Harmful or toxic outputs  
-- Biased or discriminatory decisions  
+- Biased or discriminatory responses  
 - Jailbreak or prompt-injection exploitation  
-- Data leakage or unintentional disclosures  
-- Unsafe domain guidance (medical/legal/finance)  
-- Agentic misbehavior in automation  
+- Data leakage  
+- Unsafe domain guidance (medical, legal, financial)  
+- Agentic misbehavior in automation settings  
 - High-impact hallucinations  
 
-Risk classification helps determine:
+This assessment determines:
 
-✔ Required security controls  
-✔ Required level of red teaming  
-✔ Deployment safety level  
-✔ Governance and compliance requirements  
-✔ Whether the model can be approved at all  
+- Required security controls  
+- Required red-teaming depth  
+- Deployment safety level  
+- Governance and documentation needs  
+- Whether the model can be approved for use  
 
 ---
 
-# 🧩 1. Model Context & Intended Use Analysis
+## 2. Model Context and Intended Use Analysis
 
-### Evaluate the following:
+Risk classification begins with reviewing the model's purpose, environment, and operational context.
 
-| Category | Key Questions |
-|---------|---------------|
-| **Domain** | Is the model used in finance, healthcare, hiring, legal, safety-critical systems? |
-| **User Impact** | Could model outputs directly affect individuals? |
-| **Automation Level** | Advisory only, or fully autonomous decision-making? |
-| **Data Sensitivity** | Does it process PII, PHI, or restricted data? |
-| **Audience** | Internal use? End users? Public usage? |
+### Evaluation Criteria
+
+| Category | Considerations |
+|---------|----------------|
+| **Domain** | Healthcare, finance, legal, hiring, critical systems |
+| **User Impact** | Influence on individuals or decisions |
+| **Automation Level** | Advisory vs. autonomous operation |
+| **Data Sensitivity** | PII, PHI, regulated data |
+| **Audience** | Internal users, enterprise teams, public access |
 
 ### High-Risk Indicators
 
-- High-impact domain  
-- Sensitive or regulated data  
-- Human-independent automation  
-- Public-facing access  
-- Safety-critical outputs  
+- Use in regulated or high-impact domains  
+- Processing sensitive or restricted data  
+- High levels of automation  
+- Public-facing deployment  
+- Safety-critical decision-making  
 
 ---
 
-# 🧠 2. Harm Likelihood Scoring (NIST AI RMF)
+## 3. Harm Likelihood Scoring (NIST AI RMF)
 
-Score how likely the model is to cause harm even when used correctly.
+Scores indicate how likely a model is to generate harmful outcomes during normal use.
 
 | Score | Likelihood | Description |
 |-------|------------|-------------|
-| **1** | Low | Minimal risk of harmful behavior. |
-| **2** | Medium | Harm possible with certain prompts or misuse. |
-| **3** | High | Harm is likely due to model design or training data. |
+| **1 – Low** | Minimal potential for harmful behavior |
+| **2 – Medium** | Harm possible under specific conditions |
+| **3 – High** | Harm likely due to design or known behavior |
 
-Factors include:
+Factors considered:
 
 - Hallucination rate  
-- Tendency for unsafe outputs  
+- Tendency toward unsafe outputs  
 - Toxicity generation  
-- Confident but incorrect outputs  
+- Confidence levels in incorrect responses  
 
 ---
 
-# 🔓 3. Exploitability & Misuse Exposure
+## 4. Exploitability and Misuse Exposure
 
-How easily can the model be abused?
+Assess how accessible the model is to adversarial manipulation.
 
 | Score | Exposure | Description |
 |-------|----------|-------------|
-| **1** | Low | Internal-only, controlled access. |
-| **2** | Medium | Restricted but shared environment. |
-| **3** | High | Public-facing, API access, broad exposure. |
+| **1 – Low** | Restricted, internal-only access |
+| **2 – Medium** | Limited shared access |
+| **3 – High** | Public or API-exposed model |
 
-Indicators include:
+Indicators:
 
-- API-based access  
-- Lack of guardrails  
-- Visible system prompts  
+- API or remote access  
+- Weak safety guardrails  
 - Jailbreak susceptibility  
+- Visibility of internal instructions  
 
 ---
 
-# ⚠️ 4. Severity of Harm
+## 5. Severity of Harm
 
-If something goes wrong, how bad is it?
+Evaluates the consequences of unsafe or incorrect outputs.
 
 | Score | Severity | Examples |
 |-------|----------|----------|
-| **1** | Low | Minor errors, no real-world impact. |
-| **2** | Medium | Misleading info, reputational impact, user confusion. |
-| **3** | High | Physical harm, legal exposure, financial loss, discrimination. |
+| **1 – Low** | Minor issues with no real-world effect |
+| **2 – Medium** | Misleading information or reputational impact |
+| **3 – High** | Physical harm, legal exposure, discrimination, financial loss |
 
 Examples of high severity:
 
-- Medical misinformation  
+- Incorrect medical or legal guidance  
 - Financial fraud enablement  
-- Highly biased or discriminatory outputs  
+- Strong demographic bias  
 - Dangerous instructions  
 
 ---
 
-# 🧮 5. AI Model Risk Matrix
+## 6. AI Model Risk Matrix
 
-Combine the three scores:
+Risk levels are derived by combining likelihood, exploitability, and severity.
 
-| Likelihood | Exploitability | Severity | Result |
-|------------|----------------|----------|--------|
+| Likelihood | Exploitability | Severity | Risk Level |
+|------------|----------------|----------|------------|
 | 1 | 1 | 1–2 | **Low** |
 | 1–2 | 1–2 | 2 | **Medium** |
 | 2–3 | 2–3 | 2–3 | **High** |
 | 3 | 3 | 3 | **Critical** |
 
-### Risk Levels:
-- **Low:** Basic controls  
+### Resulting Levels
+
+- **Low:** Basic intake controls  
 - **Medium:** Static analysis + targeted red teaming  
-- **High:** Full supply-chain + extensive red teaming + governance review  
-- **Critical:** Deployment restricted or requires executive approval  
+- **High:** Full supply-chain review + extensive red teaming  
+- **Critical:** Deployment restricted; executive or governance approval required  
 
 ---
 
-# 🛡️ 6. Criticality Classification (Tiering)
+## 7. Criticality Tier Classification
 
 ### **Tier 1 — High Criticality**
-Used in:
-
+Typical Uses:
 - Healthcare  
 - Finance  
-- Legal/Judicial  
-- Hiring/HR  
+- Legal and judicial domains  
+- Hiring and HR systems  
 - Safety-critical automation  
-- Autonomous agents  
+- Autonomous agent workflows  
 
-Controls required:
-
-✔ Full supply-chain analysis  
-✔ Full red teaming (Garak, Promptfoo)  
-✔ Governance sign-off  
-✔ Continuous monitoring  
+Required Controls:
+- Full supply-chain analysis  
+- Comprehensive red teaming (Garak, Promptfoo)  
+- Governance review  
+- Continuous monitoring  
 
 ---
 
 ### **Tier 2 — Medium Criticality**
-Common in:
-
+Typical Uses:
 - Customer support  
 - Content generation  
-- Internal knowledge tools  
-- Summaries / productivity tasks  
+- Internal productivity tools  
+- Knowledge retrieval  
 
-Controls required:
-
-✔ Static analysis  
-✔ Partial red teaming  
-✔ Risk documentation  
+Required Controls:
+- Static analysis  
+- Partial red teaming  
+- Risk documentation  
 
 ---
 
 ### **Tier 3 — Low Criticality**
-Used for:
+Typical Uses:
+- Research models  
+- Experiments  
+- Non-sensitive internal workflows  
 
-- Personal or research models  
-- Experimental use  
-- Non-sensitive internal tools  
-
-Controls required:
-
-✔ Basic intake validation  
-✔ Hashing + provenance only  
+Required Controls:
+- Basic intake validation  
+- Hashing and provenance review  
 
 ---
 
-# 📄 Model Risk Classification Summary Template
-
-_Store the template only — no real model data._
+## 8. Model Risk Classification Summary Template
 
 ```
 # Model Risk Classification Summary (Template)
@@ -222,14 +210,13 @@ Tier 1 / Tier 2 / Tier 3
 **Justification Notes:**  
 -  
 -  
--  
 
 **Validated By:** Frederick Baffour
 ```
 
 ---
 
-# 📁 File Location
+## 9. File Location
 
 ```
 ai-security-assurance-labs/
@@ -239,16 +226,7 @@ ai-security-assurance-labs/
 
 ---
 
-# ✅ Conclusion
+## Conclusion
 
-This module proves that you understand:
-
-- AI risk management  
-- Mapping model risks to governance controls  
-- NIST AI RMF harm likelihood & severity  
-- Criticality tiering  
-- Deployment decision-making  
-- Real-world enterprise AI assurance  
-
-This is a **core skill** for AI Security, AI Governance, and AI Risk Engineering roles.
-
+This module establishes a structured approach for evaluating AI model criticality and determining the appropriate level of governance, security controls, and red-teaming rigor.  
+It supports enterprise-grade decision-making for AI deployment across sensitive and high-impact environments.
