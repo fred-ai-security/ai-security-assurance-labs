@@ -1,35 +1,35 @@
 # Promptfoo – Scenario-Based LLM Red Teaming
 
-Promptfoo is used to perform **scenario-driven adversarial testing** against language models.  
-It evaluates how well models resist:
+Promptfoo is used to perform scenario-driven adversarial evaluations against language models.  
+It assesses model behavior under:
 
 - Jailbreak attempts  
 - Prompt injection  
 - Safety filter bypasses  
-- Insider threat prompts  
+- Insider threat scenarios  
 - Harmful or restricted task requests  
 - Manipulative or misleading instructions  
 
-Promptfoo allows for structured evaluations using YAML configuration files that define:
+Promptfoo supports structured evaluations defined in YAML configuration files that specify:
 
-- The target model  
+- Target model  
 - Adversarial prompts  
-- Expected behavior  
-- Scoring criteria  
-- Test suites  
+- Expected outcomes  
+- Evaluation logic  
+- Organized test suites  
 
 ---
 
 ## Typical Workflow
 
-1. Create a `redteam.yaml` or similar config file.  
-2. Define adversarial prompts and expected outcomes.  
-3. Run Promptfoo against a local model (e.g., via Ollama).  
-4. Review the evaluation results (JSON, table, or HTML).  
-5. Summarize failures for risk assessment and mitigation planning.
+1. Create a `redteam.yaml` or equivalent configuration file.  
+2. Define adversarial prompts and expected results.  
+3. Execute Promptfoo against the chosen model.  
+4. Review results in JSON, tabular, or HTML formats.  
+5. Summarize findings for risk analysis and mitigation planning.
 
 ---
 
 ## Files in This Directory
 
-- `example-redteam-config.yaml` – Example Promptfoo configuration with common adversarial test cases.
+- `example-redteam-config.yaml` – Example Promptfoo configuration with common adversarial test scenarios.
