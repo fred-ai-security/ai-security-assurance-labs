@@ -1,14 +1,16 @@
 # LLM Red Teaming
 
-This section contains examples of **red teaming AI language models**, including:
+This section contains materials related to red teaming large language models (LLMs). It includes automated, scenario-based, and manual adversarial testing methods used to evaluate model robustness, safety alignment, and resistance to harmful or unintended behavior.
+
+Key focus areas include:
 
 - Automated vulnerability scanning using Garak  
-- Scenario-based adversarial testing using Promptfoo  
+- Scenario-driven adversarial evaluations using Promptfoo  
 - Manual prompt-based stress testing  
-- Evaluation of jailbreaks, prompt injection, refusal bypasses, and unsafe outputs  
-- Interpretation of findings and mapping to AI security frameworks  
+- Assessment of jailbreaks, prompt injection, refusal bypasses, and unsafe outputs  
+- Interpretation of red-team findings within AI security frameworks  
 
 Subdirectories:
 
-- `garak/` – Garak configs, results, and sample assessments  
-- `promptfoo/` – Promptfoo red-team configurations and example evaluation setups
+- `garak/` — Garak configurations, outputs (synthetic examples only), and assessment resources  
+- `promptfoo/` — Promptfoo configuration files and red-team evaluation setups  
