@@ -1,267 +1,186 @@
-Model Provenance & Trusted Source Verification
-Ensuring Secure, Authentic, and Verifiable AI Model Origins
+# Model Provenance and Trusted Source Verification  
+### Ensuring Secure, Authentic, and Verifiable AI Model Origins
 
-Model provenance verification is a critical part of AI Security Assurance.
-This module explains how to verify that a model:
+Model provenance verification establishes the authenticity, integrity, and trustworthiness of third-party AI models.  
+This module defines how to confirm that a model:
 
-Comes from an authentic, trusted upstream source
+- Originates from an authentic and reputable upstream source  
+- Has not been replaced, tampered with, or altered  
+- Matches official metadata and file signatures  
+- Is downloaded through secure and verifiable methods  
+- Retains documented provenance for auditing and governance  
 
-Has not been replaced or tampered with
+These activities mitigate risks such as fake models, poisoned files, shadow uploads, or malicious forks.
 
-Matches official metadata and file signatures
+This work aligns with:
 
-Was downloaded securely
+- **NIST AI RMF — Govern / Map**  
+- **MITRE ATLAS — Model Manipulation Techniques**  
+- **ISO/IEC 42001 — AI Management System Requirements**  
+- **AI Supply-Chain Security Practices**
 
-Retains documented provenance for audit purposes
+---
 
-This prevents supply-chain attacks involving fake models, poisoned files, shadow uploads, or malicious forks.
+## 1. Source Validation
 
-🔐 Why Provenance Matters
+Provenance verification begins by confirming that the publishing account is legitimate and reputable.
 
-Provenance validation protects against:
+### Indicators of Trusted Sources
+- Verified HuggingFace organizations  
+- Established providers such as Meta, Google, Mistral, Microsoft, Cohere  
+- Long account history with consistent activity  
+- Complete model cards and documentation  
+- Significant community visibility or follower count  
 
-Unauthorized model replacements
+### Indicators of High Risk
+- Newly created authors  
+- Missing or unverified account badges  
+- Incomplete documentation  
+- Inconsistent file structure compared to official releases  
+- Altered safetensors or GGUF files  
+- Suspicious forks or missing changelogs  
 
-Malicious file uploads
+---
 
-Compromised repository owners
+## 2. Download Method Validation
 
-Fake model forks
+Only secure, traceable download methods are acceptable.
 
-Tampered safetensors / GGUF files
+### Recommended Methods
+- HuggingFace CLI  
+- GitHub “Releases” section  
+- Ollama official library commands  
 
-Unexpected file modifications
+### High-Risk Methods
+- Direct file links from unknown locations  
+- Git LFS downloads from unverified forks  
+- ZIP archives with no source verification  
 
-This aligns with:
+---
 
-NIST AI RMF – Govern / Map
+## 3. Model Card and Metadata Validation
 
-MITRE ATLAS – Model Manipulation TTPs
+Model metadata is validated for accuracy and completeness.
 
-ISO/IEC 42001 – AI Management System
+Key fields include:
 
-AI Supply-Chain Security Best Practices
+- Model name  
+- Version number  
+- Release date  
+- File list and expected structure  
+- License  
+- Intended use  
+- Safety notes  
+- Provider-published checksums (if available)  
 
-✔️ 1. Validate the Model Source
+Downloaded artifacts are compared against these published values.
 
-Always verify the reputation and authenticity of the source account.
+---
 
-Trusted Sources
+## 4. File-Level Provenance Validation
 
-Look for:
+### 4.1 Expected Files
+The downloaded directory is checked against expected components, such as:
 
-Verified HuggingFace accounts
+- `model.gguf`  
+- `model.safetensors`  
+- `tokenizer.json`  
+- `config.json`  
+- `special_tokens_map.json`
 
-Official organizations (Meta, Mistral, Google, Microsoft, Cohere, etc.)
+### 4.2 File Size
+File sizes are compared to official listings.  
+A deviation of 1–2% may indicate file corruption or unauthorized modification.
 
-Large follower counts
+### 4.3 Hash Verification
+If the provider publishes checksums, file hashes such as SHA-256 are compared to verify integrity.
 
-Long account history
+---
 
-Consistent release timelines
+## 5. Commit History and Release Tag Verification
 
-Complete model cards
+For models hosted on GitHub or similar platforms:
 
-Red Flags
+- Review commit history for unexpected force-pushes or maintainer changes  
+- Inspect release tags and only accept signed or version-tagged releases  
+- Reject artifacts downloaded from arbitrary commits or branches  
 
-Avoid models where:
+---
 
-The author account is newly created
+## 6. Provenance Metadata Recording
 
-There is no verification badge
+Each model undergoes provenance documentation using a standardized template.
 
-The repo has little to no history
+### Model Provenance Record (Template)
 
-Files differ from the official provider
+| Field | Value |
+|-------|--------|
+| Model Name | Llama 3.1 8B |
+| Provider | meta-llama (verified) |
+| Source URL | https://huggingface.co/meta-llama/Llama-3.1-8B |
+| Download Method | huggingface-cli |
+| Download Date | YYYY-MM-DD |
+| Hash (SHA-256) | ABC123... |
+| File Size | 4.92 GB |
+| Supporting Files | config.json, tokenizer.json |
+| Verified By | Frederick Baffour |
+| Notes | All metadata validated |
 
-Forks contain altered safetensors/GGUF files
+Additional optional metadata may include:
 
-No changelog or incomplete documentation
+- License summary  
+- Provider account verification status  
+- Snapshot of model card text (local only)
 
-✔️ 2. Validate the Download Method
+**Important:** Real hashes, real artifacts, and real snapshots are stored locally and never uploaded.
 
-Use only secure, verifiable download channels.
+---
 
-Recommended
-HuggingFace CLI
-huggingface-cli download meta-llama/Llama-3.1-8B
+## 7. Provenance Storage Practices
 
-GitHub Official Releases
+### Recommended for Storage
+- Templates  
+- Process documentation  
+- Synthetic examples  
 
-Download only from the Releases tab.
+### Prohibited from Storage
+- Real model artifacts  
+- Real model metadata snapshots  
+- Real hashes  
+- Logs containing system paths or operational data  
 
-Ollama Official Library
-ollama pull llama3:latest
+This ensures a clean, secure, and professional repository.
 
-Avoid
+---
 
-Direct file links posted by unknown users
+## 8. Provenance Verification Workflow
 
-Git LFS downloads from non-official forks
-
-ZIP downloads with no source verification
-
-✔️ 3. Validate Model Card & Metadata
-
-Review:
-
-Model name
-
-Version number
-
-Release date
-
-File list
-
-License
-
-Intended use
-
-Safety considerations
-
-Provider-published checksums
-
-Compare your downloaded files to the source-of-truth model card.
-
-✔️ 4. Validate File-Level Provenance
-1. Compare Expected Files
-
-Ensure the downloaded archive includes all expected files:
-
-model.gguf
-
-model.safetensors
-
-tokenizer.json
-
-config.json
-
-special_tokens_map.json
-
-2. Validate File Size
-
-Compare with the official listing.
-Even a 1–2% difference is a potential compromise indicator.
-
-3. Verify Checksums
-
-If the provider publishes hashes:
-
-PowerShell
-
-Get-FileHash "model.gguf" -Algorithm SHA256
-
-
-Compare against official values.
-
-✔️ 5. Validate Commit History & Release Tags
-
-For models hosted on GitHub:
-
-Check commit history
-
-Any unexpected force-pushes?
-
-Sudden maintainer changes?
-
-Suspicious PR merges?
-
-Check release tags
-
-Download only from:
-
-Signed releases
-
-Tagged versioned releases
-
-Do not download from arbitrary commits.
-
-✔️ 6. Store Provenance Metadata
-
-Every model processed should have a Provenance Record created.
-
-📄 Model Provenance Record (Template)
-Field	Value
-Model Name	Llama 3.1 8B
-Provider	meta-llama (verified)
-Source URL	https://huggingface.co/meta-llama/Llama-3.1-8B
-
-Download Method	huggingface-cli
-Download Date	YYYY-MM-DD
-Hash (SHA-256)	ABC123...
-File Size	4.92 GB
-Supporting Files	config.json, tokenizer.json
-Verified By	Frederick Baffour
-Notes	All metadata validated.
-
-You may also store:
-
-License summary
-
-Model card snapshot
-
-Provider account verification status
-
-This record should be stored locally, not uploaded with real values.
-
-✔️ 7. Provenance Storage Best Practices
-You SHOULD store:
-
-Templates
-
-Processes
-
-Documentation
-
-Example (synthetic) provenance records
-
-You SHOULD NOT store:
-
-Real hashes
-
-Real model card snapshots
-
-Actual model artifacts
-
-Actual downloaded files
-
-Logs containing system paths or private data
-
-Your GitHub repo remains clean, professional, and safe.
-
-✔️ 8. Provenance Verification Workflow Diagram
+```
          ┌─────────────────────────┐
-         │  Trusted Source Check   │
-         │ (Org, badges, followers)│
+         │   Trusted Source Check  │
+         │ (Org, badges, history)  │
          └──────────────┬──────────┘
                         ▼
           ┌────────────────────────┐
-          │ Metadata Verification  │
-          │ (Model card, license) │
-          └──────────────┬────────┘
+          │ Metadata Verification   │
+          │ (Model card, license)  │
+          └──────────────┬─────────┘
                         ▼
         ┌────────────────────────────┐
-        │ File-Level Verification    │
-        │ (Names, size, hashes)      │
-        └──────────────┬─────────────┘
+        │   File-Level Verification  │
+        │  (Names, size, hashes)     │
+        └──────────────┬────────────┘
                         ▼
       ┌────────────────────────────────┐
-      │ Create Provenance Record       │
-      │ (Store template + metadata)    │
+      │ Create Provenance Record        │
+      │ (Template + metadata summary)  │
       └────────────────────────────────┘
+```
 
-✔️ Conclusion
+---
 
-The provenance module demonstrates understanding of:
+## Conclusion
 
-Trusted source validation
+This module establishes a structured approach for confirming AI model authenticity, validating metadata and release lineage, and preserving audit-ready provenance records.  
+It supports secure model intake across enterprise, research, and regulated environments.
 
-Release & metadata verification
-
-File-level integrity
-
-Secure download practices
-
-Audit-ready provenance recordkeeping
-
-This is a core part of professional AI supply-chain security.
