@@ -1,4 +1,4 @@
-# Model License & Compliance Evaluation (Template)
+# Model License and Compliance Evaluation (Template)
 
 **Model Name:**  
 **Provider:**  
@@ -10,7 +10,7 @@
 
 ---
 
-## ✔ Intended Use Review
+## Intended Use Review
 
 **Intended Use Category:**  
 - Research / Internal Testing  
@@ -24,10 +24,10 @@
 
 ---
 
-## ✔ License Obligations
+## License Obligations
 
 **Redistribution Allowed:** Yes / No  
-**Modification/Fine-Tuning Allowed:** Yes / No  
+**Modification or Fine-Tuning Allowed:** Yes / No  
 **Commercial Use Allowed:** Yes / No  
 **Attribution Required:** Yes / No  
 **Notice File Required:** Yes / No  
@@ -39,7 +39,7 @@
 
 ---
 
-## ✔ Export Controls / Geo Restrictions
+## Export Controls and Geographic Restrictions
 
 **Export-Control Restrictions:** Yes / No  
 **Geo-Limitations:** Yes / No  
@@ -47,7 +47,7 @@
 
 ---
 
-## ✔ Alignment Checks
+## Alignment Checks
 
 **Matches Model Card License:** Yes / No  
 **Dependencies License-Compatible:** Yes / No  
@@ -56,7 +56,7 @@
 
 ---
 
-## ✔ Risk Rating
+## Risk Rating
 
 - Low Risk  
 - Medium Risk  
