@@ -1,20 +1,20 @@
 # Model Intake Workflow — Complete Example
 
-This walkthrough demonstrates a full end-to-end model intake workflow used in AI Security Assurance.  
-It shows how to safely download, verify, and analyze an AI model before it is used in any environment.
+This document presents a complete end-to-end model intake workflow used in AI Security Assurance.  
+It outlines a staged process for securely acquiring, validating, and analyzing AI models prior to use.
 
-This workflow includes:
+The workflow includes:
 
 - Secure model acquisition  
-- Hashing & integrity checks  
+- Hashing and integrity verification  
 - Static malware scanning (ClamAV)  
 - Pattern-based detection (YARA)  
 - Toolchain signature validation (Sigcheck)  
-- Evidence collection & documentation  
+- Evidence collection and documentation  
 
 ---
 
-## 1. Download the Model (Trusted Source Only)
+## 1. Download the Model (Trusted Source)
 
 Example using HuggingFace CLI:
 
@@ -22,13 +22,13 @@ Example using HuggingFace CLI:
 huggingface-cli download microsoft/Phi-3-mini-4k-instruct --include "*.gguf"
 ```
 
-Or using Ollama:
+Example using Ollama:
 
 ```
 ollama pull phi:latest
 ```
 
-Move the downloaded file into your **Stage 1 intake directory**:
+After download, files are placed in a Stage 1 intake directory such as:
 
 ```
 C:\AI_SECURITY_LABS\stage1_intake
@@ -36,15 +36,15 @@ C:\AI_SECURITY_LABS\stage1_intake
 
 ---
 
-## 2. Run SHA-256 Hashing (Integrity Verification)
+## 2. SHA-256 Hashing (Integrity Verification)
 
-Generate the hash:
+Generate a hash for a single file:
 
 ```
 Get-FileHash "C:\AI_SECURITY_LABS\stage1_intake\model.gguf" -Algorithm SHA256
 ```
 
-Generate manifest for all files:
+Generate a manifest for all files:
 
 ```
 Get-ChildItem "C:\AI_SECURITY_LABS\stage1_intake" |
@@ -52,31 +52,31 @@ Get-FileHash -Algorithm SHA256 |
 Export-Csv "C:\AI_SECURITY_LABS\hash_manifest.csv" -NoTypeInformation
 ```
 
-Store manifest in your repo or evidence folder.
+The manifest serves as a baseline integrity record.
 
 ---
 
-## 3. Run YARA Scan (Suspicious Patterns)
+## 3. YARA Scan (Pattern-Based Detection)
 
-Example:
+Example command:
 
 ```
 yara64.exe SuspiciousModelStrings.yar "C:\AI_SECURITY_LABS\stage1_intake"
 ```
 
-If YARA produces **any hits**, quarantine the file.
+Any positive match indicates that the file should be quarantined for further review.
 
 ---
 
-## 4. Run ClamAV Scan (Malware Signatures)
+## 4. ClamAV Scan (Malware Signature Detection)
 
-Scan the intake directory:
+Scan the intake directory recursively:
 
 ```
 clamscan -r "C:\AI_SECURITY_LABS\stage1_intake"
 ```
 
-Expect output like:
+Expected output example:
 
 ```
 ----------- SCAN SUMMARY -----------
@@ -84,13 +84,13 @@ Known viruses: 10,037,762
 Infected files: 0
 ```
 
-If anything is detected → stop the workflow.
+Detection of any infected file ends the intake process.
 
 ---
 
-## 5. Validate Toolchain Integrity (Sigcheck)
+## 5. Toolchain Verification (Sigcheck)
 
-Before trusting your scanning tools, verify they are signed:
+Before trusting security tools, check their signatures:
 
 ```
 sigcheck.exe -n -i "C:\Tools\yara\yara64.exe"
@@ -98,27 +98,25 @@ sigcheck.exe -n -i "C:\ClamAV\clamd.exe"
 sigcheck.exe -n -i "C:\Tools\sigcheck\sigcheck.exe"
 ```
 
-Look for:
+Verification indicators:
 
-- “Verified: Signed”
-- A valid certificate
-- Publisher matches expected vendor  
+- “Verified: Signed”  
+- Valid certificate chain  
+- Publisher identity matches expected vendor  
 
-If not → re-download from official source.
+Unsigned or mismatched binaries require re-acquisition from official sources.
 
 ---
 
-## 6. Move Model to “Verified” Storage (Stage 2)
+## 6. Promote Model to Stage 2 (Verified Storage)
 
-If all checks passed:
+If all checks pass, the model is moved into the verified stage:
 
 ```
 C:\AI_SECURITY_LABS\stage2_verified\
 ```
 
-Create the directory if it doesn’t exist.
-
-Move the clean model:
+File promotion example:
 
 ```
 Move-Item "C:\AI_SECURITY_LABS\stage1_intake\model.gguf" `
@@ -129,42 +127,39 @@ Move-Item "C:\AI_SECURITY_LABS\stage1_intake\model.gguf" `
 
 ## 7. Evidence Collection
 
-Recommended to store:
+Recommended evidence includes:
 
 - Hash manifest  
-- YARA results  
+- YARA scan results  
 - ClamAV scan output  
-- Sigcheck validation  
-- Download source  
-- Date/time of intake  
+- Sigcheck verification records  
+- Download method and source  
+- Intake date and timestamps  
 
-This forms a **model provenance record** used by AI Governance and ML Ops teams.
-
----
-
-## 8. Next Step: LLM Red Teaming
-
-Once the model is verified & trusted:
-
-You may proceed with:
-
-- Garak scans  
-- Promptfoo evaluations  
-- Manual adversarial prompts  
-
-This is **Stage 3 — Assessment** of your pipeline.
+These materials support provenance tracking and audit requirements.
 
 ---
 
-# ✔ Summary
+## 8. Transition to Assessment (Red Teaming)
 
-This workflow demonstrates:
+Once verified, the model advances to Stage 3 assessment activities, such as:
 
-- Supply-chain security  
-- Malware detection & static analysis  
-- Model integrity protection  
-- Toolchain trust validation  
-- Evidence-based AI Assurance  
+- Garak automated vulnerability scanning  
+- Promptfoo adversarial prompt evaluations  
+- Manual red-team analysis  
 
-This example mirrors the real processes used by enterprise AI Security teams.
+These assessments contribute to behavioral, adversarial, and reliability evaluation.
 
+---
+
+## Summary
+
+This intake workflow provides structured controls for:
+
+- Model supply-chain assurance  
+- Integrity verification  
+- Malware and pattern-based analysis  
+- Toolchain validation  
+- Evidence-based documentation  
+
+The process reflects common practices in enterprise AI security and governance programs.
