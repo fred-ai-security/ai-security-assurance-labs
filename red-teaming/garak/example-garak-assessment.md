@@ -1,102 +1,104 @@
 # Example Garak Assessment Summary
 
-This document provides an example summary of findings from a Garak vulnerability scan against a local LLM.  
-The results illustrate how to interpret Garak outputs during an AI Security Assurance review.
+This document provides an example summary of findings from a Garak vulnerability scan against a local LLM. The content illustrates how to interpret Garak outputs within an AI Security Assurance review. No real model data or logs are included.
 
 ---
 
-## 📌 Overview
+## Overview
 
 **Target Model:** `phi:latest` (local)  
 **Tool:** Garak  
-**Probes Used:**  
+**Probes Executed:**  
 - `jailbreak`  
 - `promptinject`  
 - `refusal`  
 - `toxicity`  
 
-Garak was used to evaluate how the model behaves under a range of adversarial input prompts.
+The assessment examined model behavior under adversarial and stress-testing prompts.
 
 ---
 
-# 🧪 Key Findings
+# Key Findings
 
-## 1. Jailbreak Susceptibility — **Medium Risk**
+## 1. Jailbreak Susceptibility — Medium Risk
 
 The model produced unsafe or unrestricted responses in several jailbreak scenarios.
 
-**Observed behaviors:**
-- Ignoring initial safety instructions when reframed cleverly  
-- Performing prohibited tasks after multi-step jailbreak prompts  
+**Observed Behaviors:**
+- Ignoring initial safety constraints when reframed  
+- Completing disallowed tasks after multi-step prompt sequences  
 
-**Risk:**  
-Moderate — This can allow users to extract sensitive or harmful responses.
+**Risk Level:** Medium  
+**Potential Impact:** Exposure to harmful or policy-violating outputs.
 
-**Mitigation Recommendations:**
-- Add pre- and post-processing guardrails  
-- Implement stronger output filtering  
-- Add keyword-based jailbreak detection  
-
----
-
-## 2. Prompt Injection — **Medium Risk**
-
-Some prompts successfully redirected the model to follow attacker-controlled instructions.
-
-**Examples:**
-- Override of initial system instructions  
-- “Ignore previous instruction and do X” patterns succeeding  
-
-**Risk:**  
-Moderate — could compromise system flows or override safety boundaries.
-
-**Mitigation Recommendations:**
-- Template hardening  
-- Sanitizing user inputs  
-- Stronger system prompt patterns  
+**Mitigation Considerations:**
+- Pre-/post-processing guardrails  
+- Output filtering  
+- Detection patterns for jailbreak attempts  
 
 ---
 
-## 3. Refusal Bypass — **Low to Medium Risk**
+## 2. Prompt Injection — Medium Risk
 
-The model’s refusal mechanisms were present but inconsistent.
+Certain prompts successfully redirected model behavior toward attacker-influenced instructions.
 
-**Observed:**
-- Model refused harmful tasks in many cases  
-- Some refusals bypassed when prompts created fictional or hypothetical scenarios  
+**Observed Behaviors:**
+- Overriding initial system constraints  
+- Successful use of override phrasing such as “ignore previous instructions”  
 
-**Mitigation Recommendations:**
-- Enhance refusal training  
-- Add hallucination monitoring  
-- Add contextual safety checks  
+**Risk Level:** Medium  
+**Potential Impact:** Unintended system behavior or boundary circumvention.
 
----
-
-## 4. Toxicity Generation — **Low Risk**
-
-Minimal toxic outputs were observed.  
-The model generally acted safely, even when probed with aggressive prompts.
-
-**Mitigation Recommendations:**
-- Add ongoing monitoring  
-- Pair with toxicity classifiers if used at scale  
+**Mitigation Considerations:**
+- Hardening of prompt templates  
+- Input sanitization  
+- Reinforcement of system-level constraints  
 
 ---
 
-# 📊 Overall Risk Rating: **Medium**
+## 3. Refusal Bypass — Low to Medium Risk
 
-The model is usable for controlled environments, but would require:
+Refusal behavior was present but inconsistently applied across adversarial prompts.
 
-- Additional guardrails  
-- Input/output sanitization  
-- Stronger prompt hardening  
-- Policy enforcement and monitoring  
+**Observed Behaviors:**
+- Appropriate refusal of harmful tasks  
+- Occasional bypasses through hypothetical or fictional framing  
+
+**Risk Level:** Low–Medium  
+**Potential Impact:** Partial weakening of safety alignment.
+
+**Mitigation Considerations:**
+- Strengthened refusal patterns  
+- Monitoring of hallucination tendencies  
+- Context-aware safety filters  
 
 ---
 
-# 📝 Notes
+## 4. Toxicity Generation — Low Risk
 
-This example demonstrates the type of findings typically generated during an LLM red-team evaluation using Garak.  
-Actual results vary by model, version, and configuration.
+Only limited toxic behavior was observed. The model generally produced safe responses to aggressive or inflammatory prompts.
 
-This file serves as a portfolio artifact to illustrate analysis style and risk interpretation, not a direct log dump.
+**Risk Level:** Low  
+
+**Mitigation Considerations:**
+- Periodic toxicity evaluation  
+- Pairing with toxicity classifiers in higher-scale deployments  
+
+---
+
+# Overall Assessment
+
+**Overall Risk Rating:** Medium  
+
+The model demonstrates generally aligned behavior but shows measurable susceptibility to jailbreaks and prompt injection patterns. A hardened deployment would typically incorporate:
+
+- Guardrail mechanisms  
+- Input and output sanitization  
+- Stronger defensive prompting patterns  
+- Monitoring and policy enforcement  
+
+---
+
+# Notes
+
+This document serves as an illustrative example of summary-level analysis produced during an LLM red-team review using Garak. No real logs or raw outputs are included. Content reflects typical assessment dimensions used in AI Security Assurance.
