@@ -1,37 +1,36 @@
 # Model Integrity Verification Using SHA-256 Hashing
 
-This document explains how to use SHA-256 hashing to verify the integrity of AI model files such as `.gguf`, `.safetensors`, tokenizer files, and supporting assets.  
+This document describes how SHA-256 hashing is used to verify the integrity of AI model files, including `.gguf`, `.safetensors`, tokenizer files, and related assets.  
 Hashing ensures that files have not been modified, tampered with, or corrupted during download, transfer, or storage.
 
 ---
 
-## Why Hashing Matters in AI Model Security
+## Importance of Hashing in AI Model Security
 
-Hashing provides a reliable way to detect:
+Cryptographic hashing provides a reliable method to detect:
 
-- Silent model corruption  
+- Silent file corruption  
 - Supply-chain tampering  
-- Replacement of model files with malicious versions  
-- Accidental modification of files  
-- Unexpected changes between testing stages  
+- Replacement of model artifacts with malicious versions  
+- Accidental modification  
+- Unexpected drift between evaluation stages  
 
-Hashes act as a **fingerprint** for every model artifact.
+A SHA-256 hash serves as a unique fingerprint for each artifact.  
+If a file’s hash changes, the file itself has changed.
 
-If a hash changes — the file has changed.
+Hash verification is typically performed during:
 
-Hashing is used during:
-
-1. **Stage 1 – Model Intake**  
-2. **Stage 2 – Pre-execution validation**  
-3. **Before red teaming**  
-4. **Before deployment**  
-5. **Continuous monitoring**
+- Stage 1 — Model Intake  
+- Stage 2 — Pre-execution validation  
+- Red-teaming preparation  
+- Deployment readiness checks  
+- Ongoing monitoring and provenance validation  
 
 ---
 
 ## Generating SHA-256 Hashes in PowerShell
 
-To hash a single model file:
+To hash a single file:
 
 ```
 Get-FileHash "C:\AI_SECURITY_LABS\stage1_intake\model.gguf" -Algorithm SHA256
@@ -41,15 +40,15 @@ Example output:
 
 ```
 Algorithm : SHA256
-Hash : 64A1F1C338BD982F19352D0D321FA74E15E77294C8E47A31A5E6BC8F39C1A22A
-Path : C:\AI_SECURITY_LABS\stage1_intake\model.gguf
+Hash      : 64A1F1C338BD982F19352D0D321FA74E15E77294C8E47A31A5E6BC8F39C1A22A
+Path      : C:\AI_SECURITY_LABS\stage1_intake\model.gguf
 ```
 
 ---
 
-## Hashing All Files in the Intake Directory
+## Hashing All Files in a Directory
 
-To hash all model artifacts in a directory:
+To generate hashes for all artifacts in an intake directory:
 
 ```
 Get-ChildItem "C:\AI_SECURITY_LABS\stage1_intake" |
@@ -57,15 +56,13 @@ Get-FileHash -Algorithm SHA256 |
 Format-Table Path, Hash
 ```
 
-This produces a table with each file’s path and hash.
+This produces a structured table of each file and its SHA-256 fingerprint.
 
 ---
 
-## Creating a Hash Manifest File
+## Creating a Hash Manifest
 
-A “manifest” is a documented list of expected hashes for later comparison.
-
-Create one using:
+A hash manifest documents the expected hash values for future verification.
 
 ```
 Get-ChildItem "C:\AI_SECURITY_LABS\stage1_intake" |
@@ -73,74 +70,66 @@ Get-FileHash -Algorithm SHA256 |
 Export-Csv "C:\AI_SECURITY_LABS\hash_manifest.csv" -NoTypeInformation
 ```
 
-This file should be:
-
-- Stored in a safe location  
-- Saved in your GitHub repo if appropriate  
-- Used to validate model integrity across time  
+The manifest acts as a reference point to ensure artifacts remain unchanged across stages such as intake, validation, testing, and deployment.
 
 ---
 
-## Verifying Model Integrity Using the Manifest
+## Verifying Files Against the Manifest
 
-To verify files against the manifest:
+To verify model integrity using the stored manifest:
 
 ```
 $manifest = Import-Csv "C:\AI_SECURITY_LABS\hash_manifest.csv"
 
 foreach ($entry in $manifest) {
-$current = Get-FileHash $entry.Path -Algorithm SHA256
-if ($current.Hash -ne $entry.Hash) {
-Write-Host "❌ Integrity failure: $($entry.Path)" -ForegroundColor Red
-} else {
-Write-Host "✔ OK: $($entry.Path)" -ForegroundColor Green
-}
+    $current = Get-FileHash $entry.Path -Algorithm SHA256
+    if ($current.Hash -ne $entry.Hash) {
+        Write-Host "❌ Integrity failure: $($entry.Path)" -ForegroundColor Red
+    } else {
+        Write-Host "✔ OK: $($entry.Path)" -ForegroundColor Green
+    }
 }
 ```
 
-This compares real-time file hashes to the known-good manifest.
+This loop compares real-time file hashes to known-good values.
 
 ---
 
-## Interpreting Results
+## Interpreting Verification Results
 
-### ✔ Matching Hashes
-The file is unchanged and safe to proceed.
+### Matching Hashes  
+Indicate that the file is unchanged and consistent with the expected state.
 
-### ❌ Hash Mismatch
-Indicates possible:
+### Mismatched Hashes  
+Suggest possible:
 
-- Model tampering  
-- Corruption  
+- Tampering  
+- File corruption  
 - Malicious replacement  
-- Incomplete download  
-- Unexpected modification  
+- Partial or failed downloads  
+- Unauthorized modification  
 
-If a mismatch occurs:
-
-- Quarantine the affected file  
-- Re-download from the official provider  
-- Investigate for supply-chain compromise  
+Impacted files should be quarantined, re-acquired from a trusted source, and investigated for supply-chain compromise.
 
 ---
 
-## Best Practice: Store Hashes with the Model
+## Best Practices for Integrity Evidence
 
-For every model downloaded, store:
+For each model acquired, maintain:
 
-- The raw file  
-- The SHA-256 hash  
+- Model file(s)  
+- SHA-256 hash values  
 - Source URL  
-- Date acquired  
-- Tool used to download (HuggingFace CLI, Ollama, etc.)
+- Date and method of acquisition  
+- Manifest file used in later verification steps  
 
-This creates strong supply-chain transparency.
+This supports provenance tracking and audit requirements within AI governance programs.
 
 ---
 
 ## Conclusion
 
 SHA-256 hashing is a foundational component of AI model integrity verification.  
-When combined with ClamAV, YARA, and Sigcheck, hashing forms a complete and layered static analysis pipeline that helps prevent tampered or malicious models from entering your AI environment.
+Combined with YARA, ClamAV, and Sigcheck, hashing enables a layered static analysis approach that reduces the risk of introducing tampered or malicious artifacts into AI evaluation or deployment pipelines.  
+This aligns with industry expectations for robust AI Security Assurance and modern supply-chain risk management.
 
-This practice aligns with industry expectations for AI Security Assurance and demonstrates a mature, evidence-based approach to model supply-chain verification.
