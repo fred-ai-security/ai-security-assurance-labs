@@ -1,6 +1,6 @@
 # YARA Scanning for AI Model Artifacts
 
-This document shows how **YARA** can be used to scan AI model–related files for suspicious patterns as part of an AI Security Assurance workflow.
+This document explains how **YARA** can be used to scan AI model–related files for suspicious patterns as part of an AI Security Assurance workflow.
 
 While AI models (such as `.gguf` or `.safetensors`) are not traditional executables, attackers can still embed:
 
@@ -16,19 +16,17 @@ YARA helps detect these patterns early in the model intake process.
 
 ## Where YARA Fits in the Model Supply Chain
 
-YARA is most useful in **Stage 1 – Model Intake**, when we:
+YARA is most effective in **Stage 1 – Model Intake**, during initial validation of newly downloaded model artifacts stored in a controlled directory such as:
 
-- Download models and supporting files  
-- Store them in a controlled **intake directory** (e.g., `C:\AI_SECURITY_LABS\stage1_intake`)  
-- Run static checks before any model is executed or evaluated  
+```
+C:\AI_SECURITY_LABS\stage1_intake
+```
 
-If a rule fires, the file should be **quarantined** and analyzed before moving forward.
+Files that trigger YARA rules should be quarantined before progressing in the intake pipeline.
 
 ---
 
 ## Example YARA Rule (Suspicious Strings)
-
-Below is a simple but effective example rule that checks for potentially dangerous content.
 
 ```yara
 rule SuspiciousModelStrings
@@ -47,55 +45,48 @@ rule SuspiciousModelStrings
 
 ## Example YARA Scan Command
 
-Once the rule file exists, you can run YARA against your intake directory.
-
-Example command:
-
+```
 yara64.exe SuspiciousModelStrings.yar "C:\AI_SECURITY_LABS\stage1_intake"
+```
 
-This tells YARA to:
-- Load rules from SuspiciousModelStrings.yar
-- Scan every file in C:\AI_SECURITY_LABS\stage1_intake
+This command loads the YARA rule file and scans all files in the specified intake directory.
 
 ---
 
 ## Example Output (Realistic)
 
-If YARA finds matches, you might see output like:
-
+```
 SuspiciousModelStrings  C:\AI_SECURITY_LABS\stage1_intake\model.bin
 SuspiciousModelStrings  C:\AI_SECURITY_LABS\stage1_intake\config.json
+```
 
-Each line means:
-- The rule SuspiciousModelStrings fired
-- On the file shown after the rule name
+Each line indicates a rule match on the corresponding file.
 
 ---
 
 ## Interpreting the Results
 
-✔ No Matches
--The file passed this YARA check and can move to the next step (e.g., ClamAV scan, hash verification).
+### ✔ No Matches  
+The files passed the YARA scan and may progress to subsequent static analysis steps such as ClamAV scanning and SHA-256 integrity verification.
 
-⚠ Matches Found
-Treat the file as suspicious:
-- Do not load it into any runtime yet
-- Check the file hash against a known-good source
-- Inspect what triggered the rule
-- Consider re-downloading the model
+### ⚠ Matches Found  
+Files with YARA matches should be considered suspicious:
 
-YARA alone doesn’t guarantee safety — it’s one layer in a defense-in-depth AI assurance pipeline.
+- Quarantine the file  
+- Compare file hashes with trusted provider values  
+- Investigate which pattern triggered  
+- Re-download from an official source if needed  
 
 ---
 
-## Why This Matters for AI Security Assurance
+## Importance in AI Security Assurance
 
-Using YARA in your workflow demonstrates:
+Integrating YARA scanning into AI model workflows provides:
 
-- Structured static analysis
-- Awareness of supply-chain risks
-- Ability to design and apply basic YARA rules
-- Controlled intake processes for AI models
-- Evidence-based security decisions
+- Strong static analysis during early intake  
+- Detection of embedded suspicious content  
+- Evidence-based supply-chain validation  
+- Enhanced protection against tampered or malicious artifacts  
 
-YARA is a foundational tool that bridges classic malware detection with modern AI model security.
+YARA serves as a foundational component in a layered AI Security Assurance strategy.
+
