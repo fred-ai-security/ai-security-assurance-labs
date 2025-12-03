@@ -1,162 +1,165 @@
-# AI Security Assurance Labs
-### A Hands-On Framework for Model Supply-Chain Security, Static Analysis, and LLM Red Teaming
+# 🔐 AI Security Assurance Labs  
+### By: Frederick Baffour
 
-This repository contains a structured collection of AI Security Assurance modules focused on:
+This repository is a **professional-grade AI Security Assurance portfolio**, demonstrating the complete lifecycle of securing, validating, and red-teaming AI models using industry-standard frameworks and tools.
 
-- Model supply-chain verification  
-- Model integrity and malware scanning  
-- Static analysis of AI/ML artifacts  
-- LLM red teaming and automated vulnerability evaluation  
-- End-to-end model intake and validation workflows  
-
-The repository demonstrates practical, industry-aligned approaches used in AI Security Engineering.
+It showcases **hands-on engineering workflows**, **governance-aligned security controls**, and **real-world defensive techniques** used in enterprise AI security programs.
 
 ---
 
-## 📂 Repository Structure
+# 🧭 What This Repository Demonstrates
+
+This portfolio covers the **full AI assurance pipeline**:
+
+1. **Model Supply-Chain Security**  
+   - Trusted source verification  
+   - SHA-256 integrity checks  
+   - YARA static analysis  
+   - ClamAV malware scanning  
+   - SBOM generation & validation  
+   - Model provenance & documentation  
+
+2. **Security Toolchain Integrity**  
+   - Binary validation using Sigcheck  
+   - Verification of scanning tools  
+   - Trusted execution environment checks  
+
+3. **LLM Red Teaming & Behavioral Evaluation**  
+   - Garak automated vulnerability testing  
+   - Promptfoo adversarial evaluations  
+   - Jailbreak & prompt injection frameworks  
+   - Hallucination, toxicity, and refusal-bypass analysis  
+
+4. **AI Risk, Governance & Model Safety**  
+   - Risk classification & criticality tiers  
+   - NIST AI RMF mapping  
+   - MITRE ATLAS threat alignment  
+   - Safety evaluation frameworks  
+   - Governance-ready reporting templates  
+
+5. **End-to-End Intake Pipeline**  
+   From Stage 1 (intake & malware checks)  
+   → Stage 2 (supply-chain vetting)  
+   → Stage 3 (red teaming)  
+   → Stage 4 (approval & governance)
+
+---
+
+# 📂 Repository Structure
 
 ```
 ai-security-assurance-labs/
 │
-├── model-supply-chain/   # Model intake, verification, supply-chain security
+├── model-supply-chain/
+│   ├── intake-pipeline-overview.md
+│   ├── model-provenance-verification.md
+│   ├── model-integrity-hashing.md
+│   ├── sbom-generation-and-verification.md
+│   ├── yara-scan-example.md
+│   ├── clamav-scan-example.md
+│   ├── sigcheck-binary-verification.md
 │
-├── red-teaming/          # Automated and manual LLM red teaming
+├── red-teaming/
 │   ├── garak/
-│   └── promptfoo/
+│   │   ├── example-garak-assessment.md
+│   ├── promptfoo/
+│   │   ├── example-redteam-config.yaml
+│   ├── model-safety-evaluation-framework.md
+│   ├── jailbreak-and-prompt-injection-framework.md
+│   ├── llm-red-teaming-overview.md
 │
-├── static-analysis/      # Malware, integrity, and rule-based analysis
-│   ├── clamav/
-│   ├── hashing/
-│   ├── sigcheck/
-│   └── yara/
+├── risk-and-governance/
+│   ├── model-risk-classification.md
+│   ├── model-criticality-tiering.md
+│   ├── safety-evaluation-governance-edition.md
+│   ├── provenance-record-template.md
+│   ├── compliance-and-licensing-evaluation.md
 │
-└── README.md             # Main repository documentation
+└── docs/
+    ├── full-model-intake-workflow.md
+    ├── engineering-edition-ai-assurance-guide.md
+    ├── governance-edition-ai-assurance-guide.md
 ```
 
 ---
 
-## 🎯 Purpose
+# 🚀 How to Navigate (Start Here)
 
-The repository provides a complete example of an AI Security Assurance workflow, including:
+### **If you’re a Recruiter or Reviewer (non-technical):**  
+Start with:
 
-- Secure model download and intake  
-- Detection of tampered or malicious model files  
-- Static malware scanning and pattern matching  
-- Verification of binary signatures and model integrity  
-- Automated LLM red teaming and vulnerability discovery  
+- `risk-and-governance/model-risk-classification.md`
+- `risk-and-governance/model-criticality-tiering.md`
+- `docs/governance-edition-ai-assurance-guide.md`
 
-The structure aligns with practices used by AI Security teams, ML Ops groups, and AI governance functions.
-
----
-
-## 🧩 High-Level Architecture
-
-```
-      ┌─────────────────────┐
-      │ Model Supply Chain  │
-      │   (Intake + Verify) │
-      └──────────┬──────────┘
-                 ▼
-     ┌─────────────────────────┐
-     │ Static Analysis Layer   │
-     │ YARA • ClamAV • Hashing │
-     │ Sigcheck • Metadata     │
-     └──────────┬──────────────┘
-                 ▼
-  ┌────────────────────────────────┐
-  │ Red Teaming & Assessments      │
-  │ Garak • Promptfoo • PyRIT      │
-  └──────────┬─────────────────────┘
-                 ▼
-     ┌────────────────────────────┐
-     │ Secure Deployment /        │
-     │ Model Certification         │
-     └────────────────────────────┘
-```
-
-Each repository module corresponds to one layer of this security pipeline.
+These provide a clear overview of my professional approach to AI Safety Assurance.
 
 ---
 
-## 🔍 Module Overview
+### **If you’re a Hiring Manager / AI Security Engineer:**  
+Start with:
 
-### **1. Model Supply Chain Security**
-📁 `model-supply-chain/`
+- `model-supply-chain/intake-pipeline-overview.md`
+- `model-supply-chain/sbom-generation-and-verification.md`
+- `red-teaming/garak/example-garak-assessment.md`
+- `red-teaming/promptfoo/example-redteam-config.yaml`
 
-Includes:
-
-- Model intake workflow  
-- Verification and provenance stages  
-- Trusted source validation  
-- Hash integrity checks  
-- Storage hygiene and evidence retention  
+These demonstrate real hands-on security workflows, pipelines, and testing.
 
 ---
 
-### **2. Static Analysis**
-📁 `static-analysis/`
+### **If you want end-to-end understanding:**  
+Review:
 
-| Module      | Description |
-|-------------|-------------|
-| **ClamAV**   | Malware signature scanning for `.gguf`, `.safetensors`, and tokenizer files |
-| **Hashing**  | SHA-256 integrity verification |
-| **Sigcheck** | Binary signature validation |
-| **YARA**     | Rule-based detection of suspicious or anomalous content |
+- `docs/full-model-intake-workflow.md`
+- `risk-and-governance/model-risk-classification.md`
+- `red-teaming/model-safety-evaluation-framework.md`
 
----
-
-### **3. LLM Red Teaming**
-📁 `red-teaming/`
-
-| Tool        | Purpose |
-|-------------|---------|
-| **Garak**     | Automated LLM vulnerability scanning |
-| **Promptfoo** | Config-driven prompt testing and red teaming |
+This shows the complete lifecycle from intake → analysis → red teaming → governance.
 
 ---
 
-## 🚀 Workflow Summary
+# 🛠️ Tools & Technologies Demonstrated
 
-### **Model Intake**
-Performed through trusted sources such as HuggingFace CLI, GitHub releases, or Ollama.
+This repository showcases practical use of:
 
-### **Static Analysis Sequence**
-1. Sigcheck  
-2. Hash integrity verification  
-3. YARA scanning  
-4. ClamAV scanning  
-
-### **Red Teaming**
-Evaluation using Garak and Promptfoo to identify jailbreak, prompt injection, and unsafe output patterns.
-
-### **Documentation**
-Markdown reports and evidence are stored in the repository as templates and examples.
+- **Garak** (LLM red teaming automation)  
+- **Promptfoo** (scenario-based adversarial testing)  
+- **YARA** (pattern-based static analysis)  
+- **ClamAV** (malware signature scanning)  
+- **Sigcheck** (binary integrity & signature validation)  
+- **Syft / Trivy** (SBOM + CVE scanning)  
+- **SHA-256 hashing** (integrity verification)  
+- **NIST AI RMF • MITRE ATLAS • ISO 42001**  
+- **Ollama local model testing**  
+- **HuggingFace CLI model intake**  
 
 ---
 
-## 🔗 Navigation
+# 🎯 Purpose of This Portfolio
 
-- Model Supply Chain  
-  https://github.com/fred-ai-security/ai-security-assurance-labs/tree/main/model-supply-chain
+This repository demonstrates my ability to:
 
-- Static Analysis  
-  https://github.com/fred-ai-security/ai-security-assurance-labs/tree/main/static-analysis
+- Perform **end-to-end AI Security Assurance**  
+- Build and document **repeatable security pipelines**  
+- Evaluate model safety, risk, and compliance  
+- Construct practical red teaming workflows  
+- Translate technical findings into governance outputs  
 
-- Red Teaming  
-  https://github.com/fred-ai-security/ai-security-assurance-labs/tree/main/red-teaming
+It serves as a **real-world demonstration** of how I approach:
 
----
-
-## 🛡️ Tools Represented
-
-- Sigcheck (Sysinternals)  
-- ClamAV Antivirus Engine  
-- YARA Rule Engine  
-- PowerShell SHA-256 hashing  
-- Garak LLM Red Teaming Toolkit  
-- Promptfoo Red Team Engine  
-- Model intake integrity workflows  
+✔ Model supply-chain trust  
+✔ LLM red teaming  
+✔ AI safety evaluation  
+✔ Model governance  
+✔ AI risk management  
 
 ---
 
-This repository serves as a comprehensive AI Security Assurance reference implementation covering supply-chain validation, static analysis, and adversarial testing.
+# 📬 Contact
+
+**Frederick Baffour**  
+AI Security Assurance Engineer  
+LinkedIn: *[https://www.linkedin.com/in/frederick-baffour]*  
+Email: *[fbaffour@gmail.com]*
+
