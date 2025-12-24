@@ -10,7 +10,7 @@ Within AI Security Assurance, SBOMs increase visibility into:
 - Build information and version lineage  
 - Known vulnerabilities (CVE mapping)
 
-SBOM generation enables traceability, documentation accuracy, and detection of dependency-level supply-chain risks.
+SBOM generation enables traceability, accurate documentation, and detection of dependency-level supply-chain risks.
 
 This approach reflects practices commonly used in enterprise AI security programs and aligns with guidance such as NIST AI RMF, SSDF, and related supply-chain security standards.
 
@@ -88,7 +88,7 @@ The emphasis is on evidence collection and review, not on tool installation or a
 2. **Extract Internal Metadata** from GGUF or safetensors files.  
 3. **Complete Hash Verification** against integrity manifests.  
 4. **Compare Expected File Structure** with actual content.  
-5. **Perform CVE Scanning** using a vulnerability analysis tool (e.g., Grype).
+5. **Perform CVE scanning using a vulnerability analysis tool such as Grype.** using a vulnerability analysis tool (e.g., Grype).
 6. **Map SBOM Components to Model Card** and verify accuracy.  
 7. **Store Only SBOM Templates** (no real model data) in repository.
 
