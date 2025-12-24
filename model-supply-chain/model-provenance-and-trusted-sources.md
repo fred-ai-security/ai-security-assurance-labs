@@ -90,7 +90,7 @@ The downloaded directory is checked against expected components, such as:
 
 ### 4.2 File Size
 File sizes are compared to official listings.  
-A deviation of 1–2% may indicate file corruption or unauthorized modification.
+A deviation beyond expected variance may indicate file corruption or unauthorized modification.
 
 ### 4.3 Hash Verification
 If the provider publishes checksums, file hashes such as SHA-256 are compared to verify integrity.
