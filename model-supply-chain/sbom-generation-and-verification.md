@@ -88,7 +88,7 @@ The emphasis is on evidence collection and review, not on tool installation or a
 2. **Extract Internal Metadata** from GGUF or safetensors files.  
 3. **Complete Hash Verification** against integrity manifests.  
 4. **Compare Expected File Structure** with actual content.  
-5. **Perform CVE scanning using a vulnerability analysis tool such as Grype.** using a vulnerability analysis tool (e.g., Grype).
+5. **Perform CVE scanning** using a vulnerability analysis tool such as Grype.
 6. **Map SBOM Components to Model Card** and verify accuracy.  
 7. **Store Only SBOM Templates** (no real model data) in repository.
 
