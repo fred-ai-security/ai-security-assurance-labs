@@ -34,7 +34,7 @@ This repository demonstrates the full AI assurance pipeline, including:
 - Toxicity, hallucination, and refusal-bypass detection  
 - Realistic adversarial scenarios and mitigations  
 
-### 4. **### 4. AI Risk & Model Safety**
+### 4. AI Risk & Model Safety**
 - Risk classification and criticality tiering  
 - NIST AI RMF alignment (Govern / Map / Measure / Manage)  
 - MITRE ATLAS threat mapping  
