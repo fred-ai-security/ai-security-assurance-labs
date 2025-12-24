@@ -6,6 +6,8 @@
 ## Summary
 An SBOM was generated to identify components and dependencies. The SBOM was then scanned for known vulnerabilities.
 
+This summary provides a high-level view only. Detailed evidence and findings are documented in the files below.
+
 This file is intentionally short. The detailed evidence belongs in:
 - `sbom.cyclonedx.json`
 - `grype-results.json`
