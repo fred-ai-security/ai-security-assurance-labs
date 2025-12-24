@@ -1,4 +1,4 @@
-# AI Model Monitoring & Telemetry (Engineering Edition)
+# LLM Monitoring & Telemetry – Engineering Edition
 
 This module defines the engineering requirements for logging, telemetry, and monitoring of AI systems, including standalone LLMs, RAG pipelines, and agentic systems. Monitoring is essential for detecting unsafe behavior, policy violations, misuse attempts, and anomalies that indicate security or reliability issues.
 
@@ -241,3 +241,4 @@ A production-grade monitoring pipeline should follow:
 
 This module defines an engineering-grade monitoring and telemetry framework aligned with enterprise expectations for AI Security Assurance, Risk Management, and Responsible AI engineering.
 
+This monitoring framework feeds directly into the LLM Incident Response Playbook and Governance approval workflows.
