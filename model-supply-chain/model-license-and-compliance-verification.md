@@ -168,7 +168,7 @@ Key checks include:
 - Verification that dependencies avoid restrictive or incompatible licenses  
 - Consistency between documentation and licensing obligations  
 
-Any mismatch between these elements constitutes a potential compliance failure.
+Any mismatch between these elements constitutes a potential compliance risk.
 
 ---
 
