@@ -7,6 +7,10 @@ A Technical Reference for Model Intake, Evaluation, Red Teaming, and Operational
 
 This handbook defines engineering procedures, controls, and operational workflows for managing large language models (LLMs) in secure environments. It documents processes for model intake, supply-chain verification, static analysis, safety evaluation, risk classification, red teaming, and operational deployment. The objective is to establish a standardized and repeatable approach to handling third-party and internally developed models, ensuring integrity, safety, reliability, and governance alignment.
 
+This handbook provides an engineering-oriented, end-to-end operational view of LLM security controls. 
+Detailed procedures, templates, and examples for each stage are maintained in their respective modules 
+(e.g., `model-supply-chain/`, `static-analysis/`, `red-teaming/`).
+
 ---
 
 ## 2. Model Intake Architecture
@@ -110,7 +114,7 @@ Only synthetic templates are stored in the repository.
 
 Tools used:
 - Syft for file inventory and CycloneDX output  
-- Trivy for CVE scanning  
+- Grype for CVE scanning  
 - GGUF/safetensors metadata extraction utilities  
 
 Required SBOM contents:
