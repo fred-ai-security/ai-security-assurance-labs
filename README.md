@@ -2,9 +2,11 @@
 ### By: Frederick Baffour  
 **AI Security Assurance • LLM Red Teaming • Model Supply-Chain Security**
 
-This repository is a **professional-grade AI Security Assurance portfolio**, showcasing practical, engineering-focused methods for securing, validating, and red-teaming AI models using industry-standard tools and governance frameworks.
+This repository contains practical, engineering-focused AI Security Assurance work. It demonstrates how I evaluate, test, and document AI models using real tools and repeatable workflows, rather than theoretical examples.
 
-It demonstrates **end-to-end AI model assurance** across supply-chain security, behavioral evaluation, and enterprise governance.
+The labs here reflect how I approach AI model risk in real environments: verifying model provenance, validating artifacts, testing model behavior under adversarial conditions, and documenting findings clearly for security and engineering teams.
+
+The goal of this work is to show hands-on AI security evaluation across the model lifecycle, from intake and supply-chain checks through red-teaming, behavioral analysis, and structured reporting.
 
 ---
 
@@ -93,11 +95,11 @@ ai-security-assurance-labs/
 
 ## 👥 **For Recruiters / Non-Technical Reviewers**
 Start with:
-- `risk-and-governance/model-risk-classification.md`
-- `risk-and-governance/model-criticality-tiering.md`
-- `docs/governance-edition-ai-assurance-guide.md`
+- `model-supply-chain/intake-pipeline-overview.md`
+- `docs/full-model-intake-workflow.md`
+- `red-teaming/garak/example-garak-assessment.md`
 
-These files clearly explain my professional approach to AI assurance.
+These files show how AI models are evaluated end-to-end and how findings are documented.
 
 ---
 
