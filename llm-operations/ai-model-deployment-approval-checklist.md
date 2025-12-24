@@ -156,7 +156,7 @@ Deployment controls must align with requirements defined in model-deployment-sec
 - [ ] License evaluation summary  
 - [ ] Safety evaluation summary  
 - [ ] SBOM (if generated)  
-- [ ] Incident history (if re-deployment)  
+- [ ] Incident history and remediation summary (if re-deployment)  
 
 ---
 
