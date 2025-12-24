@@ -1,6 +1,10 @@
 # Static Analysis for AI Model Security
 
-This section documents static analysis methods used to evaluate AI model files and related artifacts before execution or deployment. Static analysis helps identify:
+This section documents static analysis methods used to evaluate AI model files and related artifacts before execution or deployment. 
+
+Static analysis is performed during early intake stages and prior to any model execution or red-teaming activity.
+
+Static analysis helps identify:
 
 - Malware embedded in model weights  
 - Suspicious or malformed file structures  
@@ -25,9 +29,13 @@ Cryptographic hashing used to establish file integrity, verify provenance, and c
 
 ---
 
-## Subdirectories
+## Modules in This Section
 
-- **`yara-rules-example.md`** – Example YARA rule usage for scanning model artifacts.  
-- **`clamav-scan-example.md`** – Example commands and output from a ClamAV scan.  
-- **`hashing-and-integrity.md`** – Demonstration of computing and validating SHA-256 file hashes.
+- **`hashing/`** – SHA-256 hashing and integrity verification workflows.
+- **`clamav/`** – Malware scanning using ClamAV with example commands and outputs.
+- **`yara/`** – Pattern-based detection using YARA rules for suspicious model artifacts.
+- **`sigcheck/`** – Binary signature verification for security tooling and executables.
+
+Note: Only example commands, templates, and synthetic outputs are stored here. 
+No real model artifacts, hashes, or scan logs are committed to this repository.
 
