@@ -1,7 +1,10 @@
 # Promptfoo – Scenario-Based LLM Red Teaming
 
 Promptfoo is used to perform scenario-driven adversarial evaluations against language models.  
-It assesses model behavior under:
+
+Findings from Promptfoo evaluations are used as input to safety evaluation, risk classification, and final approval decisions rather than as standalone pass/fail signals.
+
+Promptfoo assessments focus on model behavior under:
 
 - Jailbreak attempts  
 - Prompt injection  
