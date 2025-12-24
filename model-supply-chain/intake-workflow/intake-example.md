@@ -3,6 +3,8 @@
 This document presents a complete end-to-end model intake workflow used in AI Security Assurance.  
 It outlines a staged process for securely acquiring, validating, and analyzing AI models prior to use.
 
+This example reflects a representative intake workflow and uses synthetic paths and outputs for demonstration purposes.
+
 The workflow includes:
 
 - Secure model acquisition  
@@ -14,7 +16,7 @@ The workflow includes:
 
 ---
 
-## 1. Download the Model (Trusted Source)
+## Step 1: Download the Model (Trusted Source)
 
 Example using HuggingFace CLI:
 
@@ -36,7 +38,7 @@ C:\AI_SECURITY_LABS\stage1_intake
 
 ---
 
-## 2. SHA-256 Hashing (Integrity Verification)
+## Step 2: SHA-256 Hashing (Integrity Verification)
 
 Generate a hash for a single file:
 
@@ -56,7 +58,7 @@ The manifest serves as a baseline integrity record.
 
 ---
 
-## 3. YARA Scan (Pattern-Based Detection)
+## Step 3: YARA Scan (Pattern-Based Detection)
 
 Example command:
 
@@ -68,7 +70,7 @@ Any positive match indicates that the file should be quarantined for further rev
 
 ---
 
-## 4. ClamAV Scan (Malware Signature Detection)
+## Step 4: ClamAV Scan (Malware Signature Detection)
 
 Scan the intake directory recursively:
 
@@ -84,11 +86,11 @@ Known viruses: 10,037,762
 Infected files: 0
 ```
 
-Detection of any infected file ends the intake process.
+Detection of any infected file results in immediate quarantine and suspension of the intake process pending investigation.
 
 ---
 
-## 5. Toolchain Verification (Sigcheck)
+## Step 5: Toolchain Verification (Sigcheck)
 
 Before trusting security tools, check their signatures:
 
@@ -108,7 +110,7 @@ Unsigned or mismatched binaries require re-acquisition from official sources.
 
 ---
 
-## 6. Promote Model to Stage 2 (Verified Storage)
+## Step 6: Promote Model to Stage 2 (Verified Storage)
 
 If all checks pass, the model is moved into the verified stage:
 
@@ -125,7 +127,7 @@ Move-Item "C:\AI_SECURITY_LABS\stage1_intake\model.gguf" `
 
 ---
 
-## 7. Evidence Collection
+## Step 7: Evidence Collection
 
 Recommended evidence includes:
 
@@ -140,7 +142,7 @@ These materials support provenance tracking and audit requirements.
 
 ---
 
-## 8. Transition to Assessment (Red Teaming)
+## Step 8: Transition to Assessment (Red Teaming)
 
 Once verified, the model advances to Stage 3 assessment activities, such as:
 
