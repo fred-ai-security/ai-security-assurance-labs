@@ -5,6 +5,8 @@ This module defines the security controls required to build and operate secure R
 
 This document focuses on engineering design, architectural controls, and security guardrails to protect RAG systems against poisoning, prompt injection, unauthorized data access, and unsafe output generation.
 
+This document complements the RAG Security Hardening Guide, focusing on architectural design rather than implementation-level controls.
+
 ---
 
 # 1. Threat Model for RAG Systems
@@ -87,7 +89,7 @@ Prevent embedding:
 
 # 5. Vector Database Security Controls
 
-Vector stores are one of the **highest-risk RAG components**.
+Vector databases are one of the **highest-risk RAG components**.
 
 ### Required controls:
 - Encryption at rest  
@@ -95,7 +97,7 @@ Vector stores are one of the **highest-risk RAG components**.
 - Strict RBAC (read, write, admin)  
 - Metadata-based access control  
 - Row/tenant isolation  
-- Prevent direct user queries to vector DB  
+- Prevent direct user or application queries to the vector database outside the controlled retrieval service.  
 - Disallow wildcard or broad retrieval  
 - Limit top_k results to prevent flooding  
 
@@ -187,7 +189,9 @@ Monitor:
 - Retrieval of documents with injection patterns  
 - Multi-turn escalation or behavior drift  
 - Data exfiltration patterns  
-- Chunks triggering unsafe outputs  
+- Chunks triggering unsafe outputs
+
+Telemetry generated here feeds directly into the LLM Monitoring & Telemetry (Engineering Edition) and the LLM Incident Response Playbook.
 
 Logs should track:
 - Query  
