@@ -1,13 +1,23 @@
 # AI Model Monitoring & Drift Detection Framework
 ### Ensuring Stable, Reliable, and Safe AI Model Performance Over Time
 
-AI model monitoring and drift detection ensures that models remain reliable, secure, and aligned with intended behavior after deployment. Monitoring covers input changes, output quality, safety risks, and operational anomalies that may indicate drift or model degradation.
+AI model monitoring and drift detection helps ensure that models remain reliable, secure, and aligned with intended behavior after deployment. Monitoring covers input changes, output quality, safety risks, and operational anomalies that may indicate drift or model degradation.
 
 This module aligns with:
 - NIST AI RMF — Govern / Map / Manage
 - ISO/IEC 42001 — AI Monitoring, Controls, and Performance Requirements
 - OWASP ML/LLM Security Top 10 — Model Abuse, Data Drift, and Monitoring
 - MITRE ATLAS — Behavioral Drift, Manipulation, and Abuse Techniques
+
+
+> Learning Context:
+> This framework was developed as part of hands-on learning in AI Security Assurance,
+> with a focus on understanding how monitoring, drift detection, and escalation
+> mechanisms are designed and operationalized in real-world AI systems.
+>
+> The structure reflects industry-aligned practices and reference architectures.
+> It is intended as a learning and reasoning framework rather than a production
+> monitoring implementation.
 
 ---
 
@@ -82,6 +92,8 @@ Examples:
 ---
 
 ## 2. Monitoring Techniques
+
+Tooling and thresholds vary by environment and are intentionally not prescriptive in this framework.
 
 ### Safety and Guardrail Monitoring
 Monitors for:
@@ -208,7 +220,7 @@ Monitors:
 -  
 -  
 
-**Evaluator:** Frederick Baffour
+**Evaluator:** Frederick Baffour (Learning / Lab Context)
 
 ---
 
