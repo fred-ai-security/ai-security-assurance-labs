@@ -7,6 +7,8 @@ A Technical and Security-Focused Framework for Managing AI Models
 
 This handbook defines the security controls, validation steps, and technical requirements for operating large language models (LLMs) within an AI Security Assurance environment. It establishes security standards for model intake, static analysis, vulnerability testing, environment hardening, and threat detection.
 
+This Security Edition focuses on defining required controls, threat models, and security guardrails. Detailed implementation steps, commands, and tooling examples are documented in the corresponding engineering modules (e.g., static-analysis/, red-teaming/, model-monitoring/)
+
 The objective is to maintain a secure and trustworthy AI model ecosystem.
 
 ---
