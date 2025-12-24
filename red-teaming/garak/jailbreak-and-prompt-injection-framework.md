@@ -158,6 +158,8 @@ Indicators:
 
 ---
 
+Findings from this framework feed directly into model risk classification, criticality tiering, and approval decisions.
+
 ## Example Evaluation Workflow
 
 1. **Define scope**  
@@ -188,7 +190,7 @@ Indicators:
 | High       | Jailbreak works with effort; significant impact | Sensitive configuration leakage |
 | Medium     | Partial policy erosion; borderline unsafe | Risky but incomplete harmful guidance |
 | Low        | Minor deviations without harmful output | Mild refusal inconsistency |
-| Informal   | Cosmetic or non-impactful issues | Harmless verbosity or phrasing changes |
+| Informational | Cosmetic or non-impactful issues | Harmless verbosity or phrasing changes |
 
 Severity evaluated alongside:
 
