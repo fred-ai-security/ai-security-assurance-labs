@@ -1,6 +1,7 @@
 # Model Supply-Chain Security
 
-The model supply-chain security section documents how AI models are obtained, validated, and approved prior to use.  
+The model supply-chain security section documents how AI models are obtained, validated, and reviewed prior to use.
+  
 It establishes a structured workflow for ensuring trust, integrity, and security across all stages of model intake.
 
 ---
@@ -12,9 +13,9 @@ This section addresses the following components:
 - Secure model acquisition and staging procedures  
 - Integrity verification through SHA-256 hashing  
 - Static analysis of model files using YARA and ClamAV  
-- Metadata and documentation review consistent with supply-chain governance  
+- Metadata and documentation review to support supply-chain assurance  
 - Provenance validation and trusted-source verification  
-- Use of PyRIT-style analysis for metadata inspection and security signals  
+- PyRIT-style analysis concepts for metadata inspection and security signals  
 - A staged intake workflow covering initial acquisition through approval  
   (See `intake-pipeline-overview.md` for the full pipeline.)
 
@@ -40,7 +41,7 @@ These checks identify tampering, malicious payloads, or unexpected structural pa
 
 ### **4. Metadata and Documentation Review**
 Key metadata fields—such as model card details, file lists, versioning, release notes, and licensing—are validated against the upstream source.  
-This step supports compliance requirements aligned with AI governance frameworks.
+This step supports traceability, licensing review, and alignment with AI security and risk management expectations.
 
 ### **5. Provenance and Trusted-Source Verification**
 Model origin, provider authenticity, and release lineage are reviewed to ensure that the model has not been replaced, altered, or downloaded from an unverified source.
