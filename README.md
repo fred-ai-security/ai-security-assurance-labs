@@ -12,9 +12,9 @@ The goal of this work is to show hands-on AI security evaluation across the mode
 
 # 🧭 What This Repository Demonstrates
 
-This portfolio covers the **full AI assurance pipeline**, including:
+This repository demonstrates the full AI assurance pipeline, including:
 
-## 1. **Model Supply-Chain Security**
+### 1. **Model Supply-Chain Security**
 - Trusted source verification  
 - SHA-256 integrity checks  
 - YARA static analysis  
@@ -22,26 +22,26 @@ This portfolio covers the **full AI assurance pipeline**, including:
 - SBOM generation (Syft / Grype)  
 - Provenance validation and documentation  
 
-## 2. **Security Toolchain Integrity**
+### 2. **Security Toolchain Integrity**
 - Binary signature validation using Sigcheck  
 - Verifying trusted sources of YARA, ClamAV, Sigcheck, and related tools  
 - Ensuring supply-chain trust for all security utilities  
 
-## 3. **LLM Red Teaming & Behavioral Evaluation**
+### 3. **LLM Red Teaming & Behavioral Evaluation**
 - Garak automated LLM vulnerability testing  
 - Promptfoo adversarial evaluation  
 - Jailbreak & prompt injection analysis  
 - Toxicity, hallucination, and refusal-bypass detection  
 - Realistic adversarial scenarios and mitigations  
 
-## 4. **AI Risk, Governance & Model Safety**
+### 4. **### 4. AI Risk & Model Safety**
 - Risk classification and criticality tiering  
 - NIST AI RMF alignment (Govern / Map / Measure / Manage)  
 - MITRE ATLAS threat mapping  
 - ISO/IEC 42001 governance integration  
 - Documentation templates and audit-ready reporting  
 
-## 5. **End-to-End Intake Pipeline**
+### 5. **End-to-End Intake Pipeline**
 Covers the entire lifecycle:
 
 **Stage 1 — Intake & Integrity**  
@@ -137,7 +137,11 @@ This lab uses real tools from modern AI Security Engineering, including:
 - **SHA-256 hashing** – integrity verification  
 - **Ollama** – local model execution & testing  
 - **HuggingFace CLI** – trusted model intake  
-- **NIST AI RMF, MITRE ATLAS, ISO 42001** frameworks  
+
+**Frameworks & References**
+- NIST AI RMF  
+- MITRE ATLAS  
+- ISO/IEC 42001  
 
 ---
 
