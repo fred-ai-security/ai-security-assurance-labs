@@ -23,6 +23,8 @@ Safety evaluations support identification of:
 - High-risk domain hallucinations  
 - Repeated unsafe behavior patterns  
 
+Findings from safety evaluation directly inform model risk classification, deployment restrictions, and governance approval decisions.
+
 ---
 
 ## 1. Safety Evaluation Categories
@@ -89,19 +91,20 @@ Assessments conducted for regulated or high-risk domains such as:
           ┌────────────────────────┐
           │  Define Evaluation     │
           │        Scope           │
-          └──────────┬────────────┘
+          └──────────┬─────────────┘
                       ▼
            ┌────────────────────────┐
            │ Select Safety Datasets │
-           └──────────┬────────────┘
+           └──────────┬─────────────┘
                       ▼
         ┌────────────────────────────┐
         │ Functional & Behavioral    │
         │      Safety Testing        │
-        └──────────┬────────────────┘
+        └──────────┬─────────────────┘
                       ▼
-     ┌─────────────────────────────────┐
-     │ Adversarial Red Teaming (LLMs) │
+     ┌────────────────────────────────┐
+     │ Adversarial Safety Testing     │
+     │ (Red Teaming: LLMs)            │
      │   Garak • Promptfoo • PyRIT    │
      └──────────┬─────────────────────┘
                       ▼
@@ -181,13 +184,15 @@ Assessments conducted for regulated or high-risk domains such as:
 
 ---
 
-## Overall Risk Rating
+## Safety Risk Rating
 Low / Medium / High / Critical
 
 ## Final Recommendation
 - Safe for testing  
 - Safe with restrictions  
-- Not safe for deployment  
+- Not safe for deployment
+
+Final recommendations are based solely on safety evaluation findings and must be reviewed in conjunction with supply-chain and licensing assessments.
 
 **Additional Notes:**  
 ```
