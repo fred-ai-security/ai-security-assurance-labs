@@ -1,7 +1,7 @@
 # AI Model Risk Classification and Criticality Assessment  
 ### Governance-Aligned Framework for AI Supply-Chain Security
 
-Model risk classification evaluates the safety, reliability, and potential impact of an AI model.  
+Model risk classification evaluates the safety, reliability, and potential impact of an AI model in its intended context. 
 It determines how the model behaves under various conditions, the likelihood and severity of harm, and the governance controls required before use.
 
 This module aligns with:
