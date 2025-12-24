@@ -18,7 +18,7 @@ Cryptographic hashing provides a reliable method to detect:
 A SHA-256 hash serves as a unique fingerprint for each artifact.  
 If a file’s hash changes, the file itself has changed.
 
-Hash verification is typically performed during:
+Hash verification is typically performed at multiple points, including:
 
 - Stage 1 — Model Intake  
 - Stage 2 — Pre-execution validation  
