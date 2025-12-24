@@ -23,7 +23,7 @@ Initial integrity is validated or the model is rejected and quarantined.
   - Inspect metadata fields  
   - Validate file hashes and signatures (when provided)  
   - Identify suspicious, missing, or inconsistent metadata  
-- Confirm authenticity of the source repository or publisher.
+- Confirm authenticity of the source repository and publisher.
 - Validate version history and release lineage.
 
 **Focus:**  
