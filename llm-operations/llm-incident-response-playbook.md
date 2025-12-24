@@ -92,8 +92,8 @@ Actions:
 - Classify preliminary severity level  
 
 Deliverables:
-- Incident ticket created  
-- Evidence folder initiated  
+- Incident ticket created (SOC, Security, or AI Governance system)
+- Evidence folder initiated 
 
 ---
 
@@ -210,15 +210,15 @@ Deliverable:
 ## Stage 6 — Recovery
 
 Actions:
-
 - Restore safe model behavior  
 - Validate with Garak and Promptfoo  
 - Test refusal patterns and safety guardrails  
 - Resume RAG ingestion (if safe)  
 - Re-enable tools with restrictions  
+- Roll back to previously approved model version (if applicable)
 
 Deliverable:
-- Recovery validation report  
+- Recovery validation report
 
 ---
 
