@@ -12,13 +12,7 @@ Within AI Security Assurance, SBOMs increase visibility into:
 
 SBOM generation enables traceability, documentation accuracy, and detection of dependency-level supply-chain risks.
 
-This module aligns with:
-
-- NIST AI RMF — Govern / Map / Measure  
-- NIST SP 800-218 (SSDF)  
-- EO 14028 SBOM Requirements  
-- ISO/IEC 42001  
-- MITRE ATLAS Supply-Chain TTPs
+This approach reflects practices commonly used in enterprise AI security programs and aligns with guidance such as NIST AI RMF, SSDF, and related supply-chain security standards.
 
 ---
 
@@ -78,57 +72,13 @@ A complete SBOM contains:
 
 ---
 
-## 3. Tools for SBOM Generation
+## 3. Tools Used for SBOM Generation and Review
 
-AI models differ from traditional executables, so multiple tools are used to capture a complete view.
+AI model artifacts differ from traditional software packages, so SBOM generation focuses on file inventory, embedded components, and metadata rather than executable behavior.
 
-### **Syft (Anchore)** — File-Level SBOM Generation
-Identifies:
+Tools such as Syft are used to generate a file-level SBOM, capturing artifacts, libraries, and packaging details. Vulnerability analysis tools (e.g., Grype) are then used to assess discovered components for known issues.
 
-- File inventory  
-- Embedded libraries  
-- Build metadata  
-- Python/Conda package layers  
-
-**Install (Windows):**
-```
-choco install syft
-```
-
-**Generate JSON SBOM:**
-```
-syft C:\AI_SECURITY_LABS\stage1_intake -o json > sbom.json
-```
-
-**Generate CycloneDX SBOM:**
-```
-syft C:\AI_SECURITY_LABS\stage1_intake -o cyclonedx-json > sbom-cdx.json
-```
-
----
-
-### **GGUF / Safetensors Embedded Metadata**
-
-**GGUF:**
-```
-gguf-tools inspect model.gguf > gguf_metadata.txt
-```
-
-**Safetensors:**
-```
-python - << EOF
-import safetensors
-print("Metadata extraction placeholder")
-EOF
-```
-
----
-
-### **Trivy — Vulnerability Scanning**
-
-```
-trivy fs C:\AI_SECURITY_LABS\stage1_intake > vulnerability_report.txt
-```
+The emphasis is on evidence collection and review, not on tool installation or automation.
 
 ---
 
@@ -138,7 +88,7 @@ trivy fs C:\AI_SECURITY_LABS\stage1_intake > vulnerability_report.txt
 2. **Extract Internal Metadata** from GGUF or safetensors files.  
 3. **Complete Hash Verification** against integrity manifests.  
 4. **Compare Expected File Structure** with actual content.  
-5. **Perform CVE Scanning** using Trivy.  
+5. **Perform CVE Scanning** using a vulnerability analysis tool (e.g., Grype).
 6. **Map SBOM Components to Model Card** and verify accuracy.  
 7. **Store Only SBOM Templates** (no real model data) in repository.
 
@@ -218,4 +168,5 @@ ai-security-assurance-labs/
 
 ---
 
-SBOM generation and verification provide a governance-aligned mechanism for documenting model contents, identifying potential risks, and ensuring transparency across the AI supply-chain.
+SBOM generation and verification provide a practical mechanism for documenting model contents, identifying supply-chain risks, and improving transparency during AI model intake and evaluation.
+
