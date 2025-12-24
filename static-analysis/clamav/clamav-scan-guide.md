@@ -7,6 +7,8 @@ Although traditionally an antivirus engine, ClamAV is increasingly applied in AI
 
 ## Importance of ClamAV in AI Model Security
 
+ClamAV is not used to assess model behavior, but to detect known malicious patterns embedded within model artifacts.
+
 Model files are not executable binaries, yet they may still contain:
 
 - Embedded malicious payloads  
@@ -71,6 +73,8 @@ Data scanned: 144.23 MB
 Indicate that no known malware signatures were detected and the artifacts may proceed to the next stage of intake.
 
 ### Detection Events  
+Any detection event halts the intake pipeline until remediation is completed.
+
 If ClamAV flags any artifact as infected:
 
 - The file should be quarantined  
