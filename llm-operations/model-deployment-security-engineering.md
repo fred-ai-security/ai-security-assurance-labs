@@ -2,6 +2,8 @@
 
 This module defines engineering controls required to securely deploy AI models in production or controlled environments. It focuses on runtime isolation, container hardening, network boundaries, secrets management, and security controls that prevent unauthorized access, misuse, or exfiltration.
 
+This module applies after model approval and prior to production exposure, focusing exclusively on deployment-time security controls.
+
 Deployment security is a core responsibility in AI Security Assurance, tying together supply-chain controls, runtime protections, and monitoring.
 
 ---
@@ -43,7 +45,7 @@ When using GPU:
 - One model per process  
 - Prevent inter-process memory access  
 - Memory zeroization on unload  
-- Disable shell access in production containers  
+- Disable interactive shell access in production containers  
 
 ---
 
@@ -219,3 +221,5 @@ A secure deployment pipeline must include:
 # Purpose
 
 This module defines a complete engineering security framework for deploying AI models safely and defensively. It ensures runtime isolation, boundary protection, model integrity, and strict observability, meeting enterprise security and AI governance standards.
+
+Baseline runtime hardening requirements are defined in model-execution-runtime-security.md.
