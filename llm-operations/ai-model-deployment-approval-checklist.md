@@ -3,6 +3,9 @@
 This checklist provides a structured, engineering-focused set of requirements that must be met before any AI model can be deployed into testing, staging, or production environments.  
 It ensures the model has passed all required security, robustness, and governance controls.
 
+This checklist is executed after governance approval and before any production deployment. 
+It validates that required engineering, security, and monitoring controls are in place prior to runtime exposure.
+
 ---
 
 # 1. Model Information
@@ -127,11 +130,13 @@ It ensures the model has passed all required security, robustness, and governanc
 
 ### 8.3 Rate Limiting & Abuse Prevention
 - [ ] Rate limits configured  
-- [ ] Abuse detection rules enabled  
+- [ ] Abuse detection rules enabled
+
+Deployment controls must align with requirements defined in model-deployment-security-engineering.md.
 
 ---
 
-# 9. Final Approval Section
+# 9. Final Deployment Authorization
 
 | Role | Name | Approval | Date |
 |------|------|----------|------|
