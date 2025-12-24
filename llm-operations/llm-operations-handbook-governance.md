@@ -21,6 +21,8 @@ LLM governance combines technical assessments with oversight functions:
 
 Governance ensures that every model follows a structured review process and meets organizational safety, privacy, and legal requirements.
 
+Final deployment authority may rest with a centralized AI governance or risk committee depending on organizational structure.
+
 ---
 
 ## 3. Required Documentation for Every Model
@@ -66,7 +68,7 @@ Templates are stored in the repository. Actual evaluation data is stored offline
 ### Required Outputs
 - Syft-generated SBOM  
 - CycloneDX compliance output  
-- Trivy CVE scanning results  
+- Grype CVE scanning results  
 
 ### Governance Requirements
 - Dependency lists must be archived  
