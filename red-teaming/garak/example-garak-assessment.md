@@ -18,7 +18,7 @@ The assessment examined model behavior under adversarial and stress-testing prom
 
 ---
 
-# Key Findings
+## Key Findings
 
 ## 1. Jailbreak Susceptibility — Medium Risk
 
