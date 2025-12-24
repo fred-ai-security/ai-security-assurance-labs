@@ -258,7 +258,7 @@ This template is intended for local assessment and does not contain real model o
 
 ## 4. Risk Assessment
 
-**Severity:** Critical / High / Medium / Low / Informal  
+**Severity:** Critical / High / Medium / Low / Informational  
 **Likelihood:** High / Medium / Low  
 **Impact Area:** Safety / Privacy / Legal / Reputation / Operational  
 
