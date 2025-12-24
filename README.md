@@ -19,7 +19,7 @@ This portfolio covers the **full AI assurance pipeline**, including:
 - SHA-256 integrity checks  
 - YARA static analysis  
 - ClamAV malware scanning  
-- SBOM generation (Syft / Trivy)  
+- SBOM generation (Syft / Grype)  
 - Provenance validation and documentation  
 
 ## 2. **Security Toolchain Integrity**
@@ -133,7 +133,7 @@ This lab uses real tools from modern AI Security Engineering, including:
 - **YARA** – pattern-based static analysis  
 - **ClamAV** – malware signature scanning  
 - **Sigcheck** – binary signature verification  
-- **Syft / Trivy** – SBOM + CVE scanning  
+- **Syft / Grype** – SBOM + CVE scanning  
 - **SHA-256 hashing** – integrity verification  
 - **Ollama** – local model execution & testing  
 - **HuggingFace CLI** – trusted model intake  
