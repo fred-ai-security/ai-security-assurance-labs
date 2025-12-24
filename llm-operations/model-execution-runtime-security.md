@@ -206,7 +206,9 @@ Trigger alerts for:
 - Guardrail bypass  
 - Potential exfiltration patterns  
 - RAG injection attempts  
-- Sudden prompt distribution changes  
+- Sudden prompt distribution changes
+
+Runtime telemetry produced here feeds directly into the Monitoring & Telemetry (Engineering Edition) and LLM Incident Response Playbook.
 
 ---
 
@@ -236,3 +238,8 @@ Recommended secure deployment patterns:
 # Purpose
 
 This module defines engineering-grade safeguards required to securely run AI models in enterprise, research, or production environments. It establishes isolation boundaries, network controls, logging policies, and runtime monitoring practices consistent with modern AI security assurance.
+
+ai-security-assurance-labs/
+└── llm-operations/
+      └── model-execution-runtime-security.md
+
