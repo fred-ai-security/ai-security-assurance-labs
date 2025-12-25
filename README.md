@@ -47,7 +47,7 @@ AI Security Assurance lifecycle.
 
 # 🧭 What This Repository Demonstrates
 
-This repository demonstrates an end-to-end AI Security Assurance lifecycle used to assess, validate, and govern AI systems.
+This repository demonstrates an end-to-end AI Security Assurance lifecycle for assessing, validating, and governing AI systems.
 
 ### 1. **Model Supply-Chain Security**
 - Trusted source verification  
