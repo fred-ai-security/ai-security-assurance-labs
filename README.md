@@ -1,6 +1,8 @@
-# 🔐 AI Security Assurance Labs  
+# 🔐 AI Security Assurance Labs — Engineering Portfolio & Research Notebook
 ### By: Frederick Baffour  
 **AI Security Assurance • LLM Red Teaming • Model Supply-Chain Security**
+
+> A hands-on portfolio demonstrating AI Security Assurance practices across the model lifecycle.
 
 This repository contains practical, engineering-focused AI Security Assurance work. It demonstrates how I evaluate, test, and document AI models using real tools and repeatable workflows, rather than theoretical examples.
 
@@ -14,7 +16,9 @@ The goal of this work is to show hands-on AI Security Assurance evaluation acros
 
 This repository is intended for security engineers, AI engineers, and hiring managers evaluating applied AI Security Assurance capabilities in real-world environments.
 
-While the artifacts reflect real-world patterns, they are intentionally scoped for demonstration and learning purposes.
+While the artifacts reflect real-world patterns, they are intentionally scoped for learning and demonstration purposes rather than production deployment.
+
+Each section reflects common enterprise security workflows rather than hypothetical or academic examples.
 
 Design choices emphasize clarity, reproducibility, and auditability over production optimization.
 
