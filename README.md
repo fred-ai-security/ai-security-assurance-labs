@@ -37,13 +37,13 @@ Readers can explore in any order, but a recommended path is:
    → `model-governance/`
 
 Each section is designed to stand alone while contributing to an end-to-end
-AI Security Assurance lifecycle.
+AI security lifecycle.
 
 ---
 
 # 🧭 What This Repository Demonstrates
 
-This repository demonstrates an end-to-end AI Security Assurance lifecycle used to assess, validate, and govern AI systems.
+This repository demonstrates an end-to-end AI security assurance lifecycle used to assess, validate, and govern AI systems.
 
 ### 1. **Model Supply-Chain Security**
 - Trusted source verification  
