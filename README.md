@@ -6,19 +6,19 @@ This repository contains practical, engineering-focused AI Security Assurance wo
 
 The labs here reflect how I approach AI model risk in real environments: verifying model provenance, validating artifacts, testing model behavior under adversarial conditions, and documenting findings clearly for security and engineering teams.
 
-The goal of this work is to show hands-on AI security evaluation across the model lifecycle, from intake and supply-chain checks through red-teaming, behavioral analysis, and structured reporting.
+The goal of this work is to show hands-on AI Security Assurance evaluation across the model lifecycle, from intake and supply-chain checks through red-teaming, behavioral analysis, and structured reporting.
 
 ---
 
 ## 🧠 How to Read This Repository
 
-This repository is intended for security engineers, AI engineers, and hiring managers evaluating applied AI security capabilities in real-world environments.
+This repository is intended for security engineers, AI engineers, and hiring managers evaluating applied AI Security Assurance capabilities in real-world environments.
 
 While the artifacts reflect real-world patterns, they are intentionally scoped for demonstration and learning purposes.
 
 Design choices emphasize clarity, reproducibility, and auditability over production optimization.
 
-This repository is structured to mirror how AI security work is performed in practice.
+This repository is structured to mirror how AI Security Assurance work is performed in practice.
 
 Each folder represents a distinct security domain aligned to real enterprise security functions.
 
@@ -187,7 +187,7 @@ This repository demonstrates my ability to:
 - Document processes in an **audit-ready format**  
 - Translate technical findings into governance controls  
 
-It reflects how I would perform AI security work in a production environment.
+It reflects how I would perform AI Security Assurance work in a production environment.
 
 ---
 
