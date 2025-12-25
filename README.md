@@ -12,11 +12,15 @@ The goal of this work is to show hands-on AI security evaluation across the mode
 
 ## 🧠 How to Read This Repository
 
-This repository is intended for security engineers, AI engineers, and hiring managers evaluating applied AI security skills.
+This repository is intended for security engineers, AI engineers, and hiring managers evaluating applied AI security capabilities in real-world environments.
+
+While the artifacts reflect real-world patterns, they are intentionally scoped for demonstration and learning purposes.
+
+Design choices emphasize clarity, reproducibility, and auditability over production optimization.
+
 This repository is structured to mirror how AI security work is performed in practice.
 
-Each folder represents a distinct security domain, and documents are written as
-engineering artifacts rather than tutorials.
+Each folder represents a distinct security domain aligned to real enterprise security functions.
 
 Readers can explore in any order, but a recommended path is:
 
@@ -33,13 +37,13 @@ Readers can explore in any order, but a recommended path is:
    → `model-governance/`
 
 Each section is designed to stand alone while contributing to an end-to-end
-AI security assurance lifecycle.
+AI Security Assurance lifecycle.
 
 ---
 
 # 🧭 What This Repository Demonstrates
 
-This repository demonstrates the full AI Security Assurance pipeline, including:
+This repository demonstrates an end-to-end AI Security Assurance lifecycle used to assess, validate, and govern AI systems.
 
 ### 1. **Model Supply-Chain Security**
 - Trusted source verification  
@@ -61,7 +65,7 @@ This repository demonstrates the full AI Security Assurance pipeline, including:
 - Toxicity, hallucination, and refusal-bypass detection  
 - Realistic adversarial scenarios and mitigations  
 
-### 4. AI Risk & Model Safety**
+### 4. AI Risk & Model Safety
 - Risk classification and criticality tiering  
 - NIST AI RMF alignment (Govern / Map / Measure / Manage)  
 - MITRE ATLAS threat mapping  
@@ -153,7 +157,7 @@ This shows my full AI Security Assurance methodology from intake → analysis �
 
 # 🛠️ Tools & Technologies Demonstrated
 
-This lab uses real tools from modern AI Security Engineering, including:
+This lab uses real tools from modern AI Security Assurance engineering, including:
 
 - **Garak** – automated LLM vulnerability testing  
 - **Promptfoo** – structured adversarial evaluations  
