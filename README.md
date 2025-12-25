@@ -37,7 +37,7 @@ Readers can explore in any order, but a recommended path is:
    → `model-governance/`
 
 Each section is designed to stand alone while contributing to an end-to-end
-AI security lifecycle.
+AI Security Assurance lifecycle.
 
 ---
 
