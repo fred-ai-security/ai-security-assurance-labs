@@ -1,6 +1,13 @@
 # Model Versioning, Lineage, and Change-Tracking Framework
 
+> Learning Context:
+> This document captures how model versioning, lineage, and change tracking are handled
+> as part of an AI security and governance workflow. It reflects industry-aligned practices
+> used to ensure traceability, auditability, and controlled evolution of AI systems.
+
 This module defines a structured approach for documenting model lineage, tracking changes across versions, and maintaining evidence of model evolution. Versioning and lineage documentation support secure model lifecycle management by enabling clear visibility into updates, changes, and provenance across all stages of evaluation and deployment.
+
+This framework represents a reference architecture and learning artifact. Implementation details may vary depending on organizational maturity, regulatory requirements, and risk tolerance.
 
 This framework aligns with:
 - NIST AI RMF — Govern / Map
@@ -19,6 +26,7 @@ The purpose of model versioning and lineage documentation is to maintain:
 Versioning is essential for secure AI operations, reproducibility, and maintaining trust in deployed systems.
 
 ## 1. Elements of a Model Version Record
+**Category:** Governance / Traceability
 
 ### Core Metadata
 - Model name  
@@ -44,6 +52,7 @@ Versioning is essential for secure AI operations, reproducibility, and maintaini
 - New risks introduced  
 
 ## 2. Model Lineage Tracking
+**Category:** Governance / Lineage
 
 Model lineage documents the relationship between versions and the path from base models to any derivatives.
 
@@ -61,6 +70,7 @@ Model lineage documents the relationship between versions and the path from base
 - Does the lineage change the risk classification?  
 
 ## 3. Version Comparison Checklist
+**Category:** Detection / Integrity Validation
 
 ### Artifact Comparison
 - File hashes  
@@ -82,6 +92,7 @@ Model lineage documents the relationship between versions and the path from base
 - Performance changes in high-risk domains  
 
 ## 4. Version Integrity Verification Workflow
+**Category:** Integrity / Security Control
 
 1. Obtain hashes and metadata from the official source  
 2. Hash downloaded artifacts  
@@ -92,6 +103,7 @@ Model lineage documents the relationship between versions and the path from base
 7. Document findings in a version record  
 
 ## 5. Version Drift Detection
+**Category:** Governance / Audit Evidence
 
 Version drift refers to unexpected or unauthorized changes to a model file or configuration during storage or deployment.
 
@@ -101,6 +113,8 @@ Version drift refers to unexpected or unauthorized changes to a model file or co
 - Metadata inconsistencies  
 - Size changes  
 - Undocumented config variations  
+
+Detected drift events should be escalated according to the LLM Incident Response Playbook.
 
 ### Drift Detection Procedures
 - Re-hash files periodically  
