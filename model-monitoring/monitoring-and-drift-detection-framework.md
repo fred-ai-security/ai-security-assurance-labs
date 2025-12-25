@@ -1,6 +1,8 @@
 # AI Model Monitoring & Drift Detection Framework
 ### Ensuring Stable, Reliable, and Safe AI Model Performance Over Time
 
+This framework supports AI Security Assurance by detecting behavioral, safety, and operational drift across deployed models.
+
 AI model monitoring and drift detection helps ensure that models remain reliable, secure, and aligned with intended behavior after deployment. Monitoring covers input changes, output quality, safety risks, and operational anomalies that may indicate drift or model degradation.
 
 This module aligns with:
