@@ -10,9 +10,36 @@ The goal of this work is to show hands-on AI security evaluation across the mode
 
 ---
 
+## 🧠 How to Read This Repository
+
+This repository is intended for security engineers, AI engineers, and hiring managers evaluating applied AI security skills.
+This repository is structured to mirror how AI security work is performed in practice.
+
+Each folder represents a distinct security domain, and documents are written as
+engineering artifacts rather than tutorials.
+
+Readers can explore in any order, but a recommended path is:
+
+1. **Model Intake & Supply Chain Security**
+   → `model-supply-chain/`
+
+2. **Model Behavior & Red Teaming**
+   → `red-teaming/`
+
+3. **Monitoring, Drift, and Runtime Risk**
+   → `model-monitoring/`
+
+4. **Governance, Versioning, and Auditability**
+   → `model-governance/`
+
+Each section is designed to stand alone while contributing to an end-to-end
+AI security assurance lifecycle.
+
+---
+
 # 🧭 What This Repository Demonstrates
 
-This repository demonstrates the full AI assurance pipeline, including:
+This repository demonstrates the full AI Security Assurance pipeline, including:
 
 ### 1. **Model Supply-Chain Security**
 - Trusted source verification  
@@ -49,7 +76,7 @@ Covers the entire lifecycle:
 → **Stage 3 — Red Teaming & Behavior Testing**  
 → **Stage 4 — Reporting, Risk, & Governance**
 
-This end-to-end structure mirrors real enterprise AI assurance workflows.
+This end-to-end structure mirrors real enterprise AI Security Assurance workflows.
 
 ---
 
@@ -120,7 +147,7 @@ Review:
 - `red-teaming/model-safety-evaluation-framework.md`
 - `risk-and-governance/model-risk-classification.md`
 
-This shows my full AI assurance methodology from intake → analysis → governance.
+This shows my full AI Security Assurance methodology from intake → analysis → governance.
 
 ---
 
@@ -166,3 +193,7 @@ It reflects how I would perform AI security work in a production environment.
 AI Security Assurance Engineer  
 LinkedIn: https://www.linkedin.com/in/frederick-baffour  
 Email: fbaffour@gmail.com
+
+_Last updated: 2025_
+
+> Note: This repository is a personal learning and demonstration environment and does not represent production systems or proprietary implementations.
