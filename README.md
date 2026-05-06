@@ -212,11 +212,11 @@ It reflects how I perform AI Security Assurance work in operational environments
 
 # 📬 Contact
 
-**Frederick Baffour**
-AI Security Assurance Engineer
-LinkedIn: https://www.linkedin.com/in/frederick-baffour
-GitHub: https://github.com/fred-ai-security
-Email: fbaffour@gmail.com
+**Frederick Baffour**  
+AI Security Assurance Engineer  
+LinkedIn: [linkedin.com/in/frederick-baffour](https://www.linkedin.com/in/frederick-baffour)  
+GitHub: [github.com/fred-ai-security](https://github.com/fred-ai-security)  
+Email: fbaffour@gmail.com  
 
 *Last updated: 2026*
 
