@@ -1,32 +1,18 @@
 # YARA Scanning for AI Model Artifacts
 
-This document explains how **YARA** can be used to scan AI model–related files for suspicious patterns as part of an AI Security Assurance workflow.
+YARA is used to scan AI model files for suspicious patterns as part of the AI Security Assurance intake workflow. While AI models such as `.gguf` or `.safetensors` are not traditional executables, they may contain embedded malicious strings, obfuscated payloads, encoded commands, suspicious configuration fragments, or indicators of tampering.
 
-While AI models (such as `.gguf` or `.safetensors`) are not traditional executables, attackers can still embed:
-
-- Malicious or phishing strings  
-- Obfuscated payloads  
-- Encoded commands  
-- Suspicious configuration fragments  
-- Indicators of tampering  
-
-YARA helps detect these patterns early in the model intake process.
+Framework alignment follows the mappings defined in `../README.md` and `model-supply-chain/model-integrity-hashing.md`.
 
 ---
 
-## Where YARA Fits in the Model Supply Chain
+## Position in the Assessment Lifecycle
 
-YARA is most effective in **Stage 1 – Model Intake**, during initial validation of newly downloaded model artifacts stored in a controlled directory such as:
-
-```
-C:\AI_SECURITY_LABS\stage1_intake
-```
-
-Files that trigger YARA rules should be quarantined before progressing in the intake pipeline.
+YARA is most effective during **Stage 1 — Model Intake**, scanning newly downloaded artifacts in the controlled intake directory before any further processing. Files that trigger YARA rules are quarantined before progressing in the intake pipeline.
 
 ---
 
-## Example YARA Rule (Suspicious Strings)
+## Example YARA Rule
 
 ```yara
 rule SuspiciousModelStrings
@@ -34,7 +20,7 @@ rule SuspiciousModelStrings
     strings:
         $eval = "eval(" nocase
         $ps   = "powershell" nocase
-        $enc  = /[A-Za-z0-9\/\+]{40,}/   // high-entropy string
+        $enc  = /[A-Za-z0-9\/\+]{40,}/   // high-entropy string pattern
 
     condition:
         any of ($eval, $ps, $enc)
@@ -43,50 +29,45 @@ rule SuspiciousModelStrings
 
 ---
 
-## Example YARA Scan Command
+## Scan Command
 
+```bash
+yara SuspiciousModelStrings.yar ~/ai-security-labs/stage1_intake/
 ```
-yara64.exe SuspiciousModelStrings.yar "C:\AI_SECURITY_LABS\stage1_intake"
-```
-
-This command loads the YARA rule file and scans all files in the specified intake directory.
 
 ---
 
-## Example Output (Realistic)
+## Example Output (Synthetic)
 
 ```
-SuspiciousModelStrings  C:\AI_SECURITY_LABS\stage1_intake\model.bin
-SuspiciousModelStrings  C:\AI_SECURITY_LABS\stage1_intake\config.json
+SuspiciousModelStrings  /home/user/ai-security-labs/stage1_intake/model.bin
+SuspiciousModelStrings  /home/user/ai-security-labs/stage1_intake/config.json
 ```
 
 Each line indicates a rule match on the corresponding file.
 
 ---
 
-## Interpreting the Results
+## Result Interpretation
 
-### ✔ No Matches  
-The files passed the YARA scan and may progress to subsequent static analysis steps such as ClamAV scanning and SHA-256 integrity verification.
+**No matches** — files passed the YARA scan and may proceed to ClamAV scanning and SHA-256 integrity verification.
 
-### ⚠ Matches Found  
-Files with YARA matches should be considered suspicious:
+**Matches found** — files are considered suspicious:
 
-- Quarantine the file  
-- Compare file hashes with trusted provider values  
-- Investigate which pattern triggered  
-- Re-download from an official source if needed  
+- Quarantine the file
+- Compare hashes against trusted provider values
+- Investigate which pattern triggered the rule
+- Re-download from an official source if needed
 
 ---
 
-## Importance in AI Security Assurance
+## Role in Layered Static Analysis
 
-Integrating YARA scanning into AI model workflows provides:
+YARA is used alongside ClamAV, SHA-256 hashing, and toolchain binary verification. Each tool contributes a distinct detection capability:
 
-- Strong static analysis during early intake  
-- Detection of embedded suspicious content  
-- Evidence-based supply-chain validation  
-- Enhanced protection against tampered or malicious artifacts  
-
-YARA serves as a foundational component in a layered AI Security Assurance strategy.
-
+| Tool | Detection Type |
+|---|---|
+| YARA | Pattern-based — suspicious strings, structural indicators |
+| ClamAV | Signature-based — known malware patterns |
+| SHA-256 | Integrity-based — file tampering and modification detection |
+| Toolchain verification | Trust-based — authenticity of assessment tools |
