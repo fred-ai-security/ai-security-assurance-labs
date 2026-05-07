@@ -14,7 +14,7 @@ The focus is practical AI assurance engineering: adversarial testing, RAG securi
 
 # Development Methodology
 
-I use AI-assisted development tools as part of my engineering workflow for prototyping, scripting, documentation acceleration, and iterative refinement. 
+AI-assisted workflows are incorporated as part of the engineering process for prototyping, scripting, and documentation acceleration.
 
 All architectural decisions, testing methodology, framework mappings, execution, troubleshooting, validation, operational tuning, and final implementation decisions are my own.
 
@@ -82,9 +82,9 @@ All frameworks are public standards. No proprietary methodologies belonging to o
 
 # Lab Environment
 
-Assessment work documented here was executed in a controlled local lab environment. Representative models and components used across lifecycle stages include Mistral 7B, Llama 3.1 8B Instruct, GPT-OSS 20B, and nomic-embed-text, hosted via Ollama on a local Ubuntu / WSL2 environment with an NVIDIA RTX 4050 GPU. Model selection across stages was driven by assessment objective, hardware constraints, and evaluation architecture requirements.
+Assessment work documented here was executed in a controlled local lab environment. Models used across lifecycle stages include `mistral:v0.3` (red team target), `llama3.1:8b-instruct-q4_K_M` (LLM judge and agent brain), and `nomic-embed-text:v1.5` (embeddings), hosted via Ollama on a local Ubuntu / WSL2 environment with an NVIDIA RTX 4050 GPU.
 
-I use local execution workflows throughout the lifecycle to maintain control over assessment data, prompts, findings, and model interactions during testing.
+Model selection across stages was driven by assessment objective, hardware constraints, and evaluation architecture requirements. Target and judge models are executed in isolated sequential calls to operate within a 6GB VRAM envelope — a deliberate architectural decision to preserve evaluation independence and maintain local chain-of-custody throughout testing.
 
 ---
 
