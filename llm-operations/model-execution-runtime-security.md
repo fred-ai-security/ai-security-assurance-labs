@@ -1,245 +1,165 @@
-# Model Execution Runtime Security (Engineering Edition)
-### Secure Execution Controls for Running and Hosting AI Models
+# Model Execution Runtime Security
 
-This module describes engineering controls used to secure the runtime environment where AI models execute. A secure runtime ensures that models cannot access unauthorized resources, leak data, or be manipulated by untrusted users or processes.
+This document defines engineering controls for securing the runtime environment where AI models execute. A secure runtime ensures models cannot access unauthorized resources, leak data, or be manipulated by untrusted users or processes.
 
-It focuses on containerization, sandboxing, isolation boundaries, resource governance, logging, model-memory protections, and safe deployment practices for LLMs.
+Focus areas: containerization, sandboxing, isolation boundaries, resource governance, logging, memory protections, and safe execution practices for LLMs.
 
----
-
-# 1. Runtime Threat Model
-
-Model execution introduces risks such as:
-
-- Unauthorized file system access  
-- Data leakage through logs, prompts, or outputs  
-- Uncontrolled outbound network access  
-- Abuse of function-calling or tool plugins  
-- Memory scraping or model exfiltration  
-- Adversarial prompts altering runtime configuration  
-- Prompt-based resource exhaustion  
-- Process-level compromise through unsafe libraries  
-
-A secure runtime must restrict the model’s environment and available actions.
+Framework alignment follows the mappings defined in `llm-red-teaming-overview.md` and `model-deployment-security-engineering.md`.
 
 ---
 
-# 2. Containerization & Isolation Requirements
+## 1. Runtime Threat Model
 
-Models should run inside **isolated, minimal containers** with:
+Model execution introduces the following risks:
 
-- No outbound internet access  
-- No inbound access except API endpoint  
-- Linux seccomp profiles  
-- AppArmor or SELinux enforcement  
-- Non-root users  
-- Read-only file system where possible  
-- CPU/Memory quotas  
-
-Examples:
-
-- Docker with seccomp + AppArmor  
-- Kubernetes with strict pod security policies  
-- Firecracker microVMs  
-
-Isolation prevents models from escaping sandbox boundaries.
+- Unauthorized file system access
+- Data leakage through logs, prompts, or outputs
+- Uncontrolled outbound network access
+- Abuse of function-calling or tool plugins
+- Memory scraping or model exfiltration
+- Adversarial prompts altering runtime configuration
+- Prompt-based resource exhaustion
+- Process-level compromise through unsafe libraries
 
 ---
 
-# 3. Network Access Controls
+## 2. Containerization and Isolation Requirements
 
-Network rules must follow a default-deny posture:
+Models run inside isolated, minimal containers with:
 
-### Outbound traffic:
-- Block completely unless explicitly required  
-- Disallow DNS  
-- No access to cloud metadata endpoints  
-- Prohibit reaching internal networks  
+- No outbound internet access
+- No inbound access except the API endpoint
+- Linux seccomp profiles
+- AppArmor or SELinux enforcement
+- Non-root users
+- Read-only filesystem where possible
+- CPU and memory quotas
 
-### Inbound traffic:
-- Only allow traffic to the model inference API  
-- Block SSH, RDP, SMB, and administrative ports  
-
-### Logging:
-Record all blocked attempts.
+Deployment patterns include Docker with seccomp and AppArmor, Kubernetes with strict pod security policies, and Firecracker microVMs.
 
 ---
 
-# 4. File-System Access Restrictions
+## 3. Network Access Controls
 
-Model runtime should not have general read/write access.
+Network rules follow a default-deny posture.
 
-### Allow:
-- Model files (read-only)  
-- Temporary inference directories  
-- Logging directories with write-only permissions  
+**Outbound:** Block completely unless explicitly required. Disallow DNS. No access to cloud metadata endpoints. No internal network access.
 
-### Block:
-- OS-level paths  
-- User home directories  
-- Keys, credentials, environment variables  
-- Executable directories  
+**Inbound:** Only allow traffic to the model inference API. Block SSH, RDP, SMB, and administrative ports.
 
-Implement:
-- Chroot jails  
-- Volume mounting with read-only flags  
+Record all blocked connection attempts.
 
 ---
 
-# 5. Environment Variable Hardening
+## 4. File System Access Restrictions
 
-Ensure no sensitive variables appear in:
+**Allow:**
+- Model files (read-only)
+- Temporary inference directories
+- Logging directories (write-only)
 
-- Prompts  
-- Logs  
-- Crash dumps  
-- Model outputs  
+**Block:**
+- OS-level paths
+- User home directories
+- Keys, credentials, environment variables
+- Executable directories
 
-Runtime environment must contain only:
-- Model path  
-- Model configuration  
-- Non-sensitive application settings  
-
-Remove:
-- API keys  
-- Secrets  
-- Tokens  
-- Credentials  
-
-Use a secrets manager for necessary values.
+Implement chroot jails and read-only volume mounting.
 
 ---
 
-# 6. Runtime Memory Protections
+## 5. Environment Variable Hardening
 
-LLMs load large weights into RAM and VRAM. Protect memory using:
+Ensure no sensitive variables appear in prompts, logs, crash dumps, or model outputs.
 
-- GPU memory isolation  
-- CPU memory cgroups  
-- Prevention of shared memory between tenants  
-- No memory-mapped world-writable files  
-- Disable core dumps  
+Runtime environment contains only:
+- Model path and configuration
+- Non-sensitive application settings
 
-Preventing memory tampering reduces the risk of:
-
-- Embedded backdoors  
-- Hidden model instructions  
-- Runtime manipulation  
-- Data-race attacks in multi-tenant environments  
+Remove from runtime: API keys, secrets, tokens, credentials. Use a secrets manager for all required values.
 
 ---
 
-# 7. Execution Policy Controls
+## 6. Runtime Memory Protections
 
-Prevent harmful runtime behavior through:
+Protect model memory using:
 
-### Process Limits
-- CPU quotas  
-- GPU quotas  
-- Memory ceilings  
-- Max token generation limits  
-- Timeout for long-running requests  
+- GPU memory isolation
+- CPU memory cgroups
+- Prevention of shared memory between tenants
+- No memory-mapped world-writable files
+- Disable core dumps
 
-### Tokenization Limits
-- Restrict context window size for untrusted inputs  
-- Limit multi-turn persistence  
-- Reject oversized files or user uploads  
-
-These prevent resource exhaustion or model degradation.
+Memory protections reduce the risk of embedded backdoors, hidden model instructions, and data-race attacks in multi-tenant environments.
 
 ---
 
-# 8. Sandboxed Model Plugin / Tool Use
+## 7. Execution Policy Controls
 
-If the model can call tools or functions, apply strict governance.
+**Process Limits:**
+- CPU and GPU quotas
+- Memory ceilings
+- Max token generation limits
+- Timeout for long-running requests
 
-### Allowed tools:
-- Retrieval  
-- Calculators  
-- Domain-specific utilities  
-
-### Not allowed:
-- File system access  
-- Arbitrary shell commands  
-- Network requests  
-- Code execution  
-
-Ensure:
-- Validate arguments to tool functions  
-- Rate-limit tool calls  
-- Log all tool usage  
+**Tokenization Limits:**
+- Restrict context window size for untrusted inputs
+- Limit multi-turn persistence
+- Reject oversized files or user uploads
 
 ---
 
-# 9. Logging & Telemetry
+## 8. Sandboxed Tool and Plugin Use
 
-Capture **every** interaction safely without leaking sensitive data.
+If the model can call tools or functions:
+
+**Allowed:** Retrieval, calculators, domain-specific utilities
+
+**Not allowed:** File system access, arbitrary shell commands, network requests, code execution
+
+**Required controls:**
+- Validate arguments to tool functions
+- Rate-limit tool calls
+- Log all tool usage
+
+---
+
+## 9. Logging and Telemetry
 
 Log:
-- User request metadata (not raw payloads)  
-- Risk score of each response  
-- Tool calls and parameters  
-- Retrievals from vector DB  
-- Runtime errors and anomalies  
-- Latency and resource usage  
-- Rate-limit triggers  
+- User request metadata (not raw payloads)
+- Risk score per response
+- Tool calls and parameters
+- Retrievals from vector store
+- Runtime errors and anomalies
+- Latency and resource usage
+- Rate-limit triggers
 
-Ensure logs are:
-- Write-only for runtime  
-- Immutable post-ingestion  
-- Stored for governance review  
+Logs are write-only for runtime, immutable post-ingestion, and stored for governance review.
+
+See `model-monitoring-and-telemetry-engineering.md` and `llm-incident-response-playbook.md` for full monitoring requirements and alerting workflows.
 
 ---
 
-# 10. Continuous Runtime Monitoring
+## 10. Continuous Runtime Monitoring
 
 Monitor for:
-- Spike in outbound network attempts  
-- Unexpected file access patterns  
-- Unusual GPU/CPU usage  
-- High-risk outputs  
-- Repeated jailbreak attempts  
-- Persistent multi-turn escalation behavior  
-
-Trigger alerts for:
-- Safety classifier failures  
-- Guardrail bypass  
-- Potential exfiltration patterns  
-- RAG injection attempts  
+- Spike in outbound network attempts
+- Unexpected file access patterns
+- Unusual GPU/CPU usage
+- Repeated jailbreak attempts
+- Persistent multi-turn escalation
+- Potential exfiltration patterns
 - Sudden prompt distribution changes
 
-Runtime telemetry produced here feeds directly into the Monitoring & Telemetry (Engineering Edition) and LLM Incident Response Playbook.
-
 ---
 
-# 11. Trusted Runtime Deployment Patterns
+## 11. Trusted Deployment Patterns
 
-Recommended secure deployment patterns:
+**Single-Tenant Model Hosting** — one model per container, best for sensitive environments.
 
-### Single-Tenant Model Hosting
-- Best for sensitive environments  
-- One model per container  
+**Agent Isolation for Multi-Model Systems** — dedicated container per agent with strict inter-agent communication rules.
 
-### Agent Isolation for Multi-Model Systems
-- Dedicated container per agent  
-- Strict inter-agent communication rules  
+**Air-Gapped Environments** — no outbound traffic, signed model weights, strictly controlled software supply chain.
 
-### Air-Gapped Environments
-- No outbound traffic  
-- Signed model weights  
-- Strictly controlled software supply chain  
-
-### GPU Isolation
-- GPU partitioning (MIG, vGPU)  
-- One inference job per GPU slice  
-
----
-
-# Purpose
-
-This module defines engineering-grade safeguards required to securely run AI models in enterprise, research, or production environments. It establishes isolation boundaries, network controls, logging policies, and runtime monitoring practices consistent with modern AI security assurance.
-
-ai-security-assurance-labs/
-└── llm-operations/
-      └── model-execution-runtime-security.md
-
+**GPU Isolation** — GPU partitioning (MIG, vGPU) with one inference job per GPU slice.
