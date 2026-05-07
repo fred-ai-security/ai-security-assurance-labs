@@ -1,141 +1,121 @@
-# Secure RAG Architecture (Engineering Edition)
-### Engineering Controls for Retrieval-Augmented Generation Systems
+# Secure RAG Architecture
 
-This module defines the security controls required to build and operate secure Retrieval-Augmented Generation (RAG) systems. RAG transforms LLM behavior based on external knowledge—making it one of the highest-risk components in modern AI architecture.
+This document defines the security controls required to build and operate secure Retrieval-Augmented Generation (RAG) systems. RAG transforms LLM behavior based on external knowledge — making it one of the highest-risk components in modern AI architecture.
 
-This document focuses on engineering design, architectural controls, and security guardrails to protect RAG systems against poisoning, prompt injection, unauthorized data access, and unsafe output generation.
+The focus here is on engineering design, architectural controls, and security guardrails. This document complements the `rag-security-hardening-guide.md`, which covers implementation-level checklists. This document addresses architectural patterns and control design.
 
-This document complements the RAG Security Hardening Guide, focusing on architectural design rather than implementation-level controls.
-
----
-
-# 1. Threat Model for RAG Systems
-
-RAG architectures introduce unique risks:
-
-- Poisoned or malicious documents entering the knowledge base  
-- Indirect prompt injection inside retrieved content  
-- Unauthorized access to sensitive internal documents  
-- RAG used as a vector for data exfiltration  
-- Retrieval bypassing metadata filters  
-- Unsafe hallucinations validated through retrieved documents  
-- Adversarial embeddings (vector poisoning)  
-- Escalation through tool-use conditioned on retrieved content  
-
-A secure RAG design must defend against all these surfaces.
+Framework alignment follows the mappings defined in `llm-red-teaming-overview.md` and `rag-threat-control-detection-response-mapping.md`.
 
 ---
 
-# 2. Core RAG Architecture Components
+## 1. Threat Model for RAG Systems
 
-A secure RAG system typically includes:
+RAG architectures introduce the following primary risks:
 
-- Document ingestion pipeline  
-- Pre-processing & sanitization services  
-- Embedding generation  
-- Vector database or index  
-- Retrieval engine  
-- LLM orchestrator  
-- Post-processing guardrails  
-- Logging & telemetry  
-
-Each component requires dedicated controls.
+- Poisoned or malicious documents entering the knowledge base
+- Indirect prompt injection inside retrieved content
+- Unauthorized access to sensitive internal documents
+- RAG used as a vector for data exfiltration
+- Retrieval bypassing metadata filters
+- Unsafe hallucinations validated through retrieved documents
+- Adversarial embeddings (vector poisoning)
+- Escalation through tool-use conditioned on retrieved content
 
 ---
 
-# 3. Secure Document Ingestion Pipeline
+## 2. Core RAG Architecture Components
 
-Before any document enters the RAG knowledge base, apply:
+A secure RAG system includes:
 
-### 3.1 Anti-Malware & Static Analysis
-- ClamAV scan  
-- YARA rules  
-- File hash verification  
-- MIME type validation  
-- No executable content in Markdown/PDF uploads  
+- Document ingestion pipeline
+- Pre-processing and sanitization services
+- Embedding generation
+- Vector database or index
+- Retrieval engine
+- LLM orchestrator
+- Post-processing guardrails
+- Logging and telemetry
+
+---
+
+## 3. Secure Document Ingestion Pipeline
+
+### 3.1 Anti-Malware and Static Analysis
+- ClamAV scan
+- YARA rules
+- File hash verification
+- MIME type validation
+- No executable content in Markdown or PDF uploads
 
 ### 3.2 Document Sanitization
-- Remove JavaScript  
-- Strip embedded objects  
-- Strip macros  
-- Strip iframes  
-- Normalize Unicode  
-- Sanitize HTML (DOMPurify or equivalent)  
+- Remove JavaScript, embedded objects, macros, iframes
+- Normalize Unicode
+- Sanitize HTML (DOMPurify or equivalent)
 
 ### 3.3 Allowed File Types
-Only ingest:
-- `.txt`, `.md`, `.pdf`, `.json`  
-- Explicitly block:
-  - `.exe`, `.dll`, `.ps1`, `.vbs`, `.html`, `.js`  
+Only ingest: `.txt`, `.md`, `.pdf`, `.json`
+
+Explicitly block: `.exe`, `.dll`, `.ps1`, `.vbs`, `.html`, `.js`
 
 ---
 
-# 4. Secure Embedding Generation
+## 4. Secure Embedding Generation
 
 Embedding models should run:
 
-- In isolated containers  
-- Without internet access  
-- With strict tokenizer limits  
-- With checks to reject untrusted binary payloads  
+- In isolated containers without internet access
+- With strict tokenizer limits
+- With checks to reject untrusted binary payloads
 
-Prevent embedding:
-- Entire documents containing executable code  
-- Encrypted blobs  
-- Extremely high-entropy content  
-- Data embeddings designed to force misbehavior  
+Prevent embedding of:
+- Entire documents containing executable code
+- Encrypted blobs or extremely high-entropy content
+- Data embeddings designed to force retrieval misbehavior
 
 ---
 
-# 5. Vector Database Security Controls
+## 5. Vector Database Security Controls
 
-Vector databases are one of the **highest-risk RAG components**.
+Vector databases are one of the highest-risk components in a RAG architecture.
 
-### Required controls:
-- Encryption at rest  
-- Encryption in transit (TLS 1.2+)  
-- Strict RBAC (read, write, admin)  
-- Metadata-based access control  
-- Row/tenant isolation  
-- Prevent direct user or application queries to the vector database outside the controlled retrieval service.  
-- Disallow wildcard or broad retrieval  
-- Limit top_k results to prevent flooding  
+**Required controls:**
+- Encryption at rest and in transit (TLS 1.2+)
+- Strict RBAC (read, write, admin separation)
+- Metadata-based access control and row/tenant isolation
+- No direct user or application queries outside the controlled retrieval service
+- Disallow wildcard or broad retrieval
+- Limit `top_k` results to prevent context flooding
 
-### Poisoning Detection:
-Flag:
-- High-entropy vectors  
-- Outliers relative to cluster norms  
-- Documents using adversarial formatting  
+**Poisoning detection — flag:**
+- High-entropy vectors
+- Outliers relative to cluster norms
+- Documents using adversarial formatting patterns
 
 ---
 
-# 6. Retrieval Pipeline Guardrails
+## 6. Retrieval Pipeline Guardrails
 
-Retrieval must never blindly trust content.
+**Apply:**
+- Domain filters and metadata filters
+- Strict allowlists
+- PII redaction
+- Content validation and classification
+- Prompt-injection scanning
 
-### Apply:
-- Domain filters  
-- Metadata filters  
-- Strict allowlists  
-- PII redaction  
-- Content validation & classification  
-- Prompt-injection scanning  
-
-Reject documents containing:
-- “Ignore previous instructions”  
-- “You must obey…”  
-- “System override”  
-- “Do not follow rules above”  
-- Hidden unicode control characters  
+**Reject documents containing:**
+- "Ignore previous instructions"
+- "You must obey…"
+- "System override"
+- "Do not follow rules above"
+- Hidden Unicode control characters
 
 ---
 
-# 7. LLM Orchestration Controls
-
-When retrieval results enter the model:
+## 7. LLM Orchestration Controls
 
 ### 7.1 Prompt Sandboxing
-Separate retrieved content from instructions:
+
+Separate retrieved content from system instructions using structured prompt architecture:
 
 ```
 SYSTEM: Follow safety rules.
@@ -143,26 +123,28 @@ CONTEXT (Read-only): {retrieved passages}
 USER: {user query}
 ```
 
+This pattern ensures the model receives a clear signal distinguishing trusted instructions from untrusted retrieved content.
+
 ### 7.2 Retrieval Quotas
-- Max # of retrieved chunks  
-- Max combined chunk size  
-- Reject oversized retrieval payloads  
+- Maximum number of retrieved chunks per query
+- Maximum combined chunk size
+- Reject oversized retrieval payloads
 
 ### 7.3 Response Controls
-- Toxicity filter  
-- PII redaction  
-- Hallucination minimizer  
-- Content moderation pre/post checks  
+- Toxicity filter
+- PII redaction
+- Hallucination minimizer
+- Content moderation pre- and post-generation
 
 ---
 
-# 8. Preventing RAG Prompt Injection
+## 8. Preventing RAG Prompt Injection
 
-RAG prompt injection occurs when malicious content enters the vector database and manipulates the model.
+RAG prompt injection occurs when malicious content in the vector database manipulates model behavior.
 
-### Required mitigations:
-- Strip instruction-like language from retrieved content  
-- Delimit retrieved content clearly:
+**Required mitigations:**
+- Strip instruction-like language from retrieved content before it enters the prompt
+- Delimit retrieved content explicitly:
 
 ```
 The following is untrusted retrieved content:
@@ -171,52 +153,36 @@ The following is untrusted retrieved content:
 >>>
 ```
 
-- Apply escape/encoding to prevent model misinterpretation  
-- Prohibit content that attempts to:
-  - Redefine system instructions  
-  - Inject new policies  
-  - Impersonate admins or developers  
+- Apply escape/encoding to prevent model misinterpretation
+- Prohibit content that attempts to redefine system instructions, inject new policies, or impersonate admins or developers
 
 ---
 
-# 9. Monitoring & Telemetry for RAG
+## 9. Monitoring and Telemetry
 
 Monitor:
+- Retrieval patterns and embedding spikes
+- Retrieval of unusually long documents
+- Documents with injection patterns entering the pipeline
+- Multi-turn escalation or behavior drift
+- Data exfiltration patterns
+- Chunks correlated with unsafe model outputs
 
-- Retrieval patterns  
-- Unexpected sudden spikes in embeddings  
-- Retrieval of unusually long documents  
-- Retrieval of documents with injection patterns  
-- Multi-turn escalation or behavior drift  
-- Data exfiltration patterns  
-- Chunks triggering unsafe outputs
+Logs should track: query, source documents, output classification, risk score, and redaction actions.
 
-Telemetry generated here feeds directly into the LLM Monitoring & Telemetry (Engineering Edition) and the LLM Incident Response Playbook.
-
-Logs should track:
-- Query  
-- Source documents  
-- Output classification  
-- Risk score  
-- Redaction actions  
+See `model-monitoring-and-telemetry-engineering.md` and `llm-incident-response-playbook.md` for full monitoring requirements and response workflows.
 
 ---
 
-# 10. Secure RAG Deployment Requirements
+## 10. Secure RAG Deployment Requirements
 
 RAG should be deployed with:
 
-- Container isolation  
-- No outbound internet access for retrieval or LLM  
-- Strict egress filtering  
-- Immutable storage for ingested documents  
-- Continuous re-scanning of knowledge base  
-- Lineage tracking for document changes  
-- Versioned embeddings  
-- Audit-ready logging  
-
----
-
-# Purpose
-
-This module establishes a security-focused blueprint for designing, building, and operating Retrieval-Augmented Generation systems. It reinforces best practices from AI security engineering, modern AI architecture, adversarial defense, and enterprise governance.
+- Container isolation
+- No outbound internet access for retrieval or LLM inference
+- Strict egress filtering
+- Immutable storage for ingested documents
+- Continuous re-scanning of the knowledge base
+- Lineage tracking for document changes
+- Versioned embeddings
+- Audit-ready logging
