@@ -1,168 +1,152 @@
-# AI Model Deployment Approval Checklist (Engineering Edition)
+# AI Model Deployment Approval Checklist
 
-This checklist provides a structured, engineering-focused set of requirements that must be met before any AI model can be deployed into testing, staging, or production environments.  
-It ensures the model has passed all required security, robustness, and governance controls.
+This checklist defines the engineering requirements that must be met before any AI model can be deployed into testing, staging, or production environments. It validates that required security, robustness, and governance controls are in place prior to runtime exposure.
 
-This checklist is executed after governance approval and before any production or external deployment. 
-It validates that required engineering, security, and monitoring controls are in place prior to runtime exposure.
+Deployment controls referenced here align with `model-deployment-security-engineering.md`. Framework alignment follows `model-risk-classification-and-criticality.md`.
 
 ---
 
-# 1. Model Information
+## 1. Model Information
 
 | Field | Value |
-|-------|-------|
-| Model Name |  |
-| Version / Build |  |
-| Provider / Source |  |
+|---|---|
+| Model Name | |
+| Version / Build | |
+| Provider / Source | |
 | Intended Deployment Environment | Dev / Test / Staging / Prod |
-| Deployment Owner |  |
-| Approval Date |  |
+| Deployment Owner | |
+| Approval Date | |
 
 ---
 
-# 2. Supply-Chain Verification
+## 2. Supply-Chain Verification
 
 ### 2.1 Download Source Validation
-- [ ] Model obtained from a trusted, verified source  
-- [ ] Source URL recorded  
-- [ ] Provider account verified (HuggingFace / GitHub)  
+- [ ] Model obtained from a trusted, verified source
+- [ ] Source URL recorded
+- [ ] Provider account verified
 
 ### 2.2 Integrity Verification
-- [ ] SHA-256 hash generated  
-- [ ] Hash matches expected value  
-- [ ] Hash manifest attached  
+- [ ] SHA-256 hash generated
+- [ ] Hash matches expected value
+- [ ] Hash manifest attached
 
 ### 2.3 Static Analysis
-- [ ] YARA scan performed  
-- [ ] No suspicious strings or patterns detected  
-- [ ] ClamAV scan performed  
-- [ ] No malware signatures detected  
-- [ ] Sigcheck used to verify tooling integrity  
+- [ ] YARA scan performed — no suspicious patterns detected
+- [ ] ClamAV scan performed — no malware signatures detected
+- [ ] Toolchain integrity verified
 
 ### 2.4 Provenance Documentation
-- [ ] Provenance record completed  
-- [ ] Model card reviewed  
-- [ ] License reviewed and approved  
+- [ ] Provenance record completed
+- [ ] Model card reviewed
+- [ ] License reviewed and approved
 
 ---
 
-# 3. Safety & Behavioral Testing
+## 3. Safety and Behavioral Testing
 
-### 3.1 Functional Safety Checks
-- [ ] Output correctness validated for intended tasks  
-- [ ] Reasoning consistency checks completed  
-- [ ] Benchmark tests applicable to the domain  
+### 3.1 Functional Safety
+- [ ] Output correctness validated for intended tasks
+- [ ] Reasoning consistency checks completed
 
-### 3.2 Behavioral Safety Checks
-- [ ] Toxicity testing performed  
-- [ ] Bias checks completed  
-- [ ] No harmful or disallowed outputs observed  
+### 3.2 Behavioral Safety
+- [ ] Toxicity testing performed
+- [ ] Bias checks completed
+- [ ] No harmful or disallowed outputs observed
 
-### 3.3 Hallucination and Reliability Checks
-- [ ] Hallucination probes executed  
-- [ ] Overconfidence behavior documented  
-- [ ] Reliability meets project requirements  
+### 3.3 Hallucination and Reliability
+- [ ] Hallucination probes executed
+- [ ] Overconfidence behavior documented
+- [ ] Reliability meets project requirements
 
 ---
 
-# 4. Red Teaming & Adversarial Testing
+## 4. Red Teaming and Adversarial Testing
 
 ### 4.1 Automated Red Teaming
-- [ ] Garak vulnerability scan completed  
-- [ ] Promptfoo scenario tests completed  
-- [ ] Findings documented and triaged  
+- [ ] Garak vulnerability scan completed
+- [ ] Promptfoo scenario tests completed
+- [ ] Findings documented and triaged
 
 ### 4.2 Manual Adversarial Testing
-- [ ] Jailbreak attempts tested  
-- [ ] Prompt injection patterns tested  
-- [ ] Multi-turn escalation tested  
-- [ ] Refusal behavior validated  
+- [ ] Jailbreak attempts tested
+- [ ] Prompt injection patterns tested
+- [ ] Multi-turn escalation tested
+- [ ] Refusal behavior validated
 
 ### 4.3 Risk Rating
-- [ ] Severe vulnerabilities resolved  
-- [ ] Medium vulnerabilities mitigated  
-- [ ] Residual risk documented  
+- [ ] Severe vulnerabilities resolved
+- [ ] Medium vulnerabilities mitigated or accepted with documentation
+- [ ] Residual risk documented
 
 ---
 
-# 5. RAG & Data-Layer Security (If Applicable)
+## 5. RAG and Data-Layer Security (If Applicable)
 
-- [ ] Retrieval filters validated  
-- [ ] No poisoned or adversarial content in KB  
-- [ ] Input sanitization applied  
-- [ ] Context window safety validated  
-- [ ] No indirect prompt injection pathways found  
-
----
-
-# 6. Tool / Plugin / Function-Call Safety (If Enabled)
-
-- [ ] Tool permissions reviewed  
-- [ ] Tool call constraints validated  
-- [ ] No unsafe parameter injection  
-- [ ] No data exfiltration pathways  
-- [ ] Logging and monitoring enabled for tool calls  
+- [ ] Retrieval filters validated
+- [ ] No poisoned or adversarial content in knowledge base
+- [ ] Input sanitization applied
+- [ ] Context window safety validated
+- [ ] No indirect prompt injection pathways identified
 
 ---
 
-# 7. Logging, Telemetry & Monitoring
+## 6. Tool and Plugin Safety (If Enabled)
 
-- [ ] LLM request logging enabled  
-- [ ] All logs immutable and tamper-evident  
-- [ ] Safety classifiers integrated (if required)  
-- [ ] Real-time alerts for unsafe output patterns  
-- [ ] Anomaly detection enabled  
+- [ ] Tool permissions reviewed
+- [ ] Tool call constraints validated
+- [ ] No unsafe parameter injection pathways
+- [ ] No data exfiltration pathways
+- [ ] Logging and monitoring enabled for tool calls
 
 ---
 
-# 8. Deployment Controls
+## 7. Logging, Telemetry, and Monitoring
 
-### 8.1 Access & Authentication
-- [ ] Deployment behind authenticated endpoints  
-- [ ] API keys rotated  
-- [ ] RBAC and least-privilege enforced  
+- [ ] LLM request logging enabled
+- [ ] All logs immutable and tamper-evident
+- [ ] Safety classifiers integrated (if required)
+- [ ] Real-time alerts configured for unsafe output patterns
+- [ ] Anomaly detection enabled
 
-### 8.2 Isolation & Environment Hardening
-- [ ] Model runs in isolated environment  
-- [ ] Network restrictions applied  
-- [ ] No unnecessary outbound access  
+---
 
-### 8.3 Rate Limiting & Abuse Prevention
-- [ ] Rate limits configured  
+## 8. Deployment Controls
+
+### 8.1 Access and Authentication
+- [ ] Deployment behind authenticated endpoints
+- [ ] API keys rotated
+- [ ] RBAC and least-privilege enforced
+
+### 8.2 Isolation and Environment Hardening
+- [ ] Model runs in isolated environment
+- [ ] Network restrictions applied
+- [ ] No unnecessary outbound access
+
+### 8.3 Rate Limiting and Abuse Prevention
+- [ ] Rate limits configured
 - [ ] Abuse detection rules enabled
 
-Deployment controls must align with requirements defined in model-deployment-security-engineering.md.
-
 ---
 
-# 9. Final Deployment Authorization
+## 9. Final Deployment Authorization
 
 | Role | Name | Approval | Date |
-|------|------|----------|------|
-| Security Engineer |  | [ ] Approved |  |
-| AI Safety Reviewer |  | [ ] Approved |  |
-| ML Engineer |  | [ ] Approved |  |
-| Product Owner |  | [ ] Approved |  |
+|---|---|---|---|
+| Security Engineer | | [ ] Approved | |
+| AI Safety Reviewer | | [ ] Approved | |
+| ML Engineer | | [ ] Approved | |
+| Product Owner | | [ ] Approved | |
 
 ---
 
-# 10. Attachments Required
+## 10. Required Attachments
 
-- [ ] Hash manifest  
-- [ ] Garak report summary  
-- [ ] Promptfoo results summary  
-- [ ] Provenance record  
-- [ ] License evaluation summary  
-- [ ] Safety evaluation summary  
-- [ ] SBOM (if generated)  
-- [ ] Incident history and remediation summary (if re-deployment)  
-
----
-
-# Purpose
-
-This checklist demonstrates a mature engineering gate for deploying AI models safely, securely, and responsibly.  
-It aligns with real-world AI Security, AI Risk, and ML Ops best practices.
-
----
+- [ ] Hash manifest
+- [ ] Garak report summary
+- [ ] Promptfoo results summary
+- [ ] Provenance record
+- [ ] License evaluation summary
+- [ ] Safety evaluation summary
+- [ ] SBOM (if generated)
+- [ ] Incident history and remediation summary (if re-deployment)
