@@ -42,14 +42,14 @@ The workflows in this repository were tested and refined through repeated execut
 
 Specific issues encountered and resolved during development include VRAM limitations during concurrent model execution, ChromaDB locking behavior under parallel test loads, LangChain deprecation conflicts, serialization and encoding failures, workflow orchestration inconsistencies, retrieval contamination edge cases, and false-positive detection calibration.
 
-A complete end-to-end lifecycle execution produced the following assessment outcomes against a baseline target model:
+A complete end-to-end assessment lifecycle produced the following representative outcomes against baseline evaluation targets:
 
-- **Tier 1 — Base Model Red Teaming:** PASS (1,280 Garak probes, 0 failures; PyRIT 1 failure; Promptfoo 3 failures)
-- **Tier 2 — RAG Pipeline Assessment:** HOLD (18 tests: 10 EXPLOITABLE, 7 MITIGATED, 1 PARTIAL — prompt firewall required)
-- **Tier 3 — Agentic AI Assessment:** PASS (10 scenarios, 0 failures, 100% deflection rate)
-- **Overall Deployment Recommendation:** CONDITIONAL HOLD, driven by the RAG layer
+- **Tier 1 — Base Model Red Teaming:** PASS
+- **Tier 2 — RAG Pipeline Assessment:** CONDITIONAL HOLD requiring additional prompt-layer controls
+- **Tier 3 — Agentic AI Assessment:** PASS with successful defensive handling across evaluated scenarios
+- **Overall Deployment Recommendation:** CONDITIONAL HOLD driven by RAG-layer findings
 
-These results reflect actual assessment execution, not simulated or theoretical outputs.
+These results reflect actual assessment execution and governance-aligned risk evaluation workflows.
 
 ---
 
