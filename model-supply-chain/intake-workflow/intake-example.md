@@ -1,84 +1,91 @@
 # Model Intake Workflow — Complete Example
 
-This document presents a complete end-to-end model intake workflow used in AI Security Assurance.  
-It outlines a staged process for securely acquiring, validating, and analyzing AI models prior to use.
+This document presents a complete end-to-end model intake workflow used in AI Security Assurance. It outlines a staged process for securely acquiring, validating, and analyzing AI models prior to any assessment or deployment activity.
 
-This example reflects a representative intake workflow and uses synthetic paths and outputs for demonstration purposes.
+This example reflects a representative intake workflow and uses synthetic paths and outputs for demonstration purposes. Commands reflect the Ubuntu / WSL2 environment used in this lab.
 
-The workflow includes:
+**Workflow scope:**
 
-- Secure model acquisition  
-- Hashing and integrity verification  
-- Static malware scanning (ClamAV)  
-- Pattern-based detection (YARA)  
-- Toolchain signature validation (Sigcheck)  
-- Evidence collection and documentation  
+- Secure model acquisition
+- Hashing and integrity verification
+- Static malware scanning (ClamAV)
+- Pattern-based detection (YARA)
+- Toolchain integrity validation
+- Evidence collection and documentation
 
 ---
 
-## Step 1: Download the Model (Trusted Source)
+## Framework Alignment
 
-Example using HuggingFace CLI:
+| Framework | Relevant Controls |
+|---|---|
+| NIST AI RMF | MAP 1.5, MEASURE 2.2 — intake controls, artifact traceability, integrity verification |
+| MITRE ATLAS | AML.T0010 — ML Supply Chain Compromise; AML.T0041 — Craft Adversarial Data |
+| OWASP LLM Top 10 (2025) | LLM03 — Training Data Poisoning; supply-chain artifact integrity |
+| ISO/IEC 42001 | Clause 8 — AI system operation and artifact control |
+| NIST SP 800-53 | SA-12 — Supply Chain Protection; SI-7 — Software and Information Integrity |
 
-```
+---
+
+## Step 1 — Acquire the Model (Trusted Source)
+
+Models are downloaded from verified, trusted sources using traceable methods only.
+
+**Using HuggingFace CLI:**
+
+```bash
 huggingface-cli download microsoft/Phi-3-mini-4k-instruct --include "*.gguf"
 ```
 
-Example using Ollama:
+**Using Ollama:**
+
+```bash
+ollama pull phi3:mini
+```
+
+After download, files are staged in a controlled intake directory:
 
 ```
-ollama pull phi:latest
-```
-
-After download, files are placed in a Stage 1 intake directory such as:
-
-```
-C:\AI_SECURITY_LABS\stage1_intake
+~/ai-security-labs/stage1_intake/
 ```
 
 ---
 
-## Step 2: SHA-256 Hashing (Integrity Verification)
+## Step 2 — SHA-256 Hashing (Integrity Verification)
 
-Generate a hash for a single file:
+**Generate a hash for a single file:**
 
-```
-Get-FileHash "C:\AI_SECURITY_LABS\stage1_intake\model.gguf" -Algorithm SHA256
-```
-
-Generate a manifest for all files:
-
-```
-Get-ChildItem "C:\AI_SECURITY_LABS\stage1_intake" |
-Get-FileHash -Algorithm SHA256 |
-Export-Csv "C:\AI_SECURITY_LABS\hash_manifest.csv" -NoTypeInformation
+```bash
+sha256sum ~/ai-security-labs/stage1_intake/model.gguf
 ```
 
-The manifest serves as a baseline integrity record.
+**Generate a manifest for all files in the intake directory:**
+
+```bash
+find ~/ai-security-labs/stage1_intake -type f | xargs sha256sum > ~/ai-security-labs/hash_manifest.txt
+```
+
+The manifest serves as a tamper-evident baseline integrity record and is stored alongside intake documentation.
 
 ---
 
-## Step 3: YARA Scan (Pattern-Based Detection)
+## Step 3 — YARA Scan (Pattern-Based Detection)
 
-Example command:
-
-```
-yara64.exe SuspiciousModelStrings.yar "C:\AI_SECURITY_LABS\stage1_intake"
+```bash
+yara SuspiciousModelStrings.yar ~/ai-security-labs/stage1_intake/
 ```
 
-Any positive match indicates that the file should be quarantined for further review.
+Any positive match results in quarantine of the flagged artifact pending further review. The intake process does not proceed until the finding is resolved.
 
 ---
 
-## Step 4: ClamAV Scan (Malware Signature Detection)
+## Step 4 — ClamAV Scan (Malware Signature Detection)
 
-Scan the intake directory recursively:
-
-```
-clamscan -r "C:\AI_SECURITY_LABS\stage1_intake"
+```bash
+clamscan -r ~/ai-security-labs/stage1_intake/
 ```
 
-Expected output example:
+**Expected output:**
 
 ```
 ----------- SCAN SUMMARY -----------
@@ -90,78 +97,60 @@ Detection of any infected file results in immediate quarantine and suspension of
 
 ---
 
-## Step 5: Toolchain Verification (Sigcheck)
+## Step 5 — Toolchain Integrity Verification
 
-Before trusting security tools, check their signatures:
+Security tools are verified before use to ensure they have not been tampered with or substituted.
 
+```bash
+# Verify tool binary signatures using GPG or package manager verification
+sha256sum $(which yara)
+sha256sum $(which clamscan)
 ```
-sigcheck.exe -n -i "C:\Tools\yara\yara64.exe"
-sigcheck.exe -n -i "C:\ClamAV\clamd.exe"
-sigcheck.exe -n -i "C:\Tools\sigcheck\sigcheck.exe"
-```
 
-Verification indicators:
+**Verification indicators:**
 
-- “Verified: Signed”  
-- Valid certificate chain  
-- Publisher identity matches expected vendor  
+- Binary hash matches official published values
+- Tool installed from a verified package source (apt, official release)
+- No unexpected modifications to tool binaries
 
-Unsigned or mismatched binaries require re-acquisition from official sources.
+Mismatched or unverifiable binaries require re-acquisition from official sources before use.
 
 ---
 
-## Step 6: Promote Model to Stage 2 (Verified Storage)
+## Step 6 — Promote Model to Verified Stage
 
-If all checks pass, the model is moved into the verified stage:
+If all checks pass, the model is promoted to the verified staging area:
 
-```
-C:\AI_SECURITY_LABS\stage2_verified\
+```bash
+mv ~/ai-security-labs/stage1_intake/model.gguf \
+   ~/ai-security-labs/stage2_verified/model.gguf
 ```
 
-File promotion example:
-
-```
-Move-Item "C:\AI_SECURITY_LABS\stage1_intake\model.gguf" `
-          "C:\AI_SECURITY_LABS\stage2_verified\model.gguf"
-```
+Models that fail any check are quarantined and do not advance.
 
 ---
 
-## Step 7: Evidence Collection
+## Step 7 — Evidence Collection
 
-Recommended evidence includes:
+The following evidence artifacts are produced and stored for each intake:
 
-- Hash manifest  
-- YARA scan results  
-- ClamAV scan output  
-- Sigcheck verification records  
-- Download method and source  
-- Intake date and timestamps  
+- Hash manifest (`hash_manifest.txt`)
+- YARA scan results
+- ClamAV scan output
+- Toolchain verification records
+- Download method, source URL, and timestamps
 
-These materials support provenance tracking and audit requirements.
-
----
-
-## Step 8: Transition to Assessment (Red Teaming)
-
-Once verified, the model advances to Stage 3 assessment activities, such as:
-
-- Garak automated vulnerability scanning  
-- Promptfoo adversarial prompt evaluations  
-- Manual red-team analysis  
-
-These assessments contribute to behavioral, adversarial, and reliability evaluation.
+These materials support provenance tracking, audit requirements, and governance documentation.
 
 ---
 
-## Summary
+## Step 8 — Transition to Downstream Assessment Stages
 
-This intake workflow provides structured controls for:
+Once verified, the model advances through the remaining assessment lifecycle:
 
-- Model supply-chain assurance  
-- Integrity verification  
-- Malware and pattern-based analysis  
-- Toolchain validation  
-- Evidence-based documentation  
+- **Stage 3 — Red Teaming:** Garak automated vulnerability scanning, PyRIT jailbreak orchestration, Promptfoo adversarial evaluation
+- **Stage 4 — RAG Pipeline Security:** Retrieval poisoning, context manipulation, jailbreak-through-retrieval testing
+- **Stage 5 — Agentic AI Security:** Tool call injection, goal hijacking, privilege escalation, indirect injection
+- **Stage 6 — Consolidated Reporting:** Risk-tiered findings, framework-mapped controls, deployment recommendation
 
-The process reflects common practices in enterprise AI security and governance programs.
+Only models that complete the full supply-chain intake process progress to these stages.
