@@ -1,198 +1,158 @@
-# AI Model Monitoring & Drift Detection Framework
-### Ensuring Stable, Reliable, and Safe AI Model Performance Over Time
+# AI Model Monitoring and Drift Detection Framework
 
-This framework supports AI Security Assurance by detecting behavioral, safety, and operational drift across deployed models.
-
-AI model monitoring and drift detection helps ensure that models remain reliable, secure, and aligned with intended behavior after deployment. Monitoring covers input changes, output quality, safety risks, and operational anomalies that may indicate drift or model degradation.
-
-This module aligns with:
-- NIST AI RMF — Govern / Map / Manage
-- ISO/IEC 42001 — AI Monitoring, Controls, and Performance Requirements
-- OWASP ML/LLM Security Top 10 — Model Abuse, Data Drift, and Monitoring
-- MITRE ATLAS — Behavioral Drift, Manipulation, and Abuse Techniques
-
-
-> Learning Context:
-> This framework was developed as part of hands-on learning in AI Security Assurance,
-> with a focus on understanding how monitoring, drift detection, and escalation
-> mechanisms are designed and operationalized in real-world AI systems.
->
-> The structure reflects industry-aligned practices and reference architectures.
-> It is intended as a learning and reasoning framework rather than a production
-> monitoring implementation.
+This framework supports AI Security Assurance by detecting behavioral, safety, and operational drift across deployed models. It covers input changes, output quality, safety risks, and operational anomalies that indicate drift or model degradation after deployment.
 
 ---
 
-## Purpose of Monitoring & Drift Detection
+## Framework Alignment
+
+| Framework | Relevant Controls |
+|---|---|
+| NIST AI RMF | GOVERN 1.1, MAP 1.5, MEASURE 2.5, MANAGE 2.2 — continuous monitoring, behavioral evaluation, and risk management |
+| MITRE ATLAS | AML.T0054 — LLM Jailbreak; AML.T0051.000 — Prompt Injection; behavioral manipulation techniques |
+| OWASP LLM Top 10 (2025) | LLM01 — Prompt Injection; LLM02 — Insecure Output Handling; LLM09 — Misinformation |
+| ISO/IEC 42001 | Clause 9 — Performance evaluation; Clause 10 — Improvement and monitoring controls |
+| NIST SP 800-53 | SI-7 — Software Integrity; CA-7 — Continuous Monitoring; RA-3 — Risk Assessment |
+
+---
+
+## Purpose
 
 Monitoring provides visibility into:
-- Performance drift
-- Behavioral or reasoning drift
+
+- Performance and behavioral drift
 - Safety degradation over time
 - Jailbreak susceptibility changes
-- Input distribution shifts
-- Output anomalies
+- Input distribution shifts and output anomalies
 - Inference-time manipulation
 - Data poisoning attempts
 
-Drift may result from:
-- Dataset changes
-- Environment changes
-- Tool/function-call interactions
-- Model updates
-- Retrieval-layer changes
-- Adversarial pressure from users
-
-Continuous monitoring enables early detection and safe mitigation.
+Drift may result from dataset changes, environment changes, tool and function-call interactions, model updates, retrieval-layer changes, or sustained adversarial pressure.
 
 ---
 
 ## 1. Types of Drift
 
 ### Data Drift (Input Drift)
+
 Changes in type, distribution, or structure of inputs.
 
-Examples:
-- New vocabulary or interaction patterns
-- Unexpected file formats
-- Retrieval content inconsistencies
-- Adversarial patterns
+Examples: new vocabulary or interaction patterns, unexpected file formats, retrieval content inconsistencies, adversarial input patterns.
 
 ### Concept Drift (Output Drift)
+
 Shifts in how the model maps inputs to outputs.
 
-Examples:
-- Different reasoning patterns
-- Increased hallucinations
-- Declining accuracy
-- Degraded safety behavior
+Examples: different reasoning patterns, increased hallucinations, declining accuracy, degraded safety behavior.
 
 ### Safety Drift
+
 Deterioration in responsible behavior or refusal patterns.
 
-Examples:
-- Higher jailbreak success rates
-- Unsafe outputs in previously safe scenarios
-- Leakage of sensitive information
+Examples: higher jailbreak success rates, unsafe outputs in previously safe scenarios, leakage of sensitive information.
 
 ### Behavioral Drift (LLM-Specific)
+
 Changes in tone, consistency, or reasoning stability.
 
-Examples:
-- More permissive responses
-- Reduced contextual awareness
-- Incorrect or unexpected tool invocation
+Examples: more permissive responses, reduced contextual awareness, unexpected tool invocation patterns.
 
 ### Operational Drift
+
 Performance issues due to environment or runtime changes.
 
-Examples:
-- Latency increases
-- GPU/CPU resource contention
-- Memory-related degradation
+Examples: latency increases, GPU/CPU resource contention, memory-related degradation.
 
 ---
 
 ## 2. Monitoring Techniques
 
-Tooling and thresholds vary by environment and are intentionally not prescriptive in this framework.
-
 ### Safety and Guardrail Monitoring
-Monitors for:
-- Unsafe content
-- Jailbreak patterns
-- Toxicity indicators
-- Leakage of sensitive information
 
-Tooling may include:
-- Toxicity models
-- Moderation classifiers
-- Regular prompt replay evaluations
-- Keyword and pattern-based safety filters
+Monitors for unsafe content, jailbreak patterns, toxicity indicators, and leakage of sensitive information.
+
+Tooling may include toxicity models, moderation classifiers, prompt replay evaluations, and keyword or pattern-based safety filters.
 
 ### Output Quality Monitoring
-Scheduled evaluations using:
-- Benchmark probes (TruthfulQA, ARC, GSM8K)
-- Factual grounding analyses
-- Sampling-based correctness tests
+
+Scheduled evaluations using benchmark probes (TruthfulQA, ARC, GSM8K), factual grounding analyses, and sampling-based correctness tests.
 
 ### Automated Red Team Replay
-Regular replay of:
-- Jailbreak prompts
-- Prompt-injection payloads
-- Escalation scenarios
-- RAG poisoning patterns
 
-Changes over time indicate drift.
+Regular replay of jailbreak prompts, prompt injection payloads, escalation scenarios, and RAG poisoning patterns. Changes in outcomes over time indicate drift.
 
 ### Statistical Drift Detection
-Detects shifts using:
-- KL divergence
-- Jensen–Shannon divergence
-- Embedding similarity drift
-- Token frequency analysis
+
+Detects distribution shifts using KL divergence, Jensen–Shannon divergence, embedding similarity drift, and token frequency analysis.
 
 ### Retrieval-Layer Monitoring (RAG Systems)
-Monitors:
-- Retrieved documents
-- Unexpected or poisoned entries
-- Embedding drift
-- Retrieval quality and consistency
+
+Monitors retrieved documents for unexpected or poisoned entries, embedding drift, and retrieval quality and consistency.
 
 ---
 
-## 3. Alerts & Escalation Criteria
+## 3. Alerts and Escalation Criteria
 
-### Alerts Triggered When:
+**Alerts triggered when:**
+
 - Safety refusals decrease
-- Jailbreak attempts succeed more often
+- Jailbreak attempts succeed more frequently
 - Toxicity or unsafe tone increases
 - Hallucination rate increases
-- Outputs diverge significantly from baseline
-- Input distribution changes beyond thresholds
-- Retrieval-layer content shows adversarial instructions
+- Outputs diverge significantly from established baseline
+- Input distribution changes beyond defined thresholds
+- Retrieval-layer content contains adversarial instructions
 
-### Critical Alerts:
+**Critical alerts — immediate escalation:**
+
 - Leakage of sensitive information
-- Harmful or dangerous instructions
-- Tool misuse
-- Unauthorized system instruction exposure
+- Harmful or dangerous output generation
+- Tool misuse or unauthorized system instruction exposure
 - Indicators of coordinated exploitation
 
 ---
 
 ## 4. Drift Detection Workflow
 
-        ┌─────────────────────────┐
-        │   Baseline Collection   │
-        └───────────┬─────────────┘
-                    ▼
-        ┌─────────────────────────┐
-        │ Continuous Monitoring   │
-        │ (Inputs & Outputs)      │
-        └───────────┬─────────────┘
-                    ▼
-     ┌────────────────────────────────┐
-     │ Automated Red Team Replays     │
-     └───────────┬────────────────────┘
-                 ▼
-     ┌────────────────────────────────┐
-     │ Drift Detection Algorithms     │
-     └───────────┬────────────────────┘
-                 ▼
-     ┌────────────────────────────────┐
-     │ Alerting & Risk Classification │
-     └───────────┬────────────────────┘
-                 ▼
-     ┌────────────────────────────────┐
-     │ Mitigation & Model Governance  │
-     └────────────────────────────────┘
+```
+┌─────────────────────────┐
+│   Baseline Collection   │
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐
+│  Continuous Monitoring  │
+│  (Inputs and Outputs)   │
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐
+│ Automated Red Team      │
+│ Replays                 │
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐
+│ Drift Detection         │
+│ Algorithms              │
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐
+│ Alerting and Risk       │
+│ Classification          │
+└───────────┬─────────────┘
+            ▼
+┌─────────────────────────┐
+│ Mitigation and Model    │
+│ Governance              │
+└─────────────────────────┘
+```
 
 ---
 
-## 5. Monitoring Summary Template (Store as Template Only)
+## 5. Monitoring Summary Template
 
-# AI Model Monitoring & Drift Detection Summary (Template)
+Completed records are stored locally and are not committed to this repository.
+
+```markdown
+# AI Model Monitoring and Drift Detection Summary
 
 **Model Name:**  
 **Version:**  
@@ -215,20 +175,9 @@ Monitors:
 
 ## 3. Alerts Triggered
 -  
--  
--  
 
 ## 4. Mitigation Actions
 -  
--  
 
-**Evaluator:** Frederick Baffour (Learning / Lab Context)
-
----
-
-## File Location
-
-ai-security-assurance-labs/
-└── model-monitoring/
-      └── monitoring-and-drift-detection-framework.md
-
+**Evaluator:** Frederick Baffour
+```
