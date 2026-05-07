@@ -1,23 +1,33 @@
 # LLM Red Teaming Overview
 
-This document describes the red-teaming approach used to evaluate large language models (LLMs) within this repository. Red teaming is treated as a structured security control designed to identify unsafe behavior, misuse potential, and adversarial weaknesses prior to model approval or deployment.
+Red teaming is treated as a structured security control applied at Stage 3 of the AI Security Assurance Lifecycle. It is designed to identify unsafe behavior, misuse potential, and adversarial weaknesses in AI models prior to approval or deployment.
 
-Red-teaming activities focus on how models behave under adversarial, ambiguous, or stress-inducing conditions rather than on standard performance benchmarks.
+Red-teaming activities focus on how models behave under adversarial, ambiguous, or stress-inducing conditions — complementing supply-chain validation (Stages 1–2) by addressing **behavioral risk** rather than artifact integrity. Results feed directly into RAG pipeline security assessment, agentic AI evaluation, risk classification, and deployment decisions (Stages 4–6).
 
 ---
 
-## Objectives of LLM Red Teaming
+## Framework Alignment
 
-The primary objectives of red teaming include:
+| Framework | Relevant Controls |
+|---|---|
+| NIST AI RMF | MEASURE 2.5, MEASURE 2.6 — robustness testing, adversarial evaluation, and behavioral risk assessment |
+| MITRE ATLAS | AML.T0054 — LLM Jailbreak; AML.T0051.000 — LLM Prompt Injection; AML.T0043 — Craft Adversarial Examples |
+| OWASP LLM Top 10 (2025) | LLM01 — Prompt Injection; LLM02 — Insecure Output Handling; LLM06 — Sensitive Information Disclosure |
+| ISO/IEC 42001 | Clause 8 — AI system behavioral testing and safety evaluation |
+| NIST SP 800-53 | SA-11 — Developer Testing and Evaluation; CA-8 — Penetration Testing |
 
-- Identifying jailbreak and prompt-injection vulnerabilities
-- Assessing refusal reliability and policy enforcement
-- Detecting harmful, toxic, or unsafe outputs
-- Evaluating susceptibility to manipulation or misuse
-- Observing hallucination patterns in high-risk scenarios
-- Understanding model behavior in edge-case and adversarial contexts
+---
 
-Red teaming complements supply-chain validation by focusing on **behavioral risk** rather than artifact integrity.
+## Objectives
+
+Red-teaming activities target the following behavioral risk dimensions:
+
+- Jailbreak and prompt injection vulnerabilities
+- Refusal reliability and policy enforcement consistency
+- Harmful, toxic, or unsafe output generation
+- Susceptibility to manipulation and misuse
+- Hallucination patterns in high-risk scenarios
+- Model behavior under edge-case and adversarial conditions
 
 ---
 
@@ -25,24 +35,26 @@ Red teaming complements supply-chain validation by focusing on **behavioral risk
 
 Red-teaming scenarios assume:
 
-- Malicious or curious users attempting to bypass safeguards
+- Malicious or curious users attempting to bypass safety guardrails
 - Ambiguous prompts designed to induce unsafe behavior
-- Attempts to extract restricted information or instructions
-- Efforts to manipulate system instructions or role definitions
+- Attempts to extract restricted information or system instructions
+- Efforts to manipulate role definitions or system-level constraints
 
-Testing emphasizes realistic misuse scenarios rather than theoretical attacks.
+Testing emphasizes realistic misuse scenarios rather than theoretical attack constructs.
 
 ---
 
 ## Red Teaming Methods
 
-This repository uses multiple complementary approaches:
+Three complementary assessment methods are applied across Stage 3:
 
-- **Automated probing** (e.g., Garak) for broad vulnerability coverage
-- **Scenario-driven testing** (e.g., Promptfoo) for controlled adversarial evaluation
-- **Manual testing** for nuanced or context-dependent behaviors
+| Method | Tool | Purpose |
+|---|---|---|
+| Automated probe testing | Garak | Broad vulnerability coverage across 10+ attack classes and 1,280+ probes |
+| Scenario-driven evaluation | Promptfoo | Structured adversarial test cases with LLM-rubric assertions |
+| PyRIT-inspired testing | Custom Transformers harness | Local adversarial evaluation across 8 attack categories with indicator-based detection |
 
-Each method contributes different insights into model robustness and safety alignment.
+Each method contributes distinct coverage — automated breadth (Garak), structured scenarios (Promptfoo), and targeted manual-style evaluation (PyRIT-inspired) — and results are reviewed in combination rather than in isolation.
 
 ---
 
@@ -51,28 +63,27 @@ Each method contributes different insights into model robustness and safety alig
 Red-team results are evaluated based on:
 
 - Frequency and severity of unsafe outputs
-- Consistency of refusal behavior
-- Ease of exploitation
-- Potential real-world impact
-- Alignment with documented safety claims
+- Consistency of refusal behavior across test variations
+- Ease of exploitation under realistic conditions
+- Potential real-world impact across risk domains
+- Alignment with the model's documented safety claims
 
-Findings are mapped to risk severity and inform downstream governance decisions, including model approval, restriction, or rejection.
+Findings are severity-rated and mapped to framework controls before feeding into governance decisions.
 
 ---
 
-## Relationship to the Intake Pipeline
+## Relationship to the Assessment Lifecycle
 
-Red teaming typically occurs after:
-
+**Prerequisites (Stages 1–2):**
 - Model provenance and integrity verification
-- Licensing and documentation validation
+- Licensing, documentation, and supply-chain validation
 
-Results feed into:
+**Stage 3 — Red Teaming outputs:**
+- Behavioral risk profile with severity-rated findings
+- Framework-mapped attack class coverage
+- Evidence artifacts for consolidated reporting
 
-- Model risk classification
-- Criticality tiering
-- Approval and deployment decisions
-
----
-
-This overview establishes the context for the tool-specific assessments documented in the subdirectories of this section.
+**Downstream stages (4–6):**
+- RAG pipeline security assessment
+- Agentic AI security evaluation
+- Consolidated reporting, risk classification, and deployment decision
