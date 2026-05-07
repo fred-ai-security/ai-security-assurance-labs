@@ -1,89 +1,86 @@
-# Binary Integrity Verification Using Sigcheck
+# Toolchain Binary Integrity Verification
 
-This document describes how **Sigcheck** is used to verify the authenticity and integrity of executables and binary tools within an AI Security Assurance workflow.
+Binary integrity verification confirms the authenticity of executables and security tools used within the AI Security Assurance workflow. This applies to YARA, ClamAV, and other utilities used during model intake, static analysis, and red-teaming — ensuring that the tools themselves have not been tampered with or replaced before use.
 
-Sigcheck is not applied directly to model files (e.g., `.gguf`, `.safetensors`). Instead, it is used to validate the **tooling** involved in AI model intake, static analysis, and red-teaming activities, including:
-
-- Installer packages  
-- Command-line utilities  
-- Scanning tools (YARA, ClamAV)  
-- Runtime components  
-- Third-party executables used within pipelines
-
-Ensuring the trustworthiness of these tools helps maintain supply-chain integrity and reduces the risk of compromised binaries entering the environment.
+Framework alignment follows the mappings defined in `../README.md` and `model-supply-chain/model-provenance-and-trusted-sources.md`.
 
 ---
 
-## Why Sigcheck Is Important
+## Why Toolchain Verification Matters
 
-Sigcheck verifies key security attributes of executable files, including:
+Compromised security tools introduce risk at the foundation of the assessment pipeline. Verification confirms that:
 
-- Presence of a digital signature  
-- Identity of the publisher  
-- Validity of the signing certificate  
-- Evidence of tampering  
-- Hash values for integrity checks  
-
-This provides a reliable method for confirming that executables originate from legitimate and trusted sources.
+- Tools originate from trusted, official sources
+- Binaries have not been modified after installation
+- No unauthorized substitutions have occurred
+- Tool versions match expected values
 
 ---
 
-## Example Sigcheck Command
+## Verification Approach (Linux / WSL2)
 
-```
-sigcheck.exe -n -i "C:\Path\To\yara64.exe"
+On Ubuntu/WSL2, toolchain integrity is verified using hash comparison and package manager validation rather than Windows-specific signing tools.
+
+**Verify tool binary hashes:**
+
+```bash
+# Hash the tool binary directly
+sha256sum $(which yara)
+sha256sum $(which clamscan)
+sha256sum $(which freshclam)
 ```
 
----
+Compare the output against official published checksums from the vendor or distribution source.
 
-## Example Output (Typical)
+**Verify installation source:**
 
-```
-Verified:         Signed
-Signing date:     3:14 PM 01/23/2024
-Publisher:        VirusTotal, LLC
-Company:          VirusTotal
-Description:      YARA - pattern matching tool
-Product:          YARA
-File version:     4.5.5.0
+```bash
+# Confirm tool was installed via package manager
+dpkg -l yara
+dpkg -l clamav
 ```
 
----
+Tools installed via `apt` from verified repositories carry implicit distribution trust. Tools downloaded from GitHub releases should have their release checksums verified explicitly.
 
-## Interpreting Results
+**Check tool version against known-good:**
 
-### ✔ Signed and Valid
-Indicates that the binary is signed by a trusted publisher and the signature is valid.
-
-### ⚠ Signed but Certificate Issues
-Indicates that a signature exists, but the certificate may be expired, invalid, or mismatched.
-
-### ❌ Unsigned or Unknown Publisher
-Indicates potential supply-chain risk:
-
-- The binary may not be from an official source  
-- The file may have been altered or tampered with  
-- Malware or unwanted modifications may be present  
-
-Binaries in this category should be quarantined and re-acquired from trusted sources.
+```bash
+yara --version
+clamscan --version
+```
 
 ---
 
-## Common Use Cases in AI Workflows
+## Example Output
 
-Sigcheck is typically applied to:
+```bash
+$ sha256sum $(which clamscan)
+a3f9b2c1d4e5f67890abcdef1234567890abcdef1234567890abcdef12345678  /usr/bin/clamscan
 
-- YARA executables  
-- ClamAV binaries  
-- Third-party security tools from GitHub  
-- Model conversion utilities  
-- Any external executable used within intake or analysis processes  
-
-This ensures that supporting tools remain authentic, properly signed, and safe to execute in a security-sensitive environment.
+$ dpkg -l clamav
+ii  clamav  1.0.3+dfsg-1  amd64  Anti-virus utility for Unix - command-line interface
+```
 
 ---
 
-## Conclusion
+## Verification Checklist
 
-Sigcheck provides a critical layer of supply-chain validation by confirming the integrity and authenticity of binaries used in AI model intake, static analysis, and red-teaming workflows.  
-Maintaining trusted executables is an essential control within a secure AI assurance pipeline.
+- [ ] Tool binary hash generated and recorded
+- [ ] Hash compared against official published values (vendor release page or distribution)
+- [ ] Tool version confirmed against expected version
+- [ ] Installation source verified (package manager or signed release)
+- [ ] Any discrepancies investigated before the tool is used in assessment workflows
+
+---
+
+## Result Interpretation
+
+**Verified** — binary hash matches official values; tool installed from a trusted source; safe to use in the assessment pipeline.
+
+**Mismatch or unknown source** — quarantine the tool, re-acquire from the official source, and investigate before use. Do not use unverified tools in assessment workflows.
+
+---
+
+## Position in the Assessment Lifecycle
+
+Toolchain verification is performed before beginning any static analysis or red-teaming activities. Verified tools are a prerequisite for maintaining chain of custody across intake and assessment stages.
