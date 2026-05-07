@@ -225,8 +225,11 @@ It reflects how I perform AI Security Assurance work in practice.
 # 📬 Contact
 
 **Frederick Baffour**
+
 AI Security Assurance Engineer
+
 LinkedIn: https://www.linkedin.com/in/frederick-baffour
+
 Email: fbaffour@gmail.com
 
 *Last updated: 2026*
