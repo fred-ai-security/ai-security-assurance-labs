@@ -1,13 +1,16 @@
-# SBOM & Vulnerability Scan Summary
+# SBOM and Vulnerability Scan Summary
 
-- Tooling: Syft + Grype
-- Purpose: Capture SBOM and vulnerability scan evidence in a repeatable way
+**Tooling:** Syft (SBOM generation) + Grype (CVE scanning)
+
+---
 
 ## Summary
-An SBOM was generated to identify components and dependencies. The SBOM was then scanned for known vulnerabilities.
 
-This summary provides a high-level view only. Detailed evidence and findings are documented in the files below.
+An SBOM was generated to identify all components and dependencies within the model artifact directory. The SBOM was then scanned for known vulnerabilities using Grype.
 
-This file is intentionally short. The detailed evidence belongs in:
-- `sbom.cyclonedx.json`
-- `grype-results.json`
+This file provides a high-level summary. Detailed evidence and findings are documented in the files below:
+
+- `sbom.cyclonedx.json` — full component inventory
+- `grype-results.json` — CVE scan output and findings
+
+Real scan outputs are stored in the local assessment environment and are not committed to this repository.
