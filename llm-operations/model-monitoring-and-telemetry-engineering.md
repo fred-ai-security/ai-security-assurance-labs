@@ -1,95 +1,76 @@
-# LLM Monitoring & Telemetry – Engineering Edition
+# LLM Monitoring and Telemetry
 
-This module defines the engineering requirements for logging, telemetry, and monitoring of AI systems, including standalone LLMs, RAG pipelines, and agentic systems. Monitoring is essential for detecting unsafe behavior, policy violations, misuse attempts, and anomalies that indicate security or reliability issues.
+This document defines the engineering requirements for logging, telemetry, and monitoring of AI systems — including standalone LLMs, RAG pipelines, and agentic systems. Monitoring is essential for detecting unsafe behavior, policy violations, misuse attempts, and anomalies that indicate security or reliability issues.
 
-This guide focuses on **real-time observability**, **continuous risk detection**, and **auditability** across AI workflows.
-
----
-
-# 1. Monitoring Objectives
-
-Monitoring must achieve four goals:
-
-1. **Safety Monitoring**  
-   Detect toxic, harmful, or policy-violating outputs.
-
-2. **Security Monitoring**  
-   Identify jailbreaks, prompt injections, misuse attempts, and anomalous behavior.
-
-3. **Reliability Monitoring**
-   Track hallucinations, degraded performance, and instability.
-
-4. **Audit & Forensics**
-   Provide evidence for incident response, compliance, and governance reviews.
+Framework alignment follows the mappings defined in `llm-red-teaming-overview.md` and `model-risk-classification-and-criticality.md`.
 
 ---
 
-# 2. What Must Be Logged
+## 1. Monitoring Objectives
 
-A complete monitoring system logs:
+A complete monitoring system addresses four goals:
+
+**Safety Monitoring** — detect toxic, harmful, or policy-violating outputs.
+
+**Security Monitoring** — identify jailbreaks, prompt injections, misuse attempts, and anomalous behavior.
+
+**Reliability Monitoring** — track hallucinations, degraded performance, and instability.
+
+**Audit and Forensics** — provide evidence for incident response, compliance, and governance reviews.
+
+---
+
+## 2. What Must Be Logged
 
 ### 2.1 Input Telemetry
-- User prompts  
-- System prompts  
-- Retrieved RAG content  
-- Tool/function call inputs  
-- Metadata: user ID, session ID, timestamp, context length  
+- User prompts, system prompts, retrieved RAG content
+- Tool and function call inputs
+- Metadata: user ID, session ID, timestamp, context length
 
 ### 2.2 Output Telemetry
-- Final model response  
-- Refusals and safety warnings  
-- Classifier scores (toxicity, PII, jailbreak risk)  
-- Tool/function call outputs  
+- Final model response
+- Refusals and safety warnings
+- Classifier scores (toxicity, PII, jailbreak risk)
+- Tool and function call outputs
 
 ### 2.3 Operational Telemetry
-- Latency  
-- Token counts  
-- Resource usage (CPU/GPU/memory)  
-- Model version + hash  
-- Embedding model version (for RAG)
+- Latency, token counts, resource usage (CPU/GPU/memory)
+- Model version and hash
+- Embedding model version (for RAG pipelines)
 
 ### 2.4 Security Telemetry
-- Jailbreak attempts detected  
-- Prompt injection attempts  
-- RAG poisoning indicators  
-- Unexpected tool calls  
-- Unauthorized domain queries  
-- High-risk content generation  
+- Jailbreak and prompt injection attempts detected
+- RAG poisoning indicators
+- Unexpected tool calls
+- Unauthorized domain queries
+- High-risk content generation events
 
 ---
 
-# 3. Required Redaction & Privacy Controls
+## 3. Redaction and Privacy Controls
 
 Before storing logs:
 
-- [ ] Strip PII and PHI where possible  
-- [ ] Mask user-entered sensitive fields  
-- [ ] Hash user identifiers (for auditing without exposure)  
-- [ ] Enforce retention periods  
-- [ ] Encrypt logs at rest and in transit  
-
-PII must not appear in long-term audit storage.
+- [ ] Strip PII and PHI where possible
+- [ ] Mask user-entered sensitive fields
+- [ ] Hash user identifiers for auditing without exposure
+- [ ] Enforce retention periods
+- [ ] Encrypt logs at rest and in transit
 
 ---
 
-# 4. Safety Classifiers & Output Filters
+## 4. Safety Classifiers and Output Filters
 
-Monitoring integrates safety classifiers that detect:
+Monitoring integrates safety classifiers detecting:
 
-- Toxic language  
-- Harassment  
-- Hate speech  
-- Sexual content  
-- Violence  
-- Extremism  
-- Medical or legal advice  
-- Self-harm indications  
-- Sensitive personal data  
-- High-risk cybersecurity content  
+- Toxic language, harassment, hate speech
+- Sexual content, violence, extremism
+- Medical or legal advice generation
+- Self-harm indications
+- Sensitive personal data
+- High-risk cybersecurity content
 
-These classifiers produce structured signals for the monitoring system.
-
-Example required fields:
+Required classifier output fields:
 
 ```
 toxicity_score:
@@ -98,147 +79,135 @@ pii_detection:
 hallucination_likelihood:
 ```
 
-If any score exceeds a threshold → record an alert.
+Any score exceeding defined thresholds triggers an alert.
 
 ---
 
-# 5. Real-Time Alerting & Thresholds
+## 5. Real-Time Alerting and Thresholds
 
 ### 5.1 Alert Types
+
 Alerts should be generated for:
 
-- > X jailbreak attempts per session  
-- Any successful prompt injection  
-- Any detected PII leakage  
-- High-severity safety violations  
-- Unauthorized tool usage  
-- RAG document injection attempts  
-- Sudden spike in hallucination classifier scores  
+- Jailbreak attempts exceeding session threshold
+- Any confirmed prompt injection
+- Any detected PII leakage
+- High-severity safety violations
+- Unauthorized tool usage
+- RAG document injection attempts
+- Sudden spikes in hallucination classifier scores
 
 ### 5.2 Severity Levels
-- **Critical** – mandatory human review  
-- **High** – automated blocking + escalation  
-- **Medium** – log + monitoring dashboard  
-- **Low** – informational  
+
+| Level | Action |
+|---|---|
+| Critical | Mandatory human review |
+| High | Automated blocking and escalation |
+| Medium | Log and monitoring dashboard |
+| Low | Informational |
 
 ---
 
-# 6. Monitoring RAG Pipelines
+## 6. RAG Pipeline Monitoring
 
 ### 6.1 RAG-Specific Telemetry
-Log:
 
-- Document IDs retrieved  
-- Document similarity scores  
-- KB source and owner  
-- Sanitization rules applied  
-- Any adversarial patterns flagged  
+Log:
+- Document IDs retrieved and similarity scores
+- Knowledge base source and owner
+- Sanitization rules applied
+- Adversarial patterns flagged
 
 ### 6.2 RAG-Specific Alerts
+
 Alert on:
-
-- Retrieval of unapproved or suspicious documents  
-- High similarity to known adversarial examples  
-- Rapid sequence of “override system” patterns from retrieved content  
-- Retrieved documents that contain embedded instructions  
-
----
-
-# 7. Tool / Function Call Monitoring
-
-For agentic or tool-enabled systems:
-
-### Log:
-- Tool name  
-- Parameters  
-- Input data  
-- Output data  
-- Whether the call was expected or anomalous  
-
-### Alerts:
-- Dangerous tool invocation (e.g., filesystem, network requests)  
-- Abnormal frequency of tool calls  
-- Large or unexpected data exfiltration patterns  
+- Retrieval of unapproved or suspicious documents
+- High similarity to known adversarial examples
+- Rapid "override system" patterns from retrieved content
+- Retrieved documents containing embedded instructions
 
 ---
 
-# 8. Anomaly Detection
+## 7. Tool and Function Call Monitoring
+
+For agentic or tool-enabled systems, log:
+
+- Tool name, parameters, input data, output data
+- Whether the call was expected or anomalous
+
+Alert on:
+- Dangerous tool invocations (filesystem, network requests)
+- Abnormal tool call frequency
+- Large or unexpected data exfiltration patterns
+
+---
+
+## 8. Anomaly Detection
 
 Implement anomaly detection over:
 
-- User behavior  
-- Token usage patterns  
-- Query embeddings  
-- Output distributions  
-- Retrieval patterns  
-- Tool call sequences  
+- User behavior and token usage patterns
+- Query embeddings and output distributions
+- Retrieval patterns and tool call sequences
 
 Anomaly types to detect:
 
-- Sudden change in model refusal rate  
-- Abnormally high hallucination rate  
-- Unusual combination of retrieved documents  
-- Behavioral drift across sessions  
+- Sudden change in model refusal rate
+- Abnormally high hallucination rate
+- Unusual combination of retrieved documents
+- Behavioral drift across sessions
 
 ---
 
-# 9. Logging Architecture (Engineering Requirements)
+## 9. Logging Architecture Requirements
 
-A production-grade monitoring pipeline should follow:
+### Ingestion Layer
+- Event collector with structured logs (JSON preferred)
+- Filtering and redaction at source
 
-### 9.1 Ingestion Layer
-- Event collector  
-- Structured logs (JSON preferred)  
-- Filtering & redaction  
+### Processing Layer
+- Safety classifier scoring
+- Rule-based detectors
+- Anomaly detection models
 
-### 9.2 Processing Layer
-- Safety classifier scoring  
-- Rule-based detectors  
-- Anomaly detection models  
+### Storage Layer
+- Encrypted blob storage or secure log store
+- Append-only architecture (immutable logs)
+- Time-series database for metrics
 
-### 9.3 Storage Layer
-- Encrypted blob storage or secure log store  
-- Append-only architecture (immutable logs)  
-- Time-series database for metrics  
+### Dashboarding Layer
+- Session-level and system-level dashboards (Grafana, Kibana, CloudWatch, Datadog)
 
-### 9.4 Dashboarding Layer
-- Grafana / Kibana / CloudWatch / Datadog  
-- Session-level and system-level dashboards  
-
-### 9.5 Alerting Layer
-- PagerDuty / email / Slack alerts  
+### Alerting Layer
+- PagerDuty, email, or Slack integration
 
 ---
 
-# 10. Monitoring Requirements Checklist
+## 10. Monitoring Requirements Checklist
 
-### Safety Requirements
-- [ ] Output classification  
-- [ ] Toxicity detection  
-- [ ] PII detection  
-- [ ] Jailbreak risk scoring  
+**Safety:**
+- [ ] Output classification
+- [ ] Toxicity detection
+- [ ] PII detection
+- [ ] Jailbreak risk scoring
 
-### Security Requirements
-- [ ] Prompt injection detection  
-- [ ] RAG poisoning detection  
-- [ ] Tool misuse detection  
-- [ ] Unauthorized access attempts  
+**Security:**
+- [ ] Prompt injection detection
+- [ ] RAG poisoning detection
+- [ ] Tool misuse detection
+- [ ] Unauthorized access attempts
 
-### Reliability Requirements
-- [ ] Hallucination monitoring  
-- [ ] Latency and errors  
-- [ ] Token usage spikes  
+**Reliability:**
+- [ ] Hallucination monitoring
+- [ ] Latency and error tracking
+- [ ] Token usage spikes
 
-### Governance Requirements
-- [ ] Model version tracking  
-- [ ] Audit logging  
-- [ ] Immutable evidence storage  
-- [ ] Retention policy  
+**Governance:**
+- [ ] Model version tracking
+- [ ] Audit logging
+- [ ] Immutable evidence storage
+- [ ] Retention policy enforcement
 
 ---
 
-# Purpose
-
-This module defines an engineering-grade monitoring and telemetry framework aligned with enterprise expectations for AI Security Assurance, Risk Management, and Responsible AI engineering.
-
-This monitoring framework feeds directly into the LLM Incident Response Playbook and Governance approval workflows.
+Monitoring outputs feed directly into `llm-incident-response-playbook.md` and governance approval workflows.
