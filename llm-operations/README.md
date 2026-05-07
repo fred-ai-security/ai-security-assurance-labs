@@ -1,50 +1,25 @@
 # LLM Operations
 
-This section documents operational security controls for running and deploying LLM systems safely after a model has passed intake, supply-chain validation, and initial red-teaming.
+This section documents operational security controls for running and deploying LLM systems safely after a model has passed intake, supply-chain validation, and red-teaming (Stages 1–3).
 
-LLM Operations focuses on runtime and production safeguards such as execution isolation, deployment hardening, monitoring and telemetry, incident response, and RAG security controls.
+LLM Operations covers runtime and production safeguards — execution isolation, deployment hardening, monitoring and telemetry, incident response, RAG security controls, and deployment approval.
 
 > This section is downstream of `model-supply-chain/` and `red-teaming/`.
 
 ---
 
-## What This Section Covers
-
-- Model execution runtime security (isolation, sandboxing, policy enforcement)
-- Deployment security engineering controls (configuration, access control, secrets, hardening)
-- Monitoring and telemetry for safety, abuse, and reliability signals
-- Incident response playbooks for LLM-related security events
-- Approval checklists for operational readiness
-- RAG security hardening and secure architecture patterns (when applicable)
-
----
-
-## Start Here (Recommended Reading Order)
-
-### For Recruiters / Non-Technical Reviewers
-- `ai-model-deployment-approval-checklist.md`
-- `llm-incident-response-playbook.md`
-
-### For Security Engineers
-- `model-execution-runtime-security.md`
-- `model-deployment-security-engineering.md`
-
-### For Engineering / Platform Teams
-- `model-monitoring-and-telemetry-engineering.md`
-- `secure-rag-architecture-engineering.md` (if RAG is in scope)
-
----
-
 ## Files in This Directory
 
-- `model-execution-runtime-security.md` — runtime isolation, guardrails, and execution controls
-- `model-deployment-security-engineering.md` — deployment hardening and production security controls
-- `model-monitoring-and-telemetry-engineering.md` — operational monitoring signals and telemetry practices
-- `llm-incident-response-playbook.md` — incident handling workflow for LLM security events
-- `ai-model-deployment-approval-checklist.md` — readiness checklist prior to deployment approval
-- `rag-security-hardening-guide.md` — hardening guidance for RAG pipelines
-- `secure-rag-architecture-engineering.md` — secure architecture patterns for RAG systems
-- `llm-operations-handbook-*.md` — role-focused operations guidance (engineering / security / governance)
+| File | Purpose |
+|---|---|
+| `model-execution-runtime-security.md` | Runtime isolation, sandboxing, and execution controls |
+| `model-deployment-security-engineering.md` | Deployment hardening, boundary controls, and production security |
+| `model-monitoring-and-telemetry-engineering.md` | Operational monitoring signals, telemetry architecture, and alerting |
+| `llm-incident-response-playbook.md` | 8-stage incident handling workflow for LLM security events |
+| `ai-model-deployment-approval-checklist.md` | Engineering readiness checklist prior to deployment authorization |
+| `rag-security-hardening-guide.md` | Implementation-level hardening controls for RAG pipelines |
+| `secure-rag-architecture-engineering.md` | Architectural patterns and security controls for RAG system design |
+| `rag-threat-control-detection-response-mapping.md` | RAG threat scenarios mapped to preventive controls, detection signals, and response actions |
 
 ---
 
