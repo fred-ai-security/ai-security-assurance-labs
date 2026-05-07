@@ -91,9 +91,13 @@ Model selection across stages was driven by assessment objective, hardware const
 # Contact
 
 **Frederick Baffour**
+
 AI Security Assurance Engineer
+
 GitHub: https://github.com/fred-ai-security
+
 LinkedIn: https://www.linkedin.com/in/frederick-baffour
+
 Email: fbaffour@gmail.com
 
 ---
