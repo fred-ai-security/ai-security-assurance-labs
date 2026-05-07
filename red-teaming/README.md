@@ -1,18 +1,18 @@
 # LLM Red Teaming
 
-This section contains materials related to red teaming large language models (LLMs). It includes automated, scenario-based, and manual adversarial testing methods used to evaluate model robustness, safety alignment, and resistance to harmful or unintended behavior.
+This section contains materials related to red teaming large language models as part of Stage 3 of the AI Security Assurance Lifecycle. It covers automated, scenario-driven, and PyRIT-inspired adversarial testing used to evaluate model robustness, safety alignment, and resistance to harmful or unintended behavior.
 
-Red-teaming activities typically occur after model intake and supply-chain validation and inform downstream risk classification and approval decisions.
+Red-teaming activities occur after model intake and supply-chain validation (Stages 1–2) and inform RAG pipeline security assessment, agentic AI evaluation, risk classification, and approval decisions (Stages 4–6).
 
-Key focus areas include:
+For full methodology, framework alignment, and tool stack documentation see [`llm-red-teaming-overview.md`](./llm-red-teaming-overview.md).
 
-- Automated vulnerability scanning using Garak  
-- Scenario-driven adversarial evaluations using Promptfoo  
-- Manual prompt-based stress testing  
-- Assessment of jailbreaks, prompt injection, refusal bypasses, and unsafe outputs  
-- Interpretation of red-team findings within AI security frameworks  
+---
 
-Subdirectories:
+## Subdirectories
 
-- `garak/` — Garak configurations, outputs (synthetic examples only), and assessment resources  
-- `promptfoo/` — Promptfoo configuration files and red-team evaluation setups
+| Folder | Contents |
+|---|---|
+| `garak/` | Garak configurations, synthetic assessment examples, and jailbreak/prompt injection framework |
+| `promptfoo/` | Promptfoo configuration files and scenario-driven adversarial evaluation setup |
+| `rag/` | RAG pipeline adversarial test harness — four attack classes, LLM judge architecture, findings output |
+| `pyrit/` | PyRIT-inspired adversarial test harness — eight attack categories, local Transformers execution |
