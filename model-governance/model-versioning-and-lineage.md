@@ -1,131 +1,132 @@
 # Model Versioning, Lineage, and Change-Tracking Framework
 
-> Learning Context:
-> This document captures how model versioning, lineage, and change tracking are handled
-> as part of an AI security and governance workflow. It reflects industry-aligned practices
-> used to ensure traceability, auditability, and controlled evolution of AI systems.
+This document defines a structured approach for documenting model lineage, tracking changes across versions, and maintaining evidence of model evolution. Versioning and lineage documentation support secure model lifecycle management by enabling clear visibility into updates, changes, and provenance across all stages of evaluation and deployment.
 
-This module defines a structured approach for documenting model lineage, tracking changes across versions, and maintaining evidence of model evolution. Versioning and lineage documentation support secure model lifecycle management by enabling clear visibility into updates, changes, and provenance across all stages of evaluation and deployment.
+---
 
-This framework represents a reference architecture and learning artifact. Implementation details may vary depending on organizational maturity, regulatory requirements, and risk tolerance.
+## Framework Alignment
 
-This framework aligns with:
-- NIST AI RMF — Govern / Map
-- ISO/IEC 42001 — Model Lifecycle Controls
-- MITRE ATLAS — Model Manipulation and Supply-Chain TTPs
-- Enterprise AI Governance and MLOps standards
+| Framework | Relevant Controls |
+|---|---|
+| NIST AI RMF | GOVERN 1.1, MAP 1.5, MANAGE 2.2 — model traceability, lineage documentation, and lifecycle governance |
+| MITRE ATLAS | AML.T0010 — ML Supply Chain Compromise; AML.T0041 — Craft Adversarial Data |
+| OWASP LLM Top 10 (2025) | LLM03 — Training Data Poisoning; supply-chain and version integrity |
+| ISO/IEC 42001 | Clause 8 — AI system operation and model lifecycle controls |
+| NIST SP 800-53 | SA-12 — Supply Chain Protection; CM-3 — Configuration Change Control; AU-2 — Audit Events |
+
+---
 
 ## Purpose
-The purpose of model versioning and lineage documentation is to maintain:
-- Transparent version history
-- Traceability of model updates
-- Evidence for compliance and audit
-- Clear understanding of changes between versions
+
+Model versioning and lineage documentation maintains:
+
+- Transparent version history and traceability of model updates
+- Evidence for compliance and audit review
+- Clear visibility into changes between versions
 - Detection of unexpected or unauthorized modifications
 
-Versioning is essential for secure AI operations, reproducibility, and maintaining trust in deployed systems.
+Versioning is essential for secure AI operations, reproducibility, and maintaining trust in deployed systems. Implementation details vary depending on organizational maturity, regulatory requirements, and risk tolerance.
+
+---
 
 ## 1. Elements of a Model Version Record
-**Category:** Governance / Traceability
 
 ### Core Metadata
-- Model name  
-- Provider  
-- Version identifier  
-- Release date  
-- License type  
+- Model name, provider, version identifier, release date, license type
 
-### Hash & File Integrity
-- SHA-256 hash of each artifact  
-- File sizes  
-- Expected file list  
+### Hash and File Integrity
+- SHA-256 hash of each artifact
+- File sizes and expected file list
 
 ### Changelog Summary
-- New features or capabilities  
-- Updated training data or improvements  
-- Known issues fixed  
-- Safety or governance updates  
+- New features or capabilities
+- Updated training data or improvements
+- Known issues resolved
+- Safety or governance updates
 
-### Risk & Impact Notes
-- Impact on safety profile  
-- Impact on performance in critical domains  
-- New risks introduced  
+### Risk and Impact Notes
+- Impact on safety profile
+- Impact on performance in critical domains
+- New risks introduced
+
+---
 
 ## 2. Model Lineage Tracking
-**Category:** Governance / Lineage
 
 Model lineage documents the relationship between versions and the path from base models to any derivatives.
 
 ### Lineage Components
-- Base model  
-- Fine-tuned versions  
-- Quantized or optimized variants  
-- Metadata inheritance  
-- Dependencies (tokenizer, configs)  
+- Base model and fine-tuned versions
+- Quantized or optimized variants
+- Metadata inheritance
+- Dependencies (tokenizer, configs)
 
 ### Lineage Questions
-- What is the parent model?  
-- What major changes occurred between versions?  
-- Does the lineage introduce new obligations or restrictions?  
-- Does the lineage change the risk classification?  
+- What is the parent model?
+- What major changes occurred between versions?
+- Does the lineage introduce new obligations or restrictions?
+- Does the lineage change the risk classification?
+
+---
 
 ## 3. Version Comparison Checklist
-**Category:** Detection / Integrity Validation
 
 ### Artifact Comparison
-- File hashes  
-- File structure differences  
-- New or removed files  
-- Size changes in model weights  
+- [ ] File hashes compared
+- [ ] File structure differences documented
+- [ ] New or removed files identified
+- [ ] Size changes in model weights reviewed
 
 ### Metadata Comparison
-- Model card updates  
-- Safety disclosures  
-- New training data notes  
-- License changes  
-- Release notes  
+- [ ] Model card updates reviewed
+- [ ] Safety disclosures reviewed
+- [ ] New training data notes reviewed
+- [ ] License changes reviewed
+- [ ] Release notes reviewed
 
 ### Behavior Comparison
-- Differences in refusal behavior  
-- Changes in jailbreak susceptibility  
-- Shifts in safety or toxicity patterns  
-- Performance changes in high-risk domains  
+- [ ] Differences in refusal behavior documented
+- [ ] Changes in jailbreak susceptibility reviewed
+- [ ] Shifts in safety or toxicity patterns documented
+- [ ] Performance changes in high-risk domains assessed
+
+---
 
 ## 4. Version Integrity Verification Workflow
-**Category:** Integrity / Security Control
 
-1. Obtain hashes and metadata from the official source  
-2. Hash downloaded artifacts  
-3. Compare file-level differences  
-4. Review changelog and release notes  
-5. Validate license changes  
-6. Confirm safety updates or disclosures  
-7. Document findings in a version record  
+1. Obtain hashes and metadata from the official source
+2. Hash downloaded artifacts
+3. Compare file-level differences against prior version
+4. Review changelog and release notes
+5. Validate license changes
+6. Confirm safety updates or disclosures
+7. Document findings in a version record
+
+---
 
 ## 5. Version Drift Detection
-**Category:** Governance / Audit Evidence
 
 Version drift refers to unexpected or unauthorized changes to a model file or configuration during storage or deployment.
 
-### Drift Indicators
-- Hash mismatches  
-- File count differences  
-- Metadata inconsistencies  
-- Size changes  
-- Undocumented config variations  
+**Drift indicators:**
+- Hash mismatches, file count differences, metadata inconsistencies, size changes, undocumented config variations
 
-Detected drift events should be escalated according to the LLM Incident Response Playbook.
+**Drift detection procedures:**
+- Re-hash files periodically against the manifest
+- Re-scan with YARA and ClamAV
+- Review model card version identifiers
+- Review tooling logs for unauthorized writes
 
-### Drift Detection Procedures
-- Re-hash files periodically  
-- Compare against the manifest  
-- Re-scan with YARA and ClamAV  
-- Review model card version identifiers  
-- Review tooling logs for unauthorized writes  
+Detected drift events are escalated according to `llm-incident-response-playbook.md`.
 
-## 6. Model Version Record (Template)
+---
 
-# Model Version Record (Template)
+## 6. Model Version Record Template
+
+Completed records are stored locally and are not committed to this repository.
+
+```markdown
+# Model Version Record
 
 **Model Name:**  
 **Provider:**  
@@ -134,6 +135,7 @@ Detected drift events should be escalated according to the LLM Incident Response
 **License:**  
 
 ## Artifact Integrity
+
 **Files and Hashes:**  
 -  
 
@@ -141,17 +143,20 @@ Detected drift events should be escalated according to the LLM Incident Response
 **Expected File List Verified:** Yes / No  
 
 ## Metadata Review
+
 **Model Card Updated:** Yes / No  
 **Safety Disclosures Updated:** Yes / No  
 **License Changes:** Yes / No  
 
 ## Behavioral Changes
+
 **Safety Behavior Changes Observed:**  
 -  
 **Performance Changes Observed:**  
 -  
 
 ## Risk Notes
+
 **New Risks Identified:**  
 -  
 **Old Risks Resolved:**  
@@ -159,11 +164,4 @@ Detected drift events should be escalated according to the LLM Incident Response
 
 **Evaluator:** Frederick Baffour  
 **Evaluation Date:**  
-
-## File Location
-ai-security-assurance-labs/
-└── model-governance/
-      └── model-versioning-and-lineage.md
-
-## Commit Message
-Added model versioning, lineage, and change-tracking framework module
+```
