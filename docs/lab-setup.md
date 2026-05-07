@@ -2,7 +2,7 @@
 
 > **Environment:** Local Workstation | Ubuntu 24.04 (WSL2 on Windows 11) | NVIDIA RTX 4050 (6GB VRAM)
 
-This document covers the hardware, software, and configuration prerequisites for running the assessment harnesses in this repository. All testing was performed locally to preserve chain of custody — no cloud model endpoints were used as red team targets.
+This document covers the hardware, software, and configuration prerequisites for running the assessment harnesses in this repository. All testing was performed locally to preserve chain of custody and maintain full control over model behavior, prompts, and assessment outputs.
 
 ---
 
@@ -190,4 +190,4 @@ See `DEVELOPMENT_NOTES.md` at the repository root for additional context.
 
 ---
 
-*Part of the [AI Security Assurance Labs](https://github.com/fred-ai-security/ai-security-assurance-labs) portfolio by Frederick Baffour | [AssureLayer LLC](https://assurelayersec.com)*
+*Part of the [AI Security Assurance Labs](https://github.com/fred-ai-security/ai-security-assurance-labs) portfolio by Frederick Baffour*
