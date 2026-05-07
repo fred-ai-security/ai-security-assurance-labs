@@ -142,7 +142,7 @@ def main():
 
     print(f"\n{'='*70}")
     print(f"  Phase 2 complete. {len(all_results)} total tests executed.")
-    print(f"  Next step: Review findings, document mitigations, build Phase 3 report.")
+    print(f"  Next step: Review findings, document mitigations, advance to consolidated reporting.")
     print(f"{'='*70}\n")
 
 
